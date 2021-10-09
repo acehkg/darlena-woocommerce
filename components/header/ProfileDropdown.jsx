@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -8,16 +9,16 @@ import {
   MenuList,
   Text,
   useMenuButton,
+  Skeleton,
 } from '@chakra-ui/react';
-import * as React from 'react';
+import { RiLogoutCircleLine } from 'react-icons/ri';
+//auth and customer info
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_USER } from '../../hooks/useAuth';
+import { LOG_OUT } from '../../lib/mutations';
+import { GET_CUSTOMER_INFO } from '../../lib/queries';
 
-const UserAvatar = () => (
-  <Avatar
-    size='sm'
-    src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-    name='Manny Brooke'
-  />
-);
+const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
 
 const ProfileMenuButton = (props) => {
   const buttonProps = useMenuButton(props);
@@ -38,25 +39,61 @@ const ProfileMenuButton = (props) => {
   );
 };
 
-export const ProfileDropdown = () => (
-  <Menu>
-    <ProfileMenuButton />
-    <MenuList rounded='md' shadow='lg' py='1' color='gray.600' fontSize='sm'>
-      <HStack px='3' py='4'>
-        <UserAvatar />
-        <Box lineHeight='1'>
-          <Text fontWeight='semibold'>Manny Broke</Text>
-          <Text mt='1' fontSize='xs' color='gray.500'>
-            manny@chakra-ui.com
-          </Text>
-        </Box>
-      </HStack>
-      <MenuItem fontWeight='medium'>Your Profile</MenuItem>
-      <MenuItem fontWeight='medium'>Orders</MenuItem>
-      <MenuItem fontWeight='medium'>Account Settings</MenuItem>
-      <MenuItem fontWeight='medium' color='red.500'>
-        Sign out
-      </MenuItem>
-    </MenuList>
-  </Menu>
-);
+const LogOutButton = () => {
+  //handle logging the user out
+  const [logOut, { called, loading, error, data }] = useMutation(LOG_OUT, {
+    refetchQueries: [{ query: GET_USER }],
+  });
+  const handleLogout = () => {
+    logOut();
+  };
+
+  return (
+    <MenuItem onClick={handleLogout}>
+      <RiLogoutCircleLine />
+    </MenuItem>
+  );
+};
+
+export const ProfileDropdown = () => {
+  const [orders, setOrders] = useState({});
+  const [customer, setCustomer] = useState({});
+
+  //fetch customer data and set state when not loading
+  const { data, loading, error } = useQuery(GET_CUSTOMER_INFO);
+
+  useEffect(() => {
+    if (!loading) {
+      setOrders(data.customer.orders);
+      setCustomer(data.customer);
+    }
+  }, [loading, data?.customer]);
+
+  return (
+    <Menu>
+      <ProfileMenuButton />
+      <Skeleton isLoaded={!loading}>
+        <MenuList
+          rounded='md'
+          shadow='lg'
+          py='1'
+          color='gray.600'
+          fontSize='sm'
+        >
+          <HStack px='3' py='4'>
+            <UserAvatar />
+            <Box lineHeight='1'>
+              <Text fontWeight='semibold'></Text>
+              <Text mt='1' fontSize='xs' color='gray.500'></Text>
+            </Box>
+          </HStack>
+          <MenuItem fontWeight='medium'>All Orders</MenuItem>
+          <MenuItem fontWeight='medium'>Orders For Payment</MenuItem>
+          <MenuItem fontWeight='medium'>Favorites</MenuItem>
+          <MenuItem fontWeight='medium'>Account Settings</MenuItem>
+          <LogOutButton />
+        </MenuList>
+      </Skeleton>
+    </Menu>
+  );
+};
