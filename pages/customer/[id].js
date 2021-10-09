@@ -5,14 +5,6 @@ import { GET_USER } from '../../hooks/useAuth';
 import { useRouter } from 'next/dist/client/router';
 import { LOG_OUT } from '../../lib/mutations';
 
-/* const LOG_OUT = gql`
-  mutation logOut {
-    logout(input: {}) {
-      status
-    }
-  }
-`; */
-
 const Customer = (props) => {
   const router = useRouter();
 
