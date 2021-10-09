@@ -1,5 +1,12 @@
+import LogInForm from '../components/LogInForm';
+import useAuth from '../hooks/useAuth';
+
 const Home = () => {
-  return <h1>WELCOME TO HEADLESS WOOCOMMERCE</h1>;
+  return (
+    <div>
+      <LogInForm />
+    </div>
+  );
 };
 
 export default Home;
