@@ -1,5 +1,8 @@
 import type { AppProps } from 'next/app';
 
+//styling
+import { ChakraProvider } from '@chakra-ui/react';
+
 //apollo client and auth functions
 import { ApolloProvider } from '@apollo/client';
 import { client } from '../lib/apolloClient';
@@ -9,7 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <Component {...pageProps} />
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </AuthProvider>
     </ApolloProvider>
   );
