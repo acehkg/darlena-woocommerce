@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -40,12 +41,16 @@ const ProfileMenuButton = (props) => {
 };
 
 const OrdersForPayment = ({ orders }) => {
+  const [badgeValue, setBadgeValue] = useState(0);
   //create an array of boolean value of all orders and filter for true
-  const customerOrders = orders.edges.map(({ node }) => {
-    return node.needsPayment;
-  });
-  const needsPayment = customerOrders.filter(Boolean);
-  const badgeValue = needsPayment.length;
+  useEffect(() => {
+    const customerOrders = orders?.edges?.map(({ node }) => {
+      return node.needsPayment;
+    });
+    const needsPayment = customerOrders?.filter(Boolean);
+    setBadgeValue(needsPayment?.length);
+  }, [orders]);
+
   return (
     <MenuItem fontWeight='medium'>
       Orders For Payment
@@ -77,7 +82,6 @@ const LogOutButton = () => {
 
 export const ProfileDropdown = () => {
   const { customer, loading } = useCustomer();
-  console.log(customer);
 
   return (
     <Menu>
