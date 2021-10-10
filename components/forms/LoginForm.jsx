@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { GET_USER } from '../../hooks/useAuth';
 import { LOG_IN } from '../../lib/mutations';
-
+import { GET_CUSTOMER_INFO } from '../../lib/queries';
 import { Button, Stack } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { PasswordField } from './PasswordField';
@@ -10,7 +10,7 @@ import FormTextInput from './FormTextInput';
 const LoginForm = (props) => {
   //log user in
   const [logIn, { loading, error }] = useMutation(LOG_IN, {
-    refetchQueries: [{ query: GET_USER }],
+    refetchQueries: [{ query: GET_USER }, { query: GET_CUSTOMER_INFO }],
   });
 
   return (

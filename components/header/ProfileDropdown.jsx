@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -9,14 +8,15 @@ import {
   MenuList,
   Text,
   useMenuButton,
+  Badge,
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
-import QueryResult from '../QueryResults';
+
 //auth and customer info
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { GET_USER } from '../../hooks/useAuth';
 import { LOG_OUT } from '../../lib/mutations';
-import { GET_CUSTOMER_INFO } from '../../lib/queries';
+import useCustomer from '../../hooks/useCustomer';
 
 const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
 
@@ -36,6 +36,23 @@ const ProfileMenuButton = (props) => {
       <Box srOnly>Open user menu</Box>
       <UserAvatar />
     </Flex>
+  );
+};
+
+const OrdersForPayment = ({ orders }) => {
+  //create an array of boolean value of all orders and filter for true
+  const customerOrders = orders.edges.map(({ node }) => {
+    return node.needsPayment;
+  });
+  const needsPayment = customerOrders.filter(Boolean);
+  const badgeValue = needsPayment.length;
+  return (
+    <MenuItem fontWeight='medium'>
+      Orders For Payment
+      <Badge colorScheme='red' ml='2'>
+        {badgeValue}
+      </Badge>
+    </MenuItem>
   );
 };
 
@@ -59,14 +76,15 @@ const LogOutButton = () => {
 };
 
 export const ProfileDropdown = () => {
-  const [customer, setCustomer] = useState({});
-  //fetch customer data and set state when not loading
-  const { data, loading, error } = useQuery(GET_CUSTOMER_INFO);
+  const { customer, loading } = useCustomer();
+  console.log(customer);
 
   return (
     <Menu>
       <ProfileMenuButton />
-      <QueryResult error={error} loading={loading} data={data}>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
         <MenuList
           rounded='md'
           shadow='lg'
@@ -77,19 +95,19 @@ export const ProfileDropdown = () => {
           <HStack px='3' py='4'>
             <UserAvatar />
             <Box lineHeight='1'>
-              <Text fontWeight='semibold'>{data?.customer.firstName}</Text>
+              <Text fontWeight='semibold'>{customer.firstName}</Text>
               <Text mt='1' fontSize='xs' color='gray.500'>
-                {data?.customer.email}
+                {customer.email}
               </Text>
             </Box>
           </HStack>
           <MenuItem fontWeight='medium'>All Orders</MenuItem>
-          <MenuItem fontWeight='medium'>Orders For Payment</MenuItem>
+          <OrdersForPayment orders={customer.orders} />
           <MenuItem fontWeight='medium'>Favorites</MenuItem>
           <MenuItem fontWeight='medium'>Account Settings</MenuItem>
           <LogOutButton />
         </MenuList>
-      </QueryResult>
+      )}
     </Menu>
   );
 };
