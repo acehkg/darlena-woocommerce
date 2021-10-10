@@ -9,9 +9,9 @@ import {
   MenuList,
   Text,
   useMenuButton,
-  Skeleton,
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
+import QueryResult from '../QueryResults';
 //auth and customer info
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_USER } from '../../hooks/useAuth';
@@ -41,11 +41,14 @@ const ProfileMenuButton = (props) => {
 
 const LogOutButton = () => {
   //handle logging the user out
-  const [logOut, { called, loading, error, data }] = useMutation(LOG_OUT, {
-    refetchQueries: [{ query: GET_USER }],
-  });
+  const [logOut, { client, called, loading, error, data }] = useMutation(
+    LOG_OUT,
+    {
+      refetchQueries: [{ query: GET_USER }],
+    }
+  );
   const handleLogout = () => {
-    logOut();
+    logOut().then(() => client.resetStore());
   };
 
   return (
@@ -56,23 +59,14 @@ const LogOutButton = () => {
 };
 
 export const ProfileDropdown = () => {
-  const [orders, setOrders] = useState({});
   const [customer, setCustomer] = useState({});
-
   //fetch customer data and set state when not loading
   const { data, loading, error } = useQuery(GET_CUSTOMER_INFO);
-
-  useEffect(() => {
-    if (!loading) {
-      setOrders(data.customer.orders);
-      setCustomer(data.customer);
-    }
-  }, [loading, data?.customer]);
 
   return (
     <Menu>
       <ProfileMenuButton />
-      <Skeleton isLoaded={!loading}>
+      <QueryResult error={error} loading={loading} data={data}>
         <MenuList
           rounded='md'
           shadow='lg'
@@ -83,8 +77,10 @@ export const ProfileDropdown = () => {
           <HStack px='3' py='4'>
             <UserAvatar />
             <Box lineHeight='1'>
-              <Text fontWeight='semibold'></Text>
-              <Text mt='1' fontSize='xs' color='gray.500'></Text>
+              <Text fontWeight='semibold'>{data?.customer.firstName}</Text>
+              <Text mt='1' fontSize='xs' color='gray.500'>
+                {data?.customer.email}
+              </Text>
             </Box>
           </HStack>
           <MenuItem fontWeight='medium'>All Orders</MenuItem>
@@ -93,7 +89,7 @@ export const ProfileDropdown = () => {
           <MenuItem fontWeight='medium'>Account Settings</MenuItem>
           <LogOutButton />
         </MenuList>
-      </Skeleton>
+      </QueryResult>
     </Menu>
   );
 };
