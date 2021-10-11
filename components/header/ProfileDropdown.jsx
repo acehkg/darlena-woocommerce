@@ -81,7 +81,13 @@ const LogOutButton = () => {
 };
 
 export const ProfileDropdown = () => {
+  //retreive and set customer data
+  const [customerData, setCustomerData] = useState({});
   const { customer, loading } = useCustomer();
+
+  useEffect(() => {
+    !loading && setCustomerData(customer);
+  }, [loading, customer]);
 
   return (
     <Menu>
@@ -99,14 +105,14 @@ export const ProfileDropdown = () => {
           <HStack px='3' py='4'>
             <UserAvatar />
             <Box lineHeight='1'>
-              <Text fontWeight='semibold'>{customer.firstName}</Text>
+              <Text fontWeight='semibold'>{customerData?.firstName ?? ''}</Text>
               <Text mt='1' fontSize='xs' color='gray.500'>
-                {customer.email}
+                {customerData?.email ?? ''}
               </Text>
             </Box>
           </HStack>
           <MenuItem fontWeight='medium'>All Orders</MenuItem>
-          <OrdersForPayment orders={customer.orders} />
+          <OrdersForPayment orders={customerData?.orders} />
           <MenuItem fontWeight='medium'>Favorites</MenuItem>
           <MenuItem fontWeight='medium'>Account Settings</MenuItem>
           <LogOutButton />

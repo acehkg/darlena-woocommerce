@@ -16,7 +16,7 @@ import LogInCard from '../forms/LogInCard';
 
 const LogInModal = ({ isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
