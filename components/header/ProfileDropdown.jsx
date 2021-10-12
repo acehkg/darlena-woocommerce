@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -10,7 +9,6 @@ import {
   Text,
   useMenuButton,
   Badge,
-  Spinner,
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 
@@ -18,7 +16,6 @@ import { RiLogoutCircleLine } from 'react-icons/ri';
 import { useMutation } from '@apollo/client';
 import { GET_USER } from '../../hooks/useAuth';
 import { LOG_OUT } from '../../lib/mutations';
-import useAuth from '../../hooks/useAuth';
 
 const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
 
@@ -41,22 +38,12 @@ const ProfileMenuButton = (props) => {
   );
 };
 
-const OrdersForPayment = ({ orders }) => {
-  const [badgeValue, setBadgeValue] = useState(0);
-  //create an array of boolean value of all orders and filter for true
-  useEffect(() => {
-    const customerOrders = orders?.edges?.map(({ node }) => {
-      return node.needsPayment;
-    });
-    const needsPayment = customerOrders?.filter(Boolean);
-    setBadgeValue(needsPayment?.length);
-  }, [orders]);
-
+const OrdersForPayment = ({ paymentBadgeValue }) => {
   return (
     <MenuItem fontWeight='medium'>
       Orders For Payment
       <Badge colorScheme='red' ml='2'>
-        {badgeValue}
+        {paymentBadgeValue}
       </Badge>
     </MenuItem>
   );
@@ -81,40 +68,26 @@ const LogOutButton = () => {
   );
 };
 
-export const ProfileDropdown = () => {
-  const { customerData, customerLoading } = useAuth();
-
+export const ProfileDropdown = ({ paymentBadgeValue, firstName, email }) => {
   return (
     <Menu>
       <ProfileMenuButton />
-      {customerLoading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <MenuList
-          rounded='md'
-          shadow='lg'
-          py='1'
-          color='gray.600'
-          fontSize='sm'
-        >
-          <HStack px='3' py='4'>
-            <UserAvatar />
-            <Box lineHeight='1'>
-              <Text fontWeight='semibold'>
-                {customerData?.customer.firstName ?? ''}
-              </Text>
-              <Text mt='1' fontSize='xs' color='gray.500'>
-                {customerData?.customer.email ?? ''}
-              </Text>
-            </Box>
-          </HStack>
-          <MenuItem fontWeight='medium'>All Orders</MenuItem>
-          <OrdersForPayment orders={customerData?.customer.orders} />
-          <MenuItem fontWeight='medium'>Favorites</MenuItem>
-          <MenuItem fontWeight='medium'>Account Settings</MenuItem>
-          <LogOutButton />
-        </MenuList>
-      )}
+      <MenuList rounded='md' shadow='lg' py='1' color='gray.600' fontSize='sm'>
+        <HStack px='3' py='4'>
+          <UserAvatar />
+          <Box lineHeight='1'>
+            <Text fontWeight='semibold'>{firstName ?? ''}</Text>
+            <Text mt='1' fontSize='xs' color='gray.500'>
+              {email ?? ''}
+            </Text>
+          </Box>
+        </HStack>
+        <MenuItem fontWeight='medium'>All Orders</MenuItem>
+        <OrdersForPayment paymentBadgeValue={paymentBadgeValue} />
+        <MenuItem fontWeight='medium'>Favorites</MenuItem>
+        <MenuItem fontWeight='medium'>Account Settings</MenuItem>
+        <LogOutButton />
+      </MenuList>
     </Menu>
   );
 };

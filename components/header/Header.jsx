@@ -10,19 +10,23 @@ import LogIn from './LogIn';
 
 import { Spinner } from '@chakra-ui/react';
 
-//auth
 import useAuth from '../../hooks/useAuth';
+import { useCustomerData } from '../../hooks/useCustomerData';
 
 const Header = ({ isMenuOpen, toggle }) => {
   const [dataLoading, setDataLoading] = useState(true);
 
-  const { loggedIn, loading, customerLoading } = useAuth();
+  const { loggedIn, loading, customerData } = useAuth();
+
+  const { paymentBadgeValue, email, firstName } = useCustomerData(
+    customerData?.customer
+  );
 
   useEffect(() => {
-    if (!loading & !customerLoading) {
+    if (!loading) {
       setDataLoading(false);
     }
-  }, [loading, customerLoading]);
+  }, [loading]);
 
   return (
     <>
@@ -39,8 +43,13 @@ const Header = ({ isMenuOpen, toggle }) => {
                       base: 'none',
                       lg: 'inline-flex',
                     }}
+                    paymentBadgeValue={paymentBadgeValue}
                   />
-                  <ProfileDropdown />
+                  <ProfileDropdown
+                    paymentBadgeValue={paymentBadgeValue}
+                    firstName={firstName}
+                    email={email}
+                  />
                 </HStack>
               ) : (
                 <LogIn href='#' />
