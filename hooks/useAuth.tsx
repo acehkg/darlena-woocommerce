@@ -15,20 +15,15 @@ export type Customer = {
   firstName: string;
   lastName: string;
   email: string;
-  billing?: BasicAddress;
-  shipping?: BasicAddress;
+  orders: ArrayOfOrders;
 };
 
-interface BasicAddress {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  phone?: string;
-  postcode?: string;
+interface ArrayOfOrders {
+  [index: number]: orderNode;
+}
+
+interface orderNode {
+  needsPayment: boolean;
 }
 
 interface AuthData {

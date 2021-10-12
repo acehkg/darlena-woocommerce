@@ -109,7 +109,7 @@ export const ProfileDropdown = () => {
             </Box>
           </HStack>
           <MenuItem fontWeight='medium'>All Orders</MenuItem>
-          <OrdersForPayment orders={customerData?.orders} />
+          <OrdersForPayment orders={customerData?.customer.orders} />
           <MenuItem fontWeight='medium'>Favorites</MenuItem>
           <MenuItem fontWeight='medium'>Account Settings</MenuItem>
           <LogOutButton />
