@@ -10,6 +10,7 @@ import {
   Text,
   useMenuButton,
   Badge,
+  Spinner,
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 
@@ -17,7 +18,7 @@ import { RiLogoutCircleLine } from 'react-icons/ri';
 import { useMutation } from '@apollo/client';
 import { GET_USER } from '../../hooks/useAuth';
 import { LOG_OUT } from '../../lib/mutations';
-import useCustomer from '../../hooks/useCustomer';
+import useAuth from '../../hooks/useAuth';
 
 const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
 
@@ -81,18 +82,12 @@ const LogOutButton = () => {
 };
 
 export const ProfileDropdown = () => {
-  //retreive and set customer data
-  const [customerData, setCustomerData] = useState({});
-  const { customer, loading } = useCustomer();
-
-  useEffect(() => {
-    !loading && setCustomerData(customer);
-  }, [loading, customer]);
+  const { customerData, customerLoading } = useAuth();
 
   return (
     <Menu>
       <ProfileMenuButton />
-      {loading ? (
+      {customerLoading ? (
         <h1>Loading...</h1>
       ) : (
         <MenuList
@@ -105,9 +100,11 @@ export const ProfileDropdown = () => {
           <HStack px='3' py='4'>
             <UserAvatar />
             <Box lineHeight='1'>
-              <Text fontWeight='semibold'>{customerData?.firstName ?? ''}</Text>
+              <Text fontWeight='semibold'>
+                {customerData?.customer.firstName ?? ''}
+              </Text>
               <Text mt='1' fontSize='xs' color='gray.500'>
-                {customerData?.email ?? ''}
+                {customerData?.customer.email ?? ''}
               </Text>
             </Box>
           </HStack>

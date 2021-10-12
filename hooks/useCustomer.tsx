@@ -27,13 +27,11 @@ interface ShippingAddress extends BasicAddress {
 }
 
 interface CustomerStatus {
-  loggedIn: boolean;
   loading: boolean;
   error?: ApolloError;
 }
 
 const DEFAULT_STATE: CustomerStatus = {
-  loggedIn: false,
   loading: false,
   error: undefined,
 };

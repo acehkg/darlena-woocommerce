@@ -8,19 +8,16 @@ import Layout from '../components/Layout';
 import { ApolloProvider } from '@apollo/client';
 import { client } from '../lib/apolloClient';
 import { AuthProvider } from '../hooks/useAuth';
-import { CustomerProvider } from '../hooks/useCustomer';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <CustomerProvider>
-          <ChakraProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ChakraProvider>
-        </CustomerProvider>
+        <ChakraProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
       </AuthProvider>
     </ApolloProvider>
   );
