@@ -14,25 +14,17 @@ import useAuth from '../../hooks/useAuth';
 import { useCustomerData } from '../../hooks/useCustomerData';
 
 const Header = ({ isMenuOpen, toggle }) => {
-  const [dataLoading, setDataLoading] = useState(true);
-
   const { loggedIn, loading, customerData } = useAuth();
 
-  const { paymentBadgeValue, email, firstName } = useCustomerData(
-    customerData?.customer
-  );
+  const { paymentBadgeValue, email, firstName } = useCustomerData(customerData);
 
-  useEffect(() => {
-    if (!loading) {
-      setDataLoading(false);
-    }
-  }, [loading]);
+  console.log(paymentBadgeValue);
 
   return (
     <>
       <Flex align='center' bg='#414042' color='white' p='6' minH='16'>
         <Flex justify='space-between' align='center' w='full'>
-          {dataLoading ? (
+          {loading ? (
             <Spinner />
           ) : (
             <>
