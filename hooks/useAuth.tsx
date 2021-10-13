@@ -71,6 +71,7 @@ export const GET_CUSTOMER_INFO = gql`
           }
         }
       }
+      id
       email
       firstName
       lastName
@@ -81,20 +82,19 @@ export const GET_CUSTOMER_INFO = gql`
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { data, loading, error } = useQuery(GET_USER);
   const {
-    data: customerData,
+    data: customerInfo,
     loading: customerLoading,
     error: customerError,
   } = useQuery(GET_CUSTOMER_INFO);
   const user = data?.viewer;
-  const customer = data?.customer;
+  const customerData = customerInfo?.customer;
   const loggedIn = Boolean(user);
 
   const value = {
     loggedIn,
     user,
-    customer,
-    loading,
     customerData,
+    loading,
     customerLoading,
     customerError,
     error,
