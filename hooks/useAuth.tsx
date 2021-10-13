@@ -31,7 +31,7 @@ interface AuthData {
   user?: User;
   loading: boolean;
   error?: ApolloError;
-  customer?: Customer;
+  customerData?: Customer;
   customerLoading: boolean;
   customerError?: ApolloError;
 }
@@ -41,7 +41,7 @@ const DEFAULT_STATE: AuthData = {
   user: undefined,
   loading: false,
   error: undefined,
-  customer: undefined,
+  customerData: undefined,
   customerLoading: false,
   customerError: undefined,
 };

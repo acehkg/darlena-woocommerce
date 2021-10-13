@@ -1,7 +1,7 @@
 import React from 'react';
 
-const orders = () => {
+const category = () => {
   return <div></div>;
 };
 
-export default orders;
+export default category;
