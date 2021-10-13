@@ -18,8 +18,6 @@ const Header = ({ isMenuOpen, toggle }) => {
 
   const { paymentBadgeValue, email, firstName } = useCustomerData(customerData);
 
-  console.log(paymentBadgeValue);
-
   return (
     <>
       <Flex align='center' bg='#414042' color='white' p='6' minH='16'>
