@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import {
   Avatar,
   Box,
@@ -12,9 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 
+import NavLink from '../routing/NavLink';
+
 //auth and customer info
 import { useMutation } from '@apollo/client';
-import { GET_USER } from '../../hooks/useAuth';
+import { GET_USER, GET_CUSTOMER } from '../../hooks/useAuth';
 import { LOG_OUT } from '../../lib/mutations';
 
 const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
@@ -50,15 +54,18 @@ const OrdersForPayment = ({ paymentBadgeValue }) => {
 };
 
 const LogOutButton = () => {
+  const router = useRouter();
+
   //handle logging the user out
   const [logOut, { client, called, loading, error, data }] = useMutation(
     LOG_OUT,
     {
-      refetchQueries: [{ query: GET_USER }],
+      refetchQueries: [{ query: GET_USER }, { query: GET_CUSTOMER }],
     }
   );
   const handleLogout = () => {
     logOut().then(() => client.resetStore());
+    router.push('/');
   };
 
   return (
@@ -68,7 +75,12 @@ const LogOutButton = () => {
   );
 };
 
-export const ProfileDropdown = ({ paymentBadgeValue, firstName, email }) => {
+export const ProfileDropdown = ({
+  paymentBadgeValue,
+  firstName,
+  email,
+  id,
+}) => {
   return (
     <Menu>
       <ProfileMenuButton />
@@ -85,7 +97,9 @@ export const ProfileDropdown = ({ paymentBadgeValue, firstName, email }) => {
         <MenuItem fontWeight='medium'>All Orders</MenuItem>
         <OrdersForPayment paymentBadgeValue={paymentBadgeValue} />
         <MenuItem fontWeight='medium'>Favorites</MenuItem>
-        <MenuItem fontWeight='medium'>Account Settings</MenuItem>
+        <MenuItem fontWeight='medium'>
+          <NavLink href={`/customer/${id}`}>Account Settings</NavLink>
+        </MenuItem>
         <LogOutButton />
       </MenuList>
     </Menu>

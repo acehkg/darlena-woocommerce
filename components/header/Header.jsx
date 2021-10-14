@@ -11,12 +11,13 @@ import LogIn from './LogIn';
 import { Spinner } from '@chakra-ui/react';
 
 import useAuth from '../../hooks/useAuth';
+import useCustomer from '../../hooks/useCustomer';
 import { useCustomerData } from '../../hooks/useCustomerData';
 
 const Header = ({ isMenuOpen, toggle }) => {
-  const { loggedIn, loading, customerData } = useAuth();
-
-  const { paymentBadgeValue, email, firstName } = useCustomerData(customerData);
+  const { loggedIn, user } = useAuth();
+  const { loading, customer, error } = useCustomer();
+  const { paymentBadgeValue } = useCustomerData(customer);
 
   return (
     <>
@@ -37,8 +38,9 @@ const Header = ({ isMenuOpen, toggle }) => {
                   />
                   <ProfileDropdown
                     paymentBadgeValue={paymentBadgeValue}
-                    firstName={firstName}
-                    email={email}
+                    firstName={user?.firstName}
+                    email={user?.email}
+                    id={customer?.id}
                   />
                 </HStack>
               ) : (
