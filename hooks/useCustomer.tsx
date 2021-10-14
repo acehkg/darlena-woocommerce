@@ -1,14 +1,6 @@
 import { useQuery, gql, ApolloError } from '@apollo/client';
 import React, { createContext, useContext, ReactNode } from 'react';
 
-export interface User {
-  id: string;
-  databaseId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  capabilities: string[];
-}
 export interface Address {
   address1: string;
   address2: string;
@@ -38,47 +30,23 @@ export type Orders = Order[];
 export interface Customer {
   id: string;
   billing: Address;
-  email: string;
-  firstName: string;
-  lastName: string;
   orders: Orders;
   shipping: Address;
 }
 
-interface AuthData {
-  loggedIn: boolean;
-  user?: User;
-  loading: boolean;
+interface CustomerData {
+  customer?: Customer;
+  loading: Boolean;
   error?: ApolloError;
-  customerData?: Customer;
-  customerLoading: boolean;
-  customerError?: ApolloError;
 }
 
-const DEFAULT_STATE: AuthData = {
-  loggedIn: false,
-  user: undefined,
+const DEFAULT_STATE: CustomerData = {
+  customer: undefined,
   loading: false,
   error: undefined,
-  customerData: undefined,
-  customerLoading: false,
-  customerError: undefined,
 };
 
-const AuthContext = createContext(DEFAULT_STATE);
-
-export const GET_USER = gql`
-  query getUser {
-    viewer {
-      id
-      databaseId
-      firstName
-      lastName
-      email
-      capabilities
-    }
-  }
-`;
+const CustomerContext = createContext(DEFAULT_STATE);
 
 export const GET_CUSTOMER = gql`
   query getCustomer {
@@ -96,9 +64,6 @@ export const GET_CUSTOMER = gql`
         postcode
         state
       }
-      email
-      firstName
-      lastName
       orders {
         nodes {
           lineItems {
@@ -129,30 +94,23 @@ export const GET_CUSTOMER = gql`
   }
 `;
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data, loading, error } = useQuery(GET_USER);
-  const {
-    data: customerInfo,
-    loading: customerLoading,
-    error: customerError,
-  } = useQuery(GET_CUSTOMER);
-  const user = data?.viewer;
-  const customerData = customerInfo?.customer;
-  const loggedIn = Boolean(user);
+export function CustomerProvider({ children }: { children: ReactNode }) {
+  const { data, loading, error } = useQuery(GET_CUSTOMER);
+  const customer = data?.customer;
 
   const value = {
-    loggedIn,
-    user,
-    customerData,
+    customer,
     loading,
-    customerLoading,
-    customerError,
     error,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <CustomerContext.Provider value={value}>
+      {children}
+    </CustomerContext.Provider>
+  );
 }
 
-const useAuth = () => useContext(AuthContext);
+const useCustomer = () => useContext(CustomerContext);
 
-export default useAuth;
+export default useCustomer;
