@@ -1,5 +1,7 @@
-const id = () => {
+import useAuth from '../../hooks/useAuth';
+
+const Id = () => {
   return <div></div>;
 };
 
-export default id;
+export default Id;

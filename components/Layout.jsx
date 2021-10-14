@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Darlena Woocomerce</title>
       </Head>
-      <Flex direction='column' height='100vh'>
+      <Flex direction='column'>
         <Header isMenuOpen={isMenuOpen} toggle={toggle} />
 
         {children}
