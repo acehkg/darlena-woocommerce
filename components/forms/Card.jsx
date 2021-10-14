@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
-export const Card = (props) => (
+export const Card = ({ children, ...props }) => (
   <Box
     bg='white'
     py='8'
@@ -12,5 +12,7 @@ export const Card = (props) => (
       sm: 'lg',
     }}
     {...props}
-  />
+  >
+    {children}
+  </Box>
 );

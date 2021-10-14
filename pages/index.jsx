@@ -1,7 +1,7 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../components/product/ProductGrid';
 
-const Home = ({ products }) => {
+const Home = ({ products, categories }) => {
   return <ProductGrid products={products} />;
 };
 
@@ -21,6 +21,14 @@ export async function getStaticProps() {
           }
         }
       }
+      productCategories {
+        edges {
+          node {
+            name
+            id
+          }
+        }
+      }
     }
   `;
 
@@ -28,10 +36,14 @@ export async function getStaticProps() {
   const products = await data.products.edges.map(({ node }) => {
     return { id: node.id, name: node.name, description: node.description };
   });
+  const categories = await data.productCategories.edges.map(({ node }) => {
+    return { id: node.id, name: node.name };
+  });
 
   return {
     props: {
       products,
+      categories,
     },
     revalidate: 600,
   };

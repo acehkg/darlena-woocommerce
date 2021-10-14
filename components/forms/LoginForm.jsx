@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik';
 import { PasswordField } from './PasswordField';
 import FormTextInput from './FormTextInput';
 
-const LoginForm = (props) => {
+const LoginForm = ({ onClose }) => {
   //log user in
   const [logIn, { loading, error }] = useMutation(LOG_IN, {
     refetchQueries: [{ query: GET_USER }, { query: GET_CUSTOMER }],
@@ -25,9 +25,11 @@ const LoginForm = (props) => {
             login: email,
             password,
           },
-        }).catch((error) => {
-          console.error(error);
-        });
+        })
+          .catch((error) => {
+            console.error(error);
+          })
+          .then(() => onClose());
       }}
     >
       {(props) => (

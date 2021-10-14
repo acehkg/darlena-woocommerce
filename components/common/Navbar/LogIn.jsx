@@ -1,9 +1,7 @@
-import { HStack, Box, useDisclosure } from '@chakra-ui/react';
+import { HStack, Box } from '@chakra-ui/react';
 import { RiLoginCircleLine } from 'react-icons/ri';
-import LogInModal from '../modals/LogInModal';
 
-const LogIn = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const LogIn = ({ onOpen }) => {
   return (
     <>
       <HStack
@@ -29,7 +27,6 @@ const LogIn = () => {
 
         <Box fontWeight='semibold'>LOG IN</Box>
       </HStack>
-      <LogInModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

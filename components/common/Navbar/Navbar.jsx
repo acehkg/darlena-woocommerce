@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
 import { Logo } from './Logo';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
@@ -7,17 +7,18 @@ import { Notification } from './Notification';
 import { ProfileDropdown } from './ProfileDropdown';
 import { Flex, HStack } from '@chakra-ui/react';
 import LogIn from './LogIn';
-
 import { Spinner } from '@chakra-ui/react';
+import { useMobileMenuState } from '../../../hooks/useMobileMenuState';
 
-import useAuth from '../../hooks/useAuth';
-import useCustomer from '../../hooks/useCustomer';
-import { useCustomerData } from '../../hooks/useCustomerData';
+import useAuth from '../../../hooks/useAuth';
+import useCustomer from '../../../hooks/useCustomer';
+import { useCustomerData } from '../../../hooks/useCustomerData';
 
-const Header = ({ isMenuOpen, toggle }) => {
+const Navbar = ({ modalOnOpen }) => {
   const { loggedIn, user } = useAuth();
   const { loading, customer, error } = useCustomer();
   const { paymentBadgeValue } = useCustomerData(customer);
+  const { isMenuOpen, toggle } = useMobileMenuState();
 
   return (
     <>
@@ -44,7 +45,7 @@ const Header = ({ isMenuOpen, toggle }) => {
                   />
                 </HStack>
               ) : (
-                <LogIn href='#' />
+                <LogIn onOpen={modalOnOpen} href='#' />
               )}
             </>
           )}
@@ -80,4 +81,4 @@ const Header = ({ isMenuOpen, toggle }) => {
     </>
   );
 };
-export default Header;
+export default Navbar;
