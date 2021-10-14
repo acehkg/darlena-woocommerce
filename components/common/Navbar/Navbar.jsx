@@ -22,7 +22,7 @@ const Navbar = ({ modalOnOpen }) => {
 
   return (
     <>
-      <Flex align='center' bg='#414042' color='white' p='6' minH='16'>
+      <Flex align='center' bg='brandGrey.200' color='white' p='6' minH='16'>
         <Flex justify='space-between' align='center' w='full'>
           {loading ? (
             <Spinner />
