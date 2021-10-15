@@ -12,12 +12,23 @@ export async function getStaticProps() {
 
   const QUERY = gql`
     {
-      products(first: 50) {
+      products(first: 500) {
         edges {
           node {
             id
             name
             description(format: RAW)
+            image {
+              sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+            }
+          }
+        }
+      }
+      productCategories {
+        edges {
+          node {
+            name
+            id
           }
         }
       }
@@ -26,13 +37,22 @@ export async function getStaticProps() {
 
   const data = await client.request(QUERY);
   const products = await data.products.edges.map(({ node }) => {
-    return { id: node.id, name: node.name, description: node.description };
+    return {
+      id: node.id,
+      name: node.name,
+      description: node.description,
+      image: node.image,
+    };
+  });
+  const categories = await data.productCategories.edges.map(({ node }) => {
+    return { id: node.id, name: node.name };
   });
 
   return {
     props: {
       products,
+      categories,
     },
-    revalidate: 600,
+    revalidate: 300,
   };
 }

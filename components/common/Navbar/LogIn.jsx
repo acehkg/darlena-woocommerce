@@ -1,14 +1,11 @@
-import { HStack, Box, useDisclosure } from '@chakra-ui/react';
+import { HStack, Box, Link } from '@chakra-ui/react';
 import { RiLoginCircleLine } from 'react-icons/ri';
-import LogInModal from '../modals/LogInModal';
 
-const LogIn = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const LogIn = ({ href }) => {
   return (
     <>
       <HStack
         as='button'
-        onClick={onOpen}
         spacing='2'
         px='3'
         py='2'
@@ -23,13 +20,12 @@ const LogIn = () => {
           color: 'white',
         }}
       >
-        <Box aria-hidden fontSize='md'>
+        <Link href={href} aria-hidden fontSize='md'>
           <RiLoginCircleLine />
-        </Box>
+        </Link>
 
         <Box fontWeight='semibold'>LOG IN</Box>
       </HStack>
-      <LogInModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

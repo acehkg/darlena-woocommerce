@@ -14,6 +14,21 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/index.jsx",
+    "pages/category/[category].jsx",
+    "pages/checkout/thanks.jsx",
+    "pages/checkout/[id].jsx",
+    "pages/customer/orders.jsx",
+    "pages/customer/favorites.jsx",
+    "pages/customer/[id].jsx",
+    "pages/returns.jsx",
+    "pages/products.jsx",
+    "pages/measurements.jsx",
+    "pages/contact.jsx"
+  ],
   "exclude": ["node_modules"]
 }

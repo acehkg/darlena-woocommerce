@@ -3,18 +3,14 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
   Box,
 } from '@chakra-ui/react';
 
 import { FaRegUserCircle } from 'react-icons/fa';
 
-import LogInCard from '../forms/LogInCard';
-
-const LogInModal = ({ isOpen, onClose }) => {
+const ModalUI = ({ isOpen, onClose, children }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
@@ -25,12 +21,10 @@ const LogInModal = ({ isOpen, onClose }) => {
           </Box>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <LogInCard />
-        </ModalBody>
+        <ModalBody>{children}</ModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-export default LogInModal;
+export default ModalUI;
