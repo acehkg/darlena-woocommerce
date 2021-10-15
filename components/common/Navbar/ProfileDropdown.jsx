@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 
-import NavLink from '../../routing/NavLink';
+import { NavLink } from '../ui/NavLink';
 
 //auth and customer info
 import { useMutation } from '@apollo/client';

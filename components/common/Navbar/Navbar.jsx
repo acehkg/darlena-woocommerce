@@ -14,7 +14,7 @@ import useAuth from '../../../hooks/useAuth';
 import useCustomer from '../../../hooks/useCustomer';
 import { useCustomerData } from '../../../hooks/useCustomerData';
 
-const Navbar = ({ modalOnOpen }) => {
+const Navbar = () => {
   const { loggedIn, user } = useAuth();
   const { loading, customer, error } = useCustomer();
   const { paymentBadgeValue } = useCustomerData(customer);
@@ -45,7 +45,7 @@ const Navbar = ({ modalOnOpen }) => {
                   />
                 </HStack>
               ) : (
-                <LogIn onOpen={modalOnOpen} href='#' />
+                <LogIn href='#' />
               )}
             </>
           )}

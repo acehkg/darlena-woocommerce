@@ -12,7 +12,7 @@ export async function getStaticProps() {
 
   const QUERY = gql`
     {
-      products(first: 50) {
+      products(first: 500) {
         edges {
           node {
             id
@@ -45,6 +45,6 @@ export async function getStaticProps() {
       products,
       categories,
     },
-    revalidate: 600,
+    revalidate: 300,
   };
 }

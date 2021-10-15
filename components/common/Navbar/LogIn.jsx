@@ -1,12 +1,11 @@
-import { HStack, Box } from '@chakra-ui/react';
+import { HStack, Box, Link } from '@chakra-ui/react';
 import { RiLoginCircleLine } from 'react-icons/ri';
 
-const LogIn = ({ onOpen }) => {
+const LogIn = ({ href }) => {
   return (
     <>
       <HStack
         as='button'
-        onClick={onOpen}
         spacing='2'
         px='3'
         py='2'
@@ -21,9 +20,9 @@ const LogIn = ({ onOpen }) => {
           color: 'white',
         }}
       >
-        <Box aria-hidden fontSize='md'>
+        <Link href={href} aria-hidden fontSize='md'>
           <RiLoginCircleLine />
-        </Box>
+        </Link>
 
         <Box fontWeight='semibold'>LOG IN</Box>
       </HStack>
