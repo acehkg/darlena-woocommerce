@@ -1,6 +1,5 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { Flex, Image, Text, Heading } from '@chakra-ui/react';
-import router, { useRouter } from 'next/router';
 
 export async function getStaticProps({ params }) {
   const variables = {
@@ -27,6 +26,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { product },
+    revalidate: 300,
   };
 }
 

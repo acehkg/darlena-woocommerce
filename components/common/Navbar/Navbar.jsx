@@ -24,31 +24,33 @@ const Navbar = () => {
     <>
       <Flex align='center' bg='brandGrey.200' color='white' p='6' minH='16'>
         <Flex justify='space-between' align='center' w='full'>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <>
-              {loggedIn ? (
-                <HStack spacing='3'>
-                  <Notification
-                    display={{
-                      base: 'none',
-                      lg: 'inline-flex',
-                    }}
-                    paymentBadgeValue={paymentBadgeValue}
-                  />
-                  <ProfileDropdown
-                    paymentBadgeValue={paymentBadgeValue}
-                    firstName={user?.firstName}
-                    email={user?.email}
-                    id={customer?.id}
-                  />
-                </HStack>
-              ) : (
-                <LogIn href='#' />
-              )}
-            </>
-          )}
+          <>
+            {loggedIn ? (
+              <>
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <HStack spacing='3'>
+                    <Notification
+                      display={{
+                        base: 'none',
+                        lg: 'inline-flex',
+                      }}
+                      paymentBadgeValue={paymentBadgeValue}
+                    />
+                    <ProfileDropdown
+                      paymentBadgeValue={paymentBadgeValue}
+                      firstName={user?.firstName}
+                      email={user?.email}
+                      id={customer?.id}
+                    />
+                  </HStack>
+                )}
+              </>
+            ) : (
+              <LogIn href='#' />
+            )}
+          </>
           {/* Mobile Logo placement */}
           <Logo
             flex={{
