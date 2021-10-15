@@ -14,7 +14,7 @@ import useAuth from '../../../hooks/useAuth';
 import useCustomer from '../../../hooks/useCustomer';
 import { useCustomerData } from '../../../hooks/useCustomerData';
 
-const Navbar = () => {
+const Navbar = ({ categories }) => {
   const { loggedIn, user } = useAuth();
   const { loading, customer, error } = useCustomer();
   const { paymentBadgeValue } = useCustomerData(customer);
@@ -64,7 +64,7 @@ const Navbar = () => {
             h='20'
           />
           {/* Desktop Navigation Menu */}
-          <NavMenu.Desktop />
+          <NavMenu.Desktop categories={categories} />
 
           {/* Desktop Logo placement */}
           <Logo
@@ -77,7 +77,7 @@ const Navbar = () => {
             marginEnd='10'
           />
           <MobileHamburgerMenu onClick={toggle} isOpen={isMenuOpen} />
-          <NavMenu.Mobile isOpen={isMenuOpen} />
+          <NavMenu.Mobile isOpen={isMenuOpen} categories={categories} />
         </Flex>
       </Flex>
     </>

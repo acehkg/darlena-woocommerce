@@ -6,7 +6,6 @@ export async function getStaticProps({ params }) {
     id: params.product,
   };
 
-  console.log(variables);
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
   const QUERY = gql`
     query getProduct($id: ID!) {
@@ -22,10 +21,31 @@ export async function getStaticProps({ params }) {
     }
   `;
 
+  const CATEGORIES_QUERY = gql`
+    {
+      productCategories {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  `;
+
   const { product } = await client.request(QUERY, variables);
+  const data = await client.request(CATEGORIES_QUERY);
+
+  const categories = await data.productCategories.edges.map(({ node }) => {
+    return { id: node.id, name: node.name };
+  });
 
   return {
-    props: { product },
+    props: {
+      product,
+      categories,
+    },
     revalidate: 300,
   };
 }
@@ -55,7 +75,7 @@ export async function getStaticPaths() {
     fallback: false,
   };
 }
-const Product = ({ product }) => {
+const Product = ({ product, categories }) => {
   return (
     <Flex direction='column'>
       <Image

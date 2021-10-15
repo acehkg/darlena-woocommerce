@@ -1,7 +1,7 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../components/product/ProductGrid';
 
-const Home = ({ products, categories }) => {
+const Home = ({ products }) => {
   return <ProductGrid products={products} />;
 };
 
@@ -18,6 +18,9 @@ export async function getStaticProps() {
             id
             name
             description(format: RAW)
+            image {
+              sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+            }
           }
         }
       }
@@ -34,7 +37,12 @@ export async function getStaticProps() {
 
   const data = await client.request(QUERY);
   const products = await data.products.edges.map(({ node }) => {
-    return { id: node.id, name: node.name, description: node.description };
+    return {
+      id: node.id,
+      name: node.name,
+      description: node.description,
+      image: node.image,
+    };
   });
   const categories = await data.productCategories.edges.map(({ node }) => {
     return { id: node.id, name: node.name };
