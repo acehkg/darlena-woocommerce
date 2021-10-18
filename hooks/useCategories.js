@@ -2,7 +2,19 @@ export const useCategories = (categories) => {
   const filteredCategories = categories.filter(
     (c) => c.name !== 'Uncategorized'
   );
-  console;
 
-  return { filteredCategories };
+  const mainCategoryNoChildren = filteredCategories.filter(
+    (c) => !c.children && !c.parentId
+  );
+
+  const mainCategoryWithChildren = filteredCategories.filter(
+    (c) => c.children && !c.parentId
+  );
+
+  const organinzedCategories = [
+    ...mainCategoryNoChildren,
+    ...mainCategoryWithChildren,
+  ];
+
+  return { organinzedCategories };
 };

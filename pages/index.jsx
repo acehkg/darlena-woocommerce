@@ -27,8 +27,21 @@ export async function getStaticProps() {
       productCategories {
         edges {
           node {
-            name
             id
+            description
+            name
+            slug
+            children {
+              edges {
+                node {
+                  id
+                  name
+                  description
+                  slug
+                }
+              }
+            }
+            parentId
           }
         }
       }
@@ -45,9 +58,14 @@ export async function getStaticProps() {
     };
   });
   const categories = await data.productCategories.edges.map(({ node }) => {
-    return { id: node.id, name: node.name };
+    return {
+      id: node.id,
+      name: node.name,
+      children: node.children.edges.length > 0 ? node.children.edges : false,
+      parentId: node?.parentId ?? false,
+      slug: node?.slug,
+    };
   });
-
   return {
     props: {
       products,

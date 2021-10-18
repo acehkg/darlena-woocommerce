@@ -23,7 +23,32 @@ const Navbar = ({ categories }) => {
   return (
     <>
       <Flex align='center' bg='brandGrey.200' color='white' p='6' minH='16'>
-        <Flex justify='space-between' align='center' w='full'>
+        <Flex justify='space-between' align='center' w='full' mx='auto'>
+          {/* Mobile Logo placement */}
+          {/*  <Logo
+            flex={{
+              base: '1',
+              lg: '0',
+            }}
+            display={{
+              lg: 'none',
+            }}
+            flexShrink={0}
+            h='20'
+          /> */}
+
+          {/* Desktop Logo placement */}
+          <Logo
+            display={{
+              //base: 'none',
+              lg: 'block',
+            }}
+            // flexShrink={0}
+            h='20'
+            // marginEnd='10'
+          />
+          {/* Desktop Navigation Menu */}
+          <NavMenu.Desktop categories={categories} />
           <>
             {loggedIn ? (
               <>
@@ -51,31 +76,7 @@ const Navbar = ({ categories }) => {
               <LogIn href='#' />
             )}
           </>
-          {/* Mobile Logo placement */}
-          <Logo
-            flex={{
-              base: '1',
-              lg: '0',
-            }}
-            display={{
-              lg: 'none',
-            }}
-            flexShrink={0}
-            h='20'
-          />
-          {/* Desktop Navigation Menu */}
-          <NavMenu.Desktop categories={categories} />
 
-          {/* Desktop Logo placement */}
-          <Logo
-            display={{
-              base: 'none',
-              lg: 'block',
-            }}
-            flexShrink={0}
-            h='20'
-            marginEnd='10'
-          />
           <MobileHamburgerMenu onClick={toggle} isOpen={isMenuOpen} />
           <NavMenu.Mobile isOpen={isMenuOpen} categories={categories} />
         </Flex>

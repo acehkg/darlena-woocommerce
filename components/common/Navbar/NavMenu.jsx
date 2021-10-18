@@ -1,26 +1,27 @@
 import { Box, Flex, HStack } from '@chakra-ui/react';
 import * as React from 'react';
-import { MdCategory, MdOutlineCategory, MdStorefront } from 'react-icons/md';
-import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { useCategories } from '../../../hooks/useCategories';
 import { NavItem } from './NavItem';
 
 const MobileNavMenu = (props) => {
   const { isOpen, categories } = props;
+  const { organinzedCategories } = useCategories(categories);
   return (
     <Flex
       hidden={!isOpen}
       as='nav'
       direction='column'
-      bg='#414042'
+      bg='brandGrey.200'
       position='fixed'
       height='calc(100vh - 4rem)'
       top='32'
       insetX='0'
       zIndex={10}
-      w='full'
+      w='75%'
+      mr='25%'
     >
       <Box px='4'>
-        {categories.map((c) => {
+        {organinzedCategories.map((c) => {
           return <NavItem.Mobile key={c.id} label={c.name} />;
         })}
       </Box>
@@ -29,6 +30,8 @@ const MobileNavMenu = (props) => {
 };
 
 const DesktopNavMenu = ({ categories }) => {
+  const { organinzedCategories } = useCategories(categories);
+
   return (
     <HStack
       spacing='3'
@@ -38,7 +41,7 @@ const DesktopNavMenu = ({ categories }) => {
         lg: 'flex',
       }}
     >
-      {categories.map((c) => {
+      {organinzedCategories.map((c) => {
         return <NavItem.Desktop key={c.id} label={c.name} />;
       })}
     </HStack>

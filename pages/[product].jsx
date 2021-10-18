@@ -27,7 +27,20 @@ export async function getStaticProps({ params }) {
         edges {
           node {
             id
+            description
             name
+            slug
+            children {
+              edges {
+                node {
+                  id
+                  name
+                  description
+                  slug
+                }
+              }
+            }
+            parentId
           }
         }
       }
@@ -35,12 +48,19 @@ export async function getStaticProps({ params }) {
   `;
 
   const { product } = await client.request(QUERY, variables);
-  const data = await client.request(CATEGORIES_QUERY);
 
-  const categories = await data.productCategories.edges.map(({ node }) => {
-    return { id: node.id, name: node.name };
-  });
-
+  const categoriesData = await client.request(CATEGORIES_QUERY);
+  const categories = await categoriesData.productCategories.edges.map(
+    ({ node }) => {
+      return {
+        id: node.id,
+        name: node.name,
+        children: node.children.edges.length > 0 ? node.children.edges : false,
+        parentId: node?.parentId ?? false,
+        slug: node?.slug,
+      };
+    }
+  );
   return {
     props: {
       product,
@@ -69,6 +89,8 @@ export async function getStaticPaths() {
   const products = await data.products.edges.map(({ node }) => {
     return { id: node.id };
   });
+
+  console.log(products.map((product) => `/${product.id}`));
 
   return {
     paths: products.map((product) => `/${product.id}`),

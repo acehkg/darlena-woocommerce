@@ -4,13 +4,11 @@ import Navbar from '../common/Navbar/Navbar';
 import { useCategories } from '../../hooks/useCategories';
 
 const Layout = ({ children, pageProps }) => {
-  const { categories } = pageProps;
-
-  const { filteredCategories } = useCategories(categories);
+  //const { categories } = pageProps;
 
   return (
     <Flex direction='column'>
-      <Navbar categories={filteredCategories} />
+      {/* <Navbar categories={categories} /> */}
       {children}
     </Flex>
   );
