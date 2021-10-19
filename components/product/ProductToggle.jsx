@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, HStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -23,15 +23,17 @@ const ProductToggle = ({ categories }) => {
   return (
     <>
       {hasChildren ? (
-        <Box>
+        <HStack p='5rem' spacing={16}>
           {childCategories.map(({ node }) => {
             return (
               <Link key={node.id} href={`${asPath}/${node.slug}`} passHref>
-                <Text as='a'>{node.name}</Text>
+                <Text color='brandGold.100' as='a'>
+                  {node.name}
+                </Text>
               </Link>
             );
           })}
-        </Box>
+        </HStack>
       ) : null}
     </>
   );

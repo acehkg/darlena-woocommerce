@@ -1,33 +1,8 @@
 import { GraphQLClient, gql } from 'graphql-request';
+import { CATEGORIES_QUERY } from '../lib/queries';
 
 export async function getStaticProps() {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
-
-  const CATEGORIES_QUERY = gql`
-    {
-      productCategories {
-        edges {
-          node {
-            id
-            description
-            name
-            slug
-            children {
-              edges {
-                node {
-                  id
-                  name
-                  description
-                  slug
-                }
-              }
-            }
-            parentId
-          }
-        }
-      }
-    }
-  `;
 
   const categoriesData = await client.request(CATEGORIES_QUERY);
   const categories = await categoriesData.productCategories.edges.map(

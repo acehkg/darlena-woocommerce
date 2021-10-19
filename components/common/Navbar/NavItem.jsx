@@ -4,7 +4,7 @@ import { Box, HStack } from '@chakra-ui/react';
 const DesktopNavItem = (props) => {
   const { icon, label, href, active } = props;
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <HStack
         as='a'
         aria-current={active ? 'page' : undefined}

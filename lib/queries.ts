@@ -84,22 +84,60 @@ export const GET_CUSTOMER_ACCOUNT_INFO = gql`
   }
 `;
 
-export const GET_PRODUCT_BY_CATEGORY = gql`
-getProductByCategory($slug:String!){
-    {
-    products(where: {category: $slug }) {
+export const CATEGORIES_QUERY = gql`
+  {
+    productCategories(first: 500) {
       edges {
         node {
           id
           name
-          image {
-            srcSet(size: WOOCOMMERCE_THUMBNAIL)
+          slug
+          parentId
+          children {
+            edges {
+              node {
+                name
+                id
+                slug
+                parentId
+                children {
+                  edges {
+                    node {
+                      id
+                      name
+                      parentId
+                      slug
+                    }
+                  }
+                }
+              }
+            }
           }
-          description(format: RAW)
-          type
         }
       }
     }
   }
-}
+`;
+export const PRODUCTS_BY_CATEGORY_SLUG = gql`
+  query getProducts($slug: [String]) {
+    productCategories(first: 500, where: { slug: $slug }) {
+      edges {
+        node {
+          id
+          products {
+            edges {
+              node {
+                id
+                name
+                image {
+                  sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+                }
+                description(format: RAW)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;

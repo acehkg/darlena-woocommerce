@@ -3,6 +3,7 @@ import { useRouter } from 'next/dist/client/router';
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
 import ProductToggle from '../../components/product/ProductToggle';
+import { PRODUCTS_BY_CATEGORY_SLUG, CATEGORIES_QUERY } from '../../lib/queries';
 
 export async function getStaticProps({ params }) {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
@@ -13,66 +14,10 @@ export async function getStaticProps({ params }) {
     slug: category.pop(),
   };
 
-  const PRODUCTS_QUERY = gql`
-    query getProducts($slug: [String]) {
-      productCategories(first: 500, where: { slug: $slug }) {
-        edges {
-          node {
-            id
-            products {
-              edges {
-                node {
-                  id
-                  name
-                  image {
-                    sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
-                  }
-                  description(format: RAW)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const CATEGORIES_QUERY = gql`
-    {
-      productCategories(first: 500) {
-        edges {
-          node {
-            id
-            name
-            slug
-            parentId
-            children {
-              edges {
-                node {
-                  name
-                  id
-                  slug
-                  parentId
-                  children {
-                    edges {
-                      node {
-                        id
-                        name
-                        parentId
-                        slug
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const { productCategories } = await client.request(PRODUCTS_QUERY, variables);
+  const { productCategories } = await client.request(
+    PRODUCTS_BY_CATEGORY_SLUG,
+    variables
+  );
 
   const [productData] = productCategories.edges.map(
     ({ node }) => node.products
@@ -98,7 +43,6 @@ export async function getStaticProps({ params }) {
       };
     }
   );
-  console.log(categoriesData);
 
   return {
     props: { products, categories },
@@ -108,41 +52,6 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
-
-  const CATEGORIES_QUERY = gql`
-    {
-      productCategories(first: 500) {
-        edges {
-          node {
-            id
-            name
-            slug
-            parentId
-            children {
-              edges {
-                node {
-                  name
-                  id
-                  slug
-                  parentId
-                  children {
-                    edges {
-                      node {
-                        id
-                        name
-                        parentId
-                        slug
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
 
   const categoriesData = await client.request(CATEGORIES_QUERY);
   const categories = await categoriesData.productCategories.edges.map(

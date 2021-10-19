@@ -1,5 +1,6 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { Flex, Image, Text, Heading } from '@chakra-ui/react';
+import { CATEGORIES_QUERY } from '../lib/queries';
 
 export async function getStaticProps({ params }) {
   const variables = {
@@ -17,32 +18,6 @@ export async function getStaticProps({ params }) {
           sourceUrl(size: LARGE)
         }
         type
-      }
-    }
-  `;
-
-  const CATEGORIES_QUERY = gql`
-    {
-      productCategories {
-        edges {
-          node {
-            id
-            description
-            name
-            slug
-            children {
-              edges {
-                node {
-                  id
-                  name
-                  description
-                  slug
-                }
-              }
-            }
-            parentId
-          }
-        }
       }
     }
   `;
