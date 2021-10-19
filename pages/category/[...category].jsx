@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
-import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-
-import { Select, Stack } from '@chakra-ui/react';
+import ProductToggle from '../../components/product/ProductToggle';
 
 export async function getStaticProps({ params }) {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
@@ -17,7 +15,7 @@ export async function getStaticProps({ params }) {
 
   const PRODUCTS_QUERY = gql`
     query getProducts($slug: [String]) {
-      productCategories(where: { slug: $slug }) {
+      productCategories(first: 500, where: { slug: $slug }) {
         edges {
           node {
             id
@@ -41,24 +39,33 @@ export async function getStaticProps({ params }) {
 
   const CATEGORIES_QUERY = gql`
     {
-      productCategories {
+      productCategories(first: 500) {
         edges {
           node {
             id
-            description
             name
             slug
+            parentId
             children {
               edges {
                 node {
-                  id
                   name
-                  description
+                  id
                   slug
+                  parentId
+                  children {
+                    edges {
+                      node {
+                        id
+                        name
+                        parentId
+                        slug
+                      }
+                    }
+                  }
                 }
               }
             }
-            parentId
           }
         }
       }
@@ -67,7 +74,17 @@ export async function getStaticProps({ params }) {
 
   const { productCategories } = await client.request(PRODUCTS_QUERY, variables);
 
-  const [edges] = productCategories.edges.map(({ node }) => node.products);
+  const [productData] = productCategories.edges.map(
+    ({ node }) => node.products
+  );
+  const products = await productData.edges.map(({ node }) => {
+    return {
+      id: node.id,
+      name: node.name,
+      description: node.description,
+      image: node.image,
+    };
+  });
 
   const categoriesData = await client.request(CATEGORIES_QUERY);
   const categories = await categoriesData.productCategories.edges.map(
@@ -81,9 +98,10 @@ export async function getStaticProps({ params }) {
       };
     }
   );
+  console.log(categoriesData);
 
   return {
-    props: { products: edges, categories },
+    props: { products, categories },
     revalidate: 300,
   };
 }
@@ -93,7 +111,7 @@ export async function getStaticPaths() {
 
   const CATEGORIES_QUERY = gql`
     {
-      productCategories {
+      productCategories(first: 500) {
         edges {
           node {
             id
@@ -189,53 +207,12 @@ export async function getStaticPaths() {
 }
 
 const Category = ({ products, categories }) => {
-  const [category, setCategory] = useState('');
-  const router = useRouter();
-
-  useEffect(() => {
-    const { query } = router;
-    const [category] = query.category;
-    setCategory(category);
-  }, [router]);
-
-  const { hasChildren, childCategories } = useCategoryFilter(
-    category,
-    categories
-  );
-
-  const { edges } = products;
-  const productNodes = edges.map(({ node }) => {
-    const product = {
-      id: node?.id,
-      name: node?.name,
-      description: node?.description,
-      image: node?.image,
-    };
-    return product;
-  });
-
-  const handleChange = (e) => {
-    router.push(`/category/${category}/${e.target.value}`);
-  };
+  const [currentProducts, setCurrentProducts] = useState(products);
 
   return (
     <>
-      {hasChildren ? (
-        <Select
-          dir='ltr'
-          w='200px'
-          placeholder={`All ${category}`}
-          m='5rem'
-          onChange={(e) => handleChange(e)}
-        >
-          {childCategories.map(({ node }) => (
-            <option key={node.id} value={node.slug}>
-              {node.name}
-            </option>
-          ))}
-        </Select>
-      ) : null}
-      <ProductGrid products={productNodes} />
+      <ProductToggle categories={categories} />
+      <ProductGrid products={products} />
     </>
   );
 };

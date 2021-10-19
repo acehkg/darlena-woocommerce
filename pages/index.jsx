@@ -24,7 +24,7 @@ export async function getStaticProps() {
           }
         }
       }
-      productCategories {
+      productCategories(first: 500) {
         edges {
           node {
             id

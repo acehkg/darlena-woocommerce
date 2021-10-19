@@ -36,7 +36,7 @@ const DesktopNavItem = (props) => {
 const MobileNavItem = (props) => {
   const { label, href, active } = props;
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <Box
         as='a'
         display='block'

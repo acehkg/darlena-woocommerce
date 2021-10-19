@@ -19,5 +19,5 @@ export const useCategoryFilter = (category, categories) => {
     }
   }, [currentCategory]);
 
-  return { hasChildren, childCategories };
+  return { hasChildren, childCategories, currentCategory };
 };
