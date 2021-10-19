@@ -90,8 +90,6 @@ export async function getStaticPaths() {
     return { id: node.id };
   });
 
-  console.log(products.map((product) => `/${product.id}`));
-
   return {
     paths: products.map((product) => `/${product.id}`),
     fallback: false,

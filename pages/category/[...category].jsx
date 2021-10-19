@@ -1,4 +1,5 @@
 import { GraphQLClient, gql } from 'graphql-request';
+import ProductGrid from '../../components/product/ProductGrid';
 
 export async function getStaticProps({ params }) {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
@@ -9,7 +10,6 @@ export async function getStaticProps({ params }) {
     slug: category.pop(),
   };
 
-  console.log(category);
   const PRODUCTS_QUERY = gql`
     query getProducts($slug: [String]) {
       productCategories(where: { slug: $slug }) {
@@ -34,12 +34,51 @@ export async function getStaticProps({ params }) {
     }
   `;
 
+  const CATEGORIES_QUERY = gql`
+    {
+      productCategories {
+        edges {
+          node {
+            id
+            description
+            name
+            slug
+            children {
+              edges {
+                node {
+                  id
+                  name
+                  description
+                  slug
+                }
+              }
+            }
+            parentId
+          }
+        }
+      }
+    }
+  `;
+
   const { productCategories } = await client.request(PRODUCTS_QUERY, variables);
 
   const [edges] = productCategories.edges.map(({ node }) => node.products);
 
+  const categoriesData = await client.request(CATEGORIES_QUERY);
+  const categories = await categoriesData.productCategories.edges.map(
+    ({ node }) => {
+      return {
+        id: node.id,
+        name: node.name,
+        children: node.children.edges.length > 0 ? node.children.edges : false,
+        parentId: node?.parentId ?? false,
+        slug: node?.slug,
+      };
+    }
+  );
+
   return {
-    props: { products: edges },
+    props: { products: edges, categories },
     revalidate: 300,
   };
 }
@@ -94,10 +133,6 @@ export async function getStaticPaths() {
     }
   );
 
-  const mainCategoryNoChildren = categories.filter(
-    (c) => !c.children && !c.parentId
-  );
-
   const noChildPaths = categories
     .filter((c) => !c.children && !c.parentId)
     .map((c) => `/category/${c.slug}`);
@@ -148,9 +183,18 @@ export async function getStaticPaths() {
   };
 }
 
-const Category = (props) => {
-  console.log(props);
-  return <div></div>;
+const Category = ({ products }) => {
+  const { edges } = products;
+  const productNodes = edges.map(({ node }) => {
+    const product = {
+      id: node.id,
+      name: node.name,
+      description: node.description,
+      image: node.image,
+    };
+    return product;
+  });
+  return <ProductGrid products={productNodes} />;
 };
 
 export default Category;
