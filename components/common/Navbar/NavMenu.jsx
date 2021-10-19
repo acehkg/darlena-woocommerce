@@ -22,7 +22,13 @@ const MobileNavMenu = (props) => {
     >
       <Box px='4'>
         {organinzedCategories.map((c) => {
-          return <NavItem.Mobile key={c.id} label={c.name} />;
+          return (
+            <NavItem.Mobile
+              key={c.id}
+              label={c.name}
+              href={`/category/${c.slug}`}
+            />
+          );
         })}
       </Box>
     </Flex>
@@ -42,7 +48,13 @@ const DesktopNavMenu = ({ categories }) => {
       }}
     >
       {organinzedCategories.map((c) => {
-        return <NavItem.Desktop key={c.id} label={c.name} />;
+        return (
+          <NavItem.Desktop
+            key={c.id}
+            label={c.name}
+            href={`/category/${c.slug}`}
+          />
+        );
       })}
     </HStack>
   );

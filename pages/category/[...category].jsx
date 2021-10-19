@@ -1,5 +1,10 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
+import { useCategoryFilter } from '../../hooks/useCategoryFilter';
+
+import { Select, Stack } from '@chakra-ui/react';
 
 export async function getStaticProps({ params }) {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
@@ -183,18 +188,56 @@ export async function getStaticPaths() {
   };
 }
 
-const Category = ({ products }) => {
+const Category = ({ products, categories }) => {
+  const [category, setCategory] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const { query } = router;
+    const [category] = query.category;
+    setCategory(category);
+  }, [router]);
+
+  const { hasChildren, childCategories } = useCategoryFilter(
+    category,
+    categories
+  );
+
   const { edges } = products;
   const productNodes = edges.map(({ node }) => {
     const product = {
-      id: node.id,
-      name: node.name,
-      description: node.description,
-      image: node.image,
+      id: node?.id,
+      name: node?.name,
+      description: node?.description,
+      image: node?.image,
     };
     return product;
   });
-  return <ProductGrid products={productNodes} />;
+
+  const handleChange = (e) => {
+    router.push(`/category/${category}/${e.target.value}`);
+  };
+
+  return (
+    <>
+      {hasChildren ? (
+        <Select
+          dir='ltr'
+          w='200px'
+          placeholder={`All ${category}`}
+          m='5rem'
+          onChange={(e) => handleChange(e)}
+        >
+          {childCategories.map(({ node }) => (
+            <option key={node.id} value={node.slug}>
+              {node.name}
+            </option>
+          ))}
+        </Select>
+      ) : null}
+      <ProductGrid products={productNodes} />
+    </>
+  );
 };
 
 export default Category;

@@ -1,7 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
 import Navbar from '../common/Navbar/Navbar';
-import { useCategories } from '../../hooks/useCategories';
 
 const Layout = ({ children, pageProps }) => {
   const { categories } = pageProps;

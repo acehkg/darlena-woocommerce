@@ -83,3 +83,23 @@ export const GET_CUSTOMER_ACCOUNT_INFO = gql`
     }
   }
 `;
+
+export const GET_PRODUCT_BY_CATEGORY = gql`
+getProductByCategory($slug:String!){
+    {
+    products(where: {category: $slug }) {
+      edges {
+        node {
+          id
+          name
+          image {
+            srcSet(size: WOOCOMMERCE_THUMBNAIL)
+          }
+          description(format: RAW)
+          type
+        }
+      }
+    }
+  }
+}
+`;
