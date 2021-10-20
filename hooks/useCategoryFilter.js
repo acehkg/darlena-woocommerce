@@ -1,23 +1,46 @@
 import { useState, useEffect } from 'react';
 
-export const useCategoryFilter = (category, categories) => {
-  const [currentCategory, setCurrentCategory] = useState({});
-  const [hasChildren, setHasChildren] = useState(false);
-  const [childCategories, setChildCategories] = useState([]);
+export const useCategoryFilter = (mainCategory) => {
+  const [categoryFilters, setCategoryFilters] = useState({});
+  const [mainChildren, setMainChildren] = useState([]);
 
   useEffect(() => {
-    const [f] = categories.filter((c) => c.slug === category.slug);
-    setCurrentCategory(f);
-  }, [category, categories]);
+    if (mainCategory?.children) {
+      setMainChildren(
+        mainCategory.children.map(({ node }) => {
+          const parentPath = `/category/${mainCategory.slug}`;
+          const grandParentPath = `/category/${mainCategory.slug}/${node.slug}`;
+          const children =
+            node.children.edges.length > 0
+              ? node.children.edges.map(({ node }) => {
+                  return {
+                    id: node.id,
+                    name: node.name,
+                    href: `${grandParentPath}/${node.slug}`,
+                  };
+                })
+              : false;
 
-  useEffect(() => {
-    if (currentCategory?.children && currentCategory.children.length > 0) {
-      setHasChildren(true);
-      setChildCategories(currentCategory.children);
-    } else {
-      setHasChildren(false);
+          return {
+            id: node.id,
+            name: node.name,
+            href: grandParentPath,
+            children: children,
+          };
+        })
+      );
     }
-  }, [currentCategory]);
+  }, [mainCategory]);
 
-  return { hasChildren, childCategories, currentCategory };
+  useEffect(() => {
+    setCategoryFilters({
+      mainName: mainCategory?.name,
+      mainPath: `/category/${mainCategory?.slug}`,
+      mainChildren,
+    });
+  }, [mainCategory, mainChildren]);
+
+  return {
+    categoryFilters,
+  };
 };
