@@ -96,21 +96,23 @@ export const GET_CUSTOMER = gql`
         postcode
         state
       }
-      email
-      firstName
-      lastName
       orders {
-        nodes {
-          lineItems {
-            nodes {
-              product {
-                id
-                name
+        edges {
+          node {
+            lineItems {
+              edges {
+                node {
+                  orderId
+                  product {
+                    name
+                    type
+                  }
+                }
               }
             }
+            needsPayment
+            id
           }
-          needsPayment
-          id
         }
       }
       shipping {

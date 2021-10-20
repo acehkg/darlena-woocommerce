@@ -57,6 +57,7 @@ export async function getStaticProps() {
       image: node.image,
     };
   });
+
   const categories = await data.productCategories.edges.map(({ node }) => {
     return {
       id: node.id,

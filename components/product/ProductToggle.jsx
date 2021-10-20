@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { Box, Text, HStack } from '@chakra-ui/react';
+import { Text, HStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
