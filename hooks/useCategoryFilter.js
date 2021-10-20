@@ -6,7 +6,7 @@ export const useCategoryFilter = (category, categories) => {
   const [childCategories, setChildCategories] = useState([]);
 
   useEffect(() => {
-    const [f] = categories.filter((c) => c.slug === category);
+    const [f] = categories.filter((c) => c.slug === category.slug);
     setCurrentCategory(f);
   }, [category, categories]);
 

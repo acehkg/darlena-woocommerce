@@ -116,11 +116,18 @@ export async function getStaticPaths() {
 }
 
 const Category = ({ products, categories }) => {
-  const [currentProducts, setCurrentProducts] = useState(products);
+  const [mainCategory, setMainCategory] = useState({});
+  const { asPath } = useRouter();
+
+  useEffect(() => {
+    const pathnames = asPath.split('/').filter((x) => x);
+    const [filtered] = categories.filter((c) => c.slug === pathnames[1]);
+    setMainCategory(filtered);
+  }, [asPath, categories]);
 
   return (
     <>
-      <ProductToggle categories={categories} />
+      <ProductToggle categories={categories} mainCategory={mainCategory} />
       <ProductGrid products={products} />
     </>
   );
