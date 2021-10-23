@@ -122,13 +122,12 @@ const Category = ({ products, categories }) => {
 
   useEffect(() => {
     const pathnames = asPath.split('/').filter((x) => x);
-    const [filtered] = categories.filter((c) => c.slug === pathnames[1]);
+    const filtered = categories.find((c) => c.slug === pathnames[1]);
     setMainCategory(filtered);
   }, [asPath, categories]);
 
   return (
     <>
-      <ProductToggle categories={categories} mainCategory={mainCategory} />
       <CategoryFilter categories={categories} mainCategory={mainCategory} />
       <ProductGrid products={products} />
     </>

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 const NoChildren = ({ href, name }) => {
   return (
     <Link href={href} passHref>
-      <Text color='brandGold.100' as='a'>
+      <Text color='brandGold.100' as='a' pl='2rem'>
         {name}
       </Text>
     </Link>
@@ -34,47 +34,49 @@ const WithChildren = ({ href, name, childCats }) => {
 
 const CategoryFilter = ({ mainCategory, categories }) => {
   const [currentCategory, setCurrentCategory] = useState({});
+  const [options, setOptions] = useState([]);
   const { categoryFilters } = useCategoryFilter(mainCategory);
   const router = useRouter();
+
   useEffect(() => {
     const { asPath } = router;
-    const regex = /\w+$/;
-    const [slug] = asPath.match(regex);
-    const [f] = categories.filter((c) => c.slug === slug);
-    setCurrentCategory(f);
+    const pathnames = asPath.split('/').filter((x) => x);
+    const isCurrent = pathnames[pathnames.length - 1];
+    const current = categories.find((c) => c.slug === isCurrent);
+    setCurrentCategory(current);
   }, [router, categories]);
+
+  useEffect(() => {
+    const { asPath } = router;
+    if (currentCategory.children === false) {
+      setOptions(false);
+    }
+    if (currentCategory.children.length > 0) {
+      setOptions(
+        currentCategory?.children?.map(({ node }) => {
+          return {
+            id: node.id,
+            name: node.name,
+            href: `${asPath}/${node.slug}`,
+          };
+        })
+      );
+    }
+  }, [currentCategory, router]);
 
   return (
     <Flex
       w='80%'
       h='4rem'
-      border='1px solid'
-      borderColor='brandGrey.100'
-      borderRadius='lg'
-      mx='auto'
+      mr='auto'
       my='2rem'
       alignItems='center'
       justifyContent='flex-start'
     >
-      <Link href={categoryFilters?.mainPath ?? '/'} passHref>
-        <Text as='a' color='brandGold.100' fontWeight='bold' px='2rem'>
-          {categoryFilters?.mainName}
-        </Text>
-      </Link>
-      <HStack spacing={8}>
-        {categoryFilters?.mainChildren?.map((c) => {
-          return c.children ? (
-            <WithChildren
-              key={c.id}
-              name={c.name}
-              href={c.href}
-              childCats={c.children}
-            />
-          ) : (
-            <NoChildren key={c.id} name={c.name} href={c.href} />
-          );
+      {options &&
+        options.map((o) => {
+          return <NoChildren key={o.id} href={o.href} name={o.name} />;
         })}
-      </HStack>
     </Flex>
   );
 };
