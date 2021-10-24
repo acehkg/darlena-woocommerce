@@ -129,12 +129,51 @@ export const PRODUCTS_BY_CATEGORY_SLUG = gql`
               node {
                 id
                 name
+                type
                 image {
                   sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
                 }
                 description(format: RAW)
               }
             }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const PRODUCT_INFO_SIMPLE = gql`
+  query getProduct($id: ID!) {
+    product(id: $id, idType: ID) {
+      ... on SimpleProduct {
+        id
+        regularPrice(format: RAW)
+        salePrice(format: RAW)
+        onSale
+        stockStatus
+        productTags {
+          nodes {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const PRODUCT_INFO_VARIABLE = gql`
+  query getProduct($id: ID!) {
+    product(id: $id, idType: ID) {
+      ... on VariableProduct {
+        id
+        regularPrice(format: RAW)
+        salePrice(format: RAW)
+        onSale
+        stockStatus
+        productTags {
+          nodes {
+            name
           }
         }
       }

@@ -1,13 +1,39 @@
-import { SimpleGrid } from '@chakra-ui/layout';
-import ProductCard from './ProductCard';
+import { SimpleGrid, Box } from '@chakra-ui/layout';
+import { ProductCard } from '../product/ProductCard/ProductCard';
 
 const ProductGrid = ({ products }) => {
   return (
-    <SimpleGrid minChildWidth='300px' spacing='2rem' w='90%' mx='auto'>
-      {products.map((product) => {
-        return <ProductCard key={product.id} product={product} />;
-      })}
-    </SimpleGrid>
+    <Box
+      w='80%'
+      mx='auto'
+      px={{
+        base: '4',
+        md: '8',
+        lg: '12',
+      }}
+      py={{
+        base: '6',
+        md: '8',
+        lg: '12',
+      }}
+    >
+      <SimpleGrid
+        columns={{
+          base: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+        }}
+        gap={{
+          base: '8',
+          lg: '10',
+        }}
+      >
+        {products.map((product) => {
+          return <ProductCard key={product.id} product={product} />;
+        })}
+      </SimpleGrid>
+    </Box>
   );
 };
 
