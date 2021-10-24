@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
-import ProductToggle from '../../components/product/ProductToggle';
-import CategoryFilter from '../../components/product/CategoryFilter';
 import { PRODUCTS_BY_CATEGORY_SLUG, CATEGORIES_QUERY } from '../../lib/queries';
 
 export async function getStaticProps({ params }) {
@@ -128,7 +126,6 @@ const Category = ({ products, categories }) => {
 
   return (
     <>
-      <CategoryFilter categories={categories} mainCategory={mainCategory} />
       <ProductGrid products={products} />
     </>
   );
