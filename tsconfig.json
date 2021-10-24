@@ -19,7 +19,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/index.jsx",
-    "pages/category/[...category].jsxjsx",
+    "pages/collection/[category].jsxjsxjsx",
     "pages/checkout/thanks.jsx",
     "pages/checkout/[id].jsx",
     "pages/customer/orders.jsx",

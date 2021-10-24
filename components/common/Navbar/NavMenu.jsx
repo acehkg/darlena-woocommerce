@@ -26,7 +26,7 @@ const MobileNavMenu = (props) => {
             <NavItem.Mobile
               key={c.id}
               label={c.name}
-              href={`/category/${c.slug}`}
+              href={`/collection/${c.slug}`}
             />
           );
         })}
@@ -52,7 +52,7 @@ const DesktopNavMenu = ({ categories }) => {
           <NavItem.Desktop
             key={c.id}
             label={c.name}
-            href={`/category/${c.slug}`}
+            href={`/collection/${c.slug}`}
           />
         );
       })}

@@ -8,8 +8,8 @@ export const useCategoryFilter = (mainCategory) => {
     if (mainCategory?.children) {
       setMainChildren(
         mainCategory.children.map(({ node }) => {
-          const parentPath = `/category/${mainCategory.slug}`;
-          const grandParentPath = `/category/${mainCategory.slug}/${node.slug}`;
+          const parentPath = `/collection/${mainCategory.slug}`;
+          const grandParentPath = `/collection/${mainCategory.slug}/${node.slug}`;
           const children =
             node.children.edges.length > 0
               ? node.children.edges.map(({ node }) => {
@@ -35,7 +35,7 @@ export const useCategoryFilter = (mainCategory) => {
   useEffect(() => {
     setCategoryFilters({
       mainName: mainCategory?.name,
-      mainPath: `/category/${mainCategory?.slug}`,
+      mainPath: `/collection/${mainCategory?.slug}`,
       mainChildren,
     });
   }, [mainCategory, mainChildren]);
