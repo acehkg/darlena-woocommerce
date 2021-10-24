@@ -4,6 +4,7 @@ import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
 import { PRODUCTS_BY_CATEGORY_SLUG, CATEGORIES_QUERY } from '../../lib/queries';
 import CategoryBar from '../../components/product/CategoryBar';
+import Breadcrumbs from '../../components/common/Navigation/Breadcrumbs';
 
 export async function getStaticProps({ params }) {
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
@@ -22,12 +23,14 @@ export async function getStaticProps({ params }) {
   const [productData] = productCategories.edges.map(
     ({ node }) => node.products
   );
+
   const products = await productData.edges.map(({ node }) => {
     return {
       id: node.id,
       name: node.name,
       description: node.description,
       image: node.image,
+      type: node.type,
     };
   });
 
@@ -127,6 +130,7 @@ const Collection = ({ products, categories }) => {
 
   return (
     <>
+      <Breadcrumbs py='2rem' color='brandPink.100' />
       <CategoryBar mainCategory={mainCategory} categories={categories} />
       <ProductGrid products={products} />
     </>

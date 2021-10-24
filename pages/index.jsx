@@ -17,6 +17,7 @@ export async function getStaticProps() {
           node {
             id
             name
+            type
             description(format: RAW)
             image {
               sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
@@ -55,6 +56,7 @@ export async function getStaticProps() {
       name: node.name,
       description: node.description,
       image: node.image,
+      type: node.type,
     };
   });
 

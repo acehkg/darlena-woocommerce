@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Flex, Button, HStack } from '@chakra-ui/react';
+import { Flex, Button, Stack } from '@chakra-ui/react';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { FiChevronLeft, RiCloseLine } from 'react-icons/fi';
+import { FiChevronLeft } from 'react-icons/fi';
+import { RiCloseLine } from 'react-icons/ri';
 
 const ChildButton = ({ name, href, mainHref }) => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const ChildButton = ({ name, href, mainHref }) => {
 
   return (
     <Button
-      rightIcon={<FiChevronLeft />}
+      rightIcon={active ? <RiCloseLine /> : <FiChevronLeft />}
       isActive={active}
       isDisabled={disabled}
       backgroundColor='brandGrey.400'
@@ -62,15 +63,19 @@ const CategoryBar = ({ mainCategory, categories }) => {
   return (
     <Flex
       w='80%'
-      h='4rem'
       mx='auto'
       my='2rem'
       alignItems='center'
-      justifyContent='flex-start'
+      justifyContent='center'
       boxShadow='lg'
       borderRadius='4px'
     >
-      <HStack spacing={16} pr='1rem'>
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        spacing={16}
+        pr='1rem'
+        py='2rem'
+      >
         {mainChildren?.map((c) => {
           return (
             <ChildButton
@@ -81,7 +86,7 @@ const CategoryBar = ({ mainCategory, categories }) => {
             />
           );
         })}
-      </HStack>
+      </Stack>
     </Flex>
   );
 };
