@@ -11,8 +11,8 @@ const ChildButton = ({ name, href, mainHref }) => {
   const [active, setActive] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const handleClick = () => {
-    active && router.push(mainHref);
-    !active && router.push(href);
+    active && router.push(mainHref, { shallow: true });
+    !active && router.push(href, { shallow: true });
   };
 
   useEffect(() => {

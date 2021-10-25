@@ -3,7 +3,7 @@ import { Box, Skeleton } from '@chakra-ui/react';
 
 const NextImage = ({ image, ...rest }) => {
   return (
-    <Box draggable='false' {...rest}>
+    <Box {...rest}>
       <Image
         alt={image.alt}
         src={image.sourceUrl}

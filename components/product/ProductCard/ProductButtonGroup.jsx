@@ -17,7 +17,6 @@ export const ProductButtonGroup = ({ id }) => {
   ];
 
   const router = useRouter();
-  console.log(options);
 
   const iconColor = 'brandGrey.300';
   return (

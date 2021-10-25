@@ -1,6 +1,8 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { Flex, Image, Text, Heading } from '@chakra-ui/react';
 import { CATEGORIES_QUERY } from '../lib/queries';
+import { Gallery } from '../components/common/Image/Galleries/HorizontalGallery';
+import useProductImages from '../hooks/useProductImages';
 
 export async function getStaticProps({ params }) {
   const variables = {
@@ -15,7 +17,20 @@ export async function getStaticProps({ params }) {
         name
         description(format: RAW)
         image {
-          sourceUrl(size: LARGE)
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        galleryImages {
+          nodes {
+            mediaDetails {
+              width
+              height
+            }
+            sourceUrl
+          }
         }
         type
       }
@@ -71,13 +86,11 @@ export async function getStaticPaths() {
   };
 }
 const Product = ({ product, categories }) => {
+  const { isLoading, images } = useProductImages(product);
+
   return (
     <Flex direction='column'>
-      <Image
-        boxSize='200px'
-        src={product?.image?.sourceUrl}
-        alt={product?.name}
-      />
+      <Gallery images={images} loading={isLoading} />
       <Heading>{product?.name}</Heading>
       <Text>{product?.description}</Text>
     </Flex>
