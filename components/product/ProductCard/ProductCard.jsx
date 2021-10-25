@@ -5,13 +5,13 @@ import {
   Stack,
   Tag,
   Text,
-  useColorModeValue,
   AspectRatio,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { FavouriteButton } from './FavoriteButton';
 import { useProduct } from '../../../hooks/useProduct';
 import { PriceTag } from './PriceTag';
+import { ProductButtonGroup } from './ProductButtonGroup';
 import NextImageAspectRatio from '../../common/Image/NextImageAspectRatio';
 
 export const ProductCard = ({ product }) => {
@@ -30,7 +30,7 @@ export const ProductCard = ({ product }) => {
         md: '5',
       }}
     >
-      <Box position='relative'>
+      <Box position='relative' className='group'>
         <>
           {isLoading ? (
             <AspectRatio ratio={3 / 4}>
@@ -46,6 +46,22 @@ export const ProductCard = ({ product }) => {
           right='3'
           aria-label={`Add ${product.name} to your favourites`}
         />
+        <Box
+          opacity='0'
+          transition='opacity 0.1s'
+          _groupHover={{
+            opacity: 1,
+          }}
+          position='absolute'
+          bottom='3'
+          left='3'
+          right='3'
+          bg='brandGrey.400'
+          borderRadius='md'
+          padding='1.5'
+        >
+          <ProductButtonGroup id={product?.id} />
+        </Box>
         <HStack spacing='3' position='absolute' bottom='3' left='3'>
           {data?.product?.productTags?.nodes?.map((tag) => (
             <Tag
@@ -61,9 +77,6 @@ export const ProductCard = ({ product }) => {
       </Box>
       <Stack>
         <Stack spacing='0.25'>
-          <Text fontSize='sm' color={useColorModeValue('gray.600', 'gray.300')}>
-            {product.blue}
-          </Text>
           <Text fontWeight='medium'>{product.name}</Text>
         </Stack>
         {isLoading ? (
