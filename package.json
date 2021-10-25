@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.3.0",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "cookie": "^0.4.1",
+    "focus-visible": "^5.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^15.6.1",

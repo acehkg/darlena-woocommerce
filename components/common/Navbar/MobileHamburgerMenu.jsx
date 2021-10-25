@@ -1,12 +1,10 @@
-import { Box } from '@chakra-ui/react'
-import * as React from 'react'
-import { HiOutlineMenu, HiX } from 'react-icons/hi'
+import { Box } from '@chakra-ui/react';
+import { HiOutlineMenu } from 'react-icons/hi';
 
-export const MobileHamburgerMenu = (props) => {
-  const { onClick, isOpen } = props
+export const MobileHamburgerMenu = ({ onOpen }) => {
   return (
     <Box
-      ms="-4"
+      ms='-4'
       minW={{
         base: '12',
         lg: '76px',
@@ -15,10 +13,10 @@ export const MobileHamburgerMenu = (props) => {
         lg: 'none',
       }}
     >
-      <Box as="button" onClick={onClick} p="2" fontSize="xl">
-        <Box aria-hidden as={isOpen ? HiX : HiOutlineMenu} />
-        <Box srOnly>{isOpen ? 'Close menu' : 'Open menu'}</Box>
+      <Box as='button' onClick={onOpen} p='2' fontSize='xl'>
+        <Box aria-hidden as={HiOutlineMenu} />
+        <Box srOnly>{'Open menu'}</Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
