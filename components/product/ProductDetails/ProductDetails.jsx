@@ -10,9 +10,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import { FiClock, FiHeart } from 'react-icons/fi';
+import { FiHeart } from 'react-icons/fi';
 import { RiRulerLine } from 'react-icons/ri';
-import { ColorPicker } from './ColorPicker';
 import { QuantityPicker } from './QuantityPicker';
 import { SizePicker } from './SizePicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
@@ -20,10 +19,10 @@ import { PriceTag } from './PriceTag';
 
 export const ProductDetails = ({ images, loading, product }) => {
   return (
-    <Box w='80%' mx='auto' pt='3rem'>
+    <Box w='80%' mx='auto' py='3rem'>
       <Stack
         direction={{
-          base: 'column-reverse',
+          base: 'column',
           lg: 'row',
         }}
         spacing={{
@@ -56,7 +55,7 @@ export const ProductDetails = ({ images, loading, product }) => {
             </Stack>
             <PriceTag
               price={229}
-              currency='GBP'
+              currency='SAR'
               rootProps={{
                 fontSize: 'xl',
               }}
@@ -77,48 +76,32 @@ export const ProductDetails = ({ images, loading, product }) => {
             }}
           >
             <Stack flex='1'>
-              <ColorPicker
-                defaultValue='Black'
-                options={[
-                  {
-                    label: 'Black',
-                    value: '#000',
-                  },
-                  {
-                    label: 'Dark Gray',
-                    value: '#666',
-                  },
-                  {
-                    label: 'Light Gray',
-                    value: '#BBB',
-                  },
-                ]}
-              />
-              <HStack
-                spacing='1'
-                color={useColorModeValue('gray.600', 'gray.400')}
-              >
-                <Icon as={FiClock} />
-                <Text fontSize='xs' fontWeight='medium'>
-                  Low stock
-                </Text>
-              </HStack>
-            </Stack>
-            <Stack flex='1'>
               <SizePicker
                 defaultValue='32'
                 options={[
                   {
-                    label: '32mm',
+                    label: '32',
                     value: '32',
                   },
                   {
-                    label: '36mm',
+                    label: '36',
                     value: '36',
                   },
                   {
-                    label: '40mm',
-                    value: '40',
+                    label: '46',
+                    value: '46',
+                  },
+                  {
+                    label: '50',
+                    value: '50',
+                  },
+                  {
+                    label: '52',
+                    value: '52',
+                  },
+                  {
+                    label: '54',
+                    value: '54',
                   },
                 ]}
               />
@@ -161,8 +144,8 @@ export const ProductDetails = ({ images, loading, product }) => {
               </Button>
             </Box>
           </HStack>
-          <Button colorScheme='blue' size='lg'>
-            Add to cart
+          <Button bg='brandPink.100' color='brandGrey.500' size='lg'>
+            ADD TO CART
           </Button>
         </Stack>
       </Stack>

@@ -39,7 +39,11 @@ export const Gallery = (props) => {
       {loading ? (
         <Skeleton />
       ) : (
-        <NextImageAspectRatio ratio={aspectRatio} image={images[index]} />
+        <NextImageAspectRatio
+          ratio={aspectRatio}
+          image={images[index]}
+          objectFit='contain'
+        />
       )}
       <HStack sx={{ direction: 'ltr' }} spacing='4'>
         <CarouselIconButton
@@ -54,6 +58,7 @@ export const Gallery = (props) => {
               <NextImageAspectRatio
                 image={image}
                 ratio={aspectRatio}
+                objectFit='cover'
                 transition='all 200ms'
                 opacity={index === i ? 1 : 0.4}
                 _hover={{

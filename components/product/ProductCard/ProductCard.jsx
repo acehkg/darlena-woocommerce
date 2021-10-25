@@ -37,7 +37,11 @@ export const ProductCard = ({ product }) => {
               <Skeleton />
             </AspectRatio>
           ) : (
-            <NextImageAspectRatio image={product.image} ratio={3 / 4} />
+            <NextImageAspectRatio
+              image={product.image}
+              ratio={3 / 4}
+              objectFit='cover'
+            />
           )}
         </>
         <FavouriteButton
