@@ -20,7 +20,11 @@ export async function getStaticProps() {
             type
             description(format: RAW)
             image {
-              sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+              sourceUrl
+              mediaDetails {
+                height
+                width
+              }
             }
           }
         }

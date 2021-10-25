@@ -1,21 +1,27 @@
 import {
-  AspectRatio,
   Box,
-  Image,
   HStack,
   Skeleton,
   Stack,
   Tag,
   Text,
   useColorModeValue,
+  AspectRatio,
 } from '@chakra-ui/react';
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { FavouriteButton } from './FavoriteButton';
 import { useProduct } from '../../../hooks/useProduct';
 import { PriceTag } from './PriceTag';
+import NextImageAspectRatio from '../../common/Image/NextImageAspectRatio';
 
 export const ProductCard = ({ product }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const { data, loading, error } = useProduct(product);
+  useEffect(() => {
+    if (data && !error && !loading) {
+      setIsLoading(false);
+    }
+  }, [data, loading, error]);
 
   return (
     <Stack
@@ -25,14 +31,15 @@ export const ProductCard = ({ product }) => {
       }}
     >
       <Box position='relative'>
-        <AspectRatio ratio={3 / 4}>
-          <Image
-            src={product.image.sourceUrl}
-            alt={product.name}
-            draggable='false'
-            fallback={<Skeleton />}
-          />
-        </AspectRatio>
+        <>
+          {isLoading ? (
+            <AspectRatio ratio={3 / 4}>
+              <Skeleton />
+            </AspectRatio>
+          ) : (
+            <NextImageAspectRatio image={product.image} ratio={3 / 4} />
+          )}
+        </>
         <FavouriteButton
           position='absolute'
           top='3'
@@ -59,7 +66,9 @@ export const ProductCard = ({ product }) => {
           </Text>
           <Text fontWeight='medium'>{product.name}</Text>
         </Stack>
-        {loading || error ? null : (
+        {isLoading ? (
+          <Skeleton height='1rem' width='100%' />
+        ) : (
           <PriceTag
             currency='SAR'
             price={data?.product?.regularPrice}

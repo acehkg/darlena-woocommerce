@@ -131,7 +131,11 @@ export const PRODUCTS_BY_CATEGORY_SLUG = gql`
                 name
                 type
                 image {
-                  sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+                  sourceUrl
+                  mediaDetails {
+                    height
+                    width
+                  }
                 }
                 description(format: RAW)
               }
@@ -152,6 +156,24 @@ export const PRODUCT_INFO_SIMPLE = gql`
         salePrice(format: RAW)
         onSale
         stockStatus
+        galleryImages {
+          nodes {
+            sourceUrl
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+            mediaDetails {
+              height
+              width
+            }
+          }
+        }
         productTags {
           nodes {
             name
@@ -171,6 +193,24 @@ export const PRODUCT_INFO_VARIABLE = gql`
         salePrice(format: RAW)
         onSale
         stockStatus
+        galleryImages {
+          nodes {
+            sourceUrl
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+            mediaDetails {
+              height
+              width
+            }
+          }
+        }
         productTags {
           nodes {
             name

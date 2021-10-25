@@ -61,33 +61,37 @@ const CategoryBar = ({ mainCategory, categories }) => {
   const { mainName, mainPath, mainChildren } = categoryFilters;
 
   return (
-    <Flex
-      w='80%'
-      mx='auto'
-      my='2rem'
-      alignItems='center'
-      justifyContent='center'
-      boxShadow='lg'
-      borderRadius='4px'
-    >
-      <Stack
-        direction={{ base: 'column', md: 'row' }}
-        spacing={16}
-        pr='1rem'
-        py='2rem'
-      >
-        {mainChildren?.map((c) => {
-          return (
-            <ChildButton
-              key={c.id}
-              href={c.href}
-              name={c.name}
-              mainHref={mainPath}
-            />
-          );
-        })}
-      </Stack>
-    </Flex>
+    <>
+      {mainPath?.children ? (
+        <Flex
+          w='80%'
+          mx='auto'
+          my='2rem'
+          alignItems='center'
+          justifyContent='center'
+          boxShadow='lg'
+          borderRadius='4px'
+        >
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            spacing={16}
+            pr='1rem'
+            py='2rem'
+          >
+            {mainChildren?.map((c) => {
+              return (
+                <ChildButton
+                  key={c.id}
+                  href={c.href}
+                  name={c.name}
+                  mainHref={mainPath}
+                />
+              );
+            })}
+          </Stack>
+        </Flex>
+      ) : null}
+    </>
   );
 };
 
