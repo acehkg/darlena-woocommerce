@@ -40,7 +40,7 @@ export const Gallery = (props) => {
         <Skeleton />
       ) : (
         <NextImageAspectRatio
-          ratio={aspectRatio}
+          ratio={5 / 8}
           image={images[index]}
           objectFit='contain'
         />
