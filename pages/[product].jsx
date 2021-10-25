@@ -1,6 +1,7 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { Flex, Image, Text, Heading } from '@chakra-ui/react';
 import { CATEGORIES_QUERY } from '../lib/queries';
+import { ProductDetails } from '../components/product/ProductDetails/ProductDetails';
 import { Gallery } from '../components/common/Image/Galleries/HorizontalGallery';
 import useProductImages from '../hooks/useProductImages';
 
@@ -89,11 +90,7 @@ const Product = ({ product, categories }) => {
   const { isLoading, images } = useProductImages(product);
 
   return (
-    <Flex direction='column'>
-      <Gallery images={images} loading={isLoading} />
-      <Heading>{product?.name}</Heading>
-      <Text>{product?.description}</Text>
-    </Flex>
+    <ProductDetails images={images} loading={isLoading} product={product} />
   );
 };
 

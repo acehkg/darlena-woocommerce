@@ -35,7 +35,7 @@ export const Gallery = (props) => {
   });
 
   return (
-    <Stack spacing='4' {...rootProps}>
+    <Stack spacing='4' w='100%' {...rootProps}>
       {loading ? (
         <Skeleton />
       ) : (
