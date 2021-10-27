@@ -1,8 +1,6 @@
 import { GraphQLClient, gql } from 'graphql-request';
-import { Flex, Image, Text, Heading } from '@chakra-ui/react';
 import { CATEGORIES_QUERY } from '../lib/queries';
 import { ProductDetails } from '../components/product/ProductDetails/ProductDetails';
-import { Gallery } from '../components/common/Image/Galleries/HorizontalGallery';
 import useProductImages from '../hooks/useProductImages';
 
 export async function getStaticProps({ params }) {
