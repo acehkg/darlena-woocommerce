@@ -5,7 +5,9 @@ const DesktopNavItem = (props) => {
   const { icon, label, href, active } = props;
   return (
     <Link href={href} passHref>
-      <Box fontWeight='semibold'>{label}</Box>
+      <Box cursor='pointer' fontWeight='semibold'>
+        {label}
+      </Box>
     </Link>
   );
 };

@@ -15,6 +15,7 @@ const DesktopNavMenu = ({ categories }) => {
         base: 'none',
         lg: 'flex',
       }}
+      zIndex='1'
     >
       {organinzedCategories.map((c) => {
         return (
