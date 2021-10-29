@@ -8,6 +8,8 @@ import {
   DrawerCloseButton,
 } from '@chakra-ui/react';
 
+import SearchInput from './SearchInput';
+
 import Link from 'next/link';
 
 import { useCategories } from '../../../hooks/useCategories';
@@ -41,12 +43,14 @@ const MobileNavItem = ({ label, href, active }) => {
 const MobileDrawer = ({ isOpen, onClose, categories }) => {
   const { organinzedCategories } = useCategories(categories);
   return (
-    <Drawer isOpen={isOpen} placement='left' onClose={onClose}>
+    <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader></DrawerHeader>
-        <DrawerBody>
+        <DrawerHeader>
+          <DrawerCloseButton />
+        </DrawerHeader>
+        <DrawerBody as='nav'>
+          <SearchInput color='brandGrey.500' my='1rem' />
           {organinzedCategories.map((c) => (
             <MobileNavItem
               key={c.id}

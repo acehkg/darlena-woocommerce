@@ -8,8 +8,9 @@ const DesktopNavMenu = ({ categories }) => {
 
   return (
     <HStack
-      spacing='3'
-      //flex="1"
+      justifyContent='center'
+      spacing='8'
+      as='nav'
       display={{
         base: 'none',
         lg: 'flex',

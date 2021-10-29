@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 
 import {
-  Avatar,
   Box,
   Flex,
   HStack,
@@ -13,6 +12,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { RiLogoutCircleLine } from 'react-icons/ri';
+import { AiOutlineUser } from 'react-icons/ai';
 
 import { NavLink } from '../ui/NavLink';
 
@@ -20,8 +20,6 @@ import { NavLink } from '../ui/NavLink';
 import { useMutation } from '@apollo/client';
 import { GET_USER, GET_CUSTOMER } from '../../../hooks/useAuth';
 import { LOG_OUT } from '../../../lib/mutations';
-
-const UserAvatar = ({ name }) => <Avatar size='sm' name={name} />;
 
 const ProfileMenuButton = (props) => {
   const buttonProps = useMenuButton(props);
@@ -37,7 +35,7 @@ const ProfileMenuButton = (props) => {
       }}
     >
       <Box srOnly>Open user menu</Box>
-      <UserAvatar />
+      <AiOutlineUser />
     </Flex>
   );
 };
@@ -86,7 +84,7 @@ export const ProfileDropdown = ({
       <ProfileMenuButton />
       <MenuList rounded='md' shadow='lg' py='1' color='gray.600' fontSize='sm'>
         <HStack px='3' py='4'>
-          <UserAvatar />
+          <AiOutlineUser />
           <Box lineHeight='1'>
             <Text fontWeight='semibold'>{firstName ?? ''}</Text>
             <Text mt='1' fontSize='xs' color='gray.500'>

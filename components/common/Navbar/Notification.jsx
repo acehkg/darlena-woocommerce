@@ -1,6 +1,6 @@
 import { Box, Center } from '@chakra-ui/react';
-import * as React from 'react';
-import { FaBell } from 'react-icons/fa';
+
+import { AiOutlineBell } from 'react-icons/ai';
 
 const NotificationBadge = ({ children }) => (
   <Center
@@ -37,7 +37,7 @@ export const Notification = ({ paymentBadgeValue }) => {
     >
       <Box srOnly>{paymentBadgeValue} orders need payment</Box>
       <NotificationBadge>{paymentBadgeValue}</NotificationBadge>
-      <Box as={FaBell} fontSize='lg' />
+      <Box as={AiOutlineBell} fontSize='1.5rem' />
     </Center>
   );
 };
