@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 const NextImage = ({ image, ...rest }) => {
   return (

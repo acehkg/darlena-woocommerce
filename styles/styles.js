@@ -1,3 +1,7 @@
+export const fonts = {
+  body: 'Almarai',
+};
+
 export const colors = {
   brandPink: {
     100: 'hsl(29, 45%, 65%)',

@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^1.6.9",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@fontsource/almarai": "^4.5.0",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "cookie": "^0.4.1",
     "focus-visible": "^5.2.0",

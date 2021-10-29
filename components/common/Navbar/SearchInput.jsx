@@ -12,7 +12,7 @@ const SearchInput = ({ ...rest }) => {
         placeholder='...search'
         bg='brandGrey.300'
         borderRadius='25px'
-        focusBorderColor='brandGold.100'
+        focusBorderColor='brandPink.200'
       />
     </InputGroup>
   );

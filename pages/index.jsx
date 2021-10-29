@@ -1,8 +1,14 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../components/product/ProductGrid';
+import HeroSection from '../components/hero/HeroSection';
 
-const Home = ({ products }) => {
-  return <ProductGrid products={products} />;
+const Home = ({ products, hero }) => {
+  return (
+    <>
+      <HeroSection hero={hero} />
+      <ProductGrid products={products} />
+    </>
+  );
 };
 
 export default Home;
@@ -12,6 +18,21 @@ export async function getStaticProps() {
 
   const QUERY = gql`
     {
+      heroes {
+        nodes {
+          id
+          mainHeading
+          subHeading
+          buttonText
+          backGroundImage {
+            mediaDetails {
+              height
+              width
+            }
+            sourceUrl
+          }
+        }
+      }
       products(first: 500) {
         edges {
           node {
@@ -73,10 +94,21 @@ export async function getStaticProps() {
       slug: node?.slug,
     };
   });
+
+  const [hero] = await data.heroes.nodes.map((node) => {
+    return {
+      id: node.id,
+      mainHeading: node.mainHeading,
+      subHeading: node.subHeading,
+      buttonText: node.buttonText,
+      image: node.backGroundImage ?? null,
+    };
+  });
   return {
     props: {
       products,
       categories,
+      hero,
     },
     revalidate: 300,
   };
