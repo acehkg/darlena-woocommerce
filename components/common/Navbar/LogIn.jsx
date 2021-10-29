@@ -1,33 +1,8 @@
-import { HStack, Box, Link } from '@chakra-ui/react';
-import { RiLoginCircleLine } from 'react-icons/ri';
+import { Icon } from '@chakra-ui/react';
+import { AiOutlineUser } from 'react-icons/ai';
 
 const LogIn = ({ href }) => {
-  return (
-    <>
-      <HStack
-        as='button'
-        spacing='2'
-        px='3'
-        py='2'
-        rounded='md'
-        transition='all 0.2s'
-        color='gray.200'
-        _hover={{
-          bg: 'whiteAlpha.200',
-        }}
-        _activeLink={{
-          bg: 'blackAlpha.300',
-          color: 'white',
-        }}
-      >
-        <Link href={href} aria-hidden fontSize='md'>
-          <RiLoginCircleLine />
-        </Link>
-
-        <Box fontWeight='semibold'>LOG IN</Box>
-      </HStack>
-    </>
-  );
+  return <Icon as={AiOutlineUser} fontSize='2rem' />;
 };
 
 export default LogIn;

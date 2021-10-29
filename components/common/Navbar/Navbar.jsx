@@ -12,6 +12,7 @@ import { Logo } from './Logo';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
 import { NavMenu } from './NavMenu';
 import CircleGraphics from './CircleGraphics';
+import LogIn from './LogIn';
 
 const MobileDrawer = dynamic(() => import('./MobileDrawer'));
 const IconGroup = dynamic(() => import('./IconGroup'));
@@ -44,7 +45,7 @@ const Navbar = ({ categories }) => {
       <Stack
         direction={{ base: 'row', md: 'row' }}
         justifyContent={{ base: 'space-around', lg: 'space-evenly' }}
-        w='80%'
+        w={{ base: '90%' }}
         mx='auto'
         alignItems='center'
       >
@@ -68,13 +69,16 @@ const Navbar = ({ categories }) => {
         >
           <SearchInput w='80%' mx='auto' />
         </Flex>
-
-        <IconGroup
-          paymentBadgeValue={paymentBadgeValue}
-          id={user?.id}
-          email={user?.email}
-          firstName={user?.firstName}
-        />
+        {loggedIn ? (
+          <IconGroup
+            paymentBadgeValue={paymentBadgeValue}
+            id={user?.id}
+            email={user?.email}
+            firstName={user?.firstName}
+          />
+        ) : (
+          <LogIn />
+        )}
       </Stack>
       <NavMenu.Desktop categories={categories} />
     </Flex>
