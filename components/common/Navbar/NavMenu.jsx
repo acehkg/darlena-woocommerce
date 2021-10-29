@@ -29,6 +29,4 @@ const DesktopNavMenu = ({ categories }) => {
   );
 };
 
-export const NavMenu = {
-  Desktop: DesktopNavMenu,
-};
+export default DesktopNavMenu;

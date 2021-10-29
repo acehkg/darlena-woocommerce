@@ -1,22 +1,16 @@
 import dynamic from 'next/dynamic';
-import {
-  Flex,
-  Stack,
-  HStack,
-  useDisclosure,
-  Spinner,
-  Image,
-} from '@chakra-ui/react';
+import { Flex, Stack, useDisclosure } from '@chakra-ui/react';
 
 import { Logo } from './Logo';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
-import { NavMenu } from './NavMenu';
+//import { NavMenu } from './NavMenu';
 import CircleGraphics from './CircleGraphics';
 import LogIn from './LogIn';
 
 const MobileDrawer = dynamic(() => import('./MobileDrawer'));
 const IconGroup = dynamic(() => import('./IconGroup'));
 const SearchInput = dynamic(() => import('./SearchInput'));
+const DesktopNavMenu = dynamic(() => import('./NavMenu'));
 
 import useAuth from '../../../hooks/useAuth';
 import useCustomer from '../../../hooks/useCustomer';
@@ -80,7 +74,7 @@ const Navbar = ({ categories }) => {
           <LogIn />
         )}
       </Stack>
-      <NavMenu.Desktop categories={categories} />
+      <DesktopNavMenu categories={categories} />
     </Flex>
   );
 };
