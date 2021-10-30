@@ -10,6 +10,8 @@ const NextImage = ({ image, ...rest }) => {
         height={image.mediaDetails.height}
         width={image.mediaDetails.width}
         layout='responsive'
+        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII='
+        placeholder='blur'
       />
     </Box>
   );

@@ -32,7 +32,7 @@ export const ProductCard = ({ product }) => {
     >
       <Box position='relative' className='group'>
         <>
-          {isLoading ? (
+          {/*   {isLoading ? (
             <AspectRatio ratio={3 / 4}>
               <Skeleton />
             </AspectRatio>
@@ -42,7 +42,12 @@ export const ProductCard = ({ product }) => {
               ratio={3 / 4}
               objectFit='cover'
             />
-          )}
+          )} */}
+          <NextImageAspectRatio
+            image={product.image}
+            ratio={3 / 4}
+            objectFit='cover'
+          />
         </>
         <FavouriteButton
           position='absolute'
@@ -66,7 +71,7 @@ export const ProductCard = ({ product }) => {
         >
           <ProductButtonGroup id={product?.id} />
         </Box>
-        <HStack spacing='3' position='absolute' bottom='3' left='3'>
+        {/*  <HStack spacing='3' position='absolute' bottom='3' left='3'>
           {data?.product?.productTags?.nodes?.map((tag) => (
             <Tag
               key={tag.name}
@@ -77,7 +82,7 @@ export const ProductCard = ({ product }) => {
               {tag.name}
             </Tag>
           ))}
-        </HStack>
+        </HStack> */}
       </Box>
       <Stack>
         <Stack spacing='0.25'>
