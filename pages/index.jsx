@@ -1,12 +1,24 @@
 import { GraphQLClient, gql } from 'graphql-request';
+import { FEATURED_QUERY } from '../lib/queries';
 import ProductGrid from '../components/product/ProductGrid';
 import HeroSection from '../components/hero/HeroSection';
+import FeaturedCollection from '../components/collection/FeaturedCollection';
 
-const Home = ({ products, hero }) => {
+import { useFeaturedProducts } from '../hooks/useFeaturedProducts';
+import { useCategory } from '../hooks/useCategory';
+
+const Home = ({ products, hero, categories, featuredProducts }) => {
+  const abayaProducts = useFeaturedProducts(featuredProducts, 'Abaya');
+  const dressProducts = useFeaturedProducts(featuredProducts, 'Dresses');
+  const abayaCategory = useCategory(categories, 'Abaya');
+  const dressCategory = useCategory(categories, 'Dresses');
+  const shirtCategory = useCategory(categories, 'Shirt');
+
   return (
     <>
       <HeroSection hero={hero} />
-      <ProductGrid products={products} />
+      <FeaturedCollection products={abayaProducts} category={abayaCategory} />
+      <FeaturedCollection products={dressProducts} category={dressCategory} />
     </>
   );
 };
@@ -57,6 +69,13 @@ export async function getStaticProps() {
             description
             name
             slug
+            image {
+              mediaDetails {
+                height
+                width
+              }
+              sourceUrl
+            }
             children {
               edges {
                 node {
@@ -92,6 +111,7 @@ export async function getStaticProps() {
       children: node.children.edges.length > 0 ? node.children.edges : false,
       parentId: node?.parentId ?? false,
       slug: node?.slug,
+      image: node?.image,
     };
   });
 
@@ -104,9 +124,25 @@ export async function getStaticProps() {
       image: node.backGroundImage ?? null,
     };
   });
+
+  const featuredData = await client.request(FEATURED_QUERY);
+
+  const featuredProducts = await featuredData.products.edges.map(({ node }) => {
+    return {
+      id: node.id,
+      name: node.name,
+      description: node.description,
+      image: node.image,
+      type: node.type,
+      categoryName: node.productCategories?.nodes[0]?.name ?? false,
+      categoryId: node.productCategories?.nodes[0]?.id ?? false,
+    };
+  });
+
   return {
     props: {
       products,
+      featuredProducts,
       categories,
       hero,
     },

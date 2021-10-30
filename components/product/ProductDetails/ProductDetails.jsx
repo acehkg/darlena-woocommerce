@@ -61,8 +61,7 @@ export const ProductDetails = ({ images, loading, product }) => {
               }}
             />
             <Text color={useColorModeValue('gray.600', 'gray.400')}>
-              With a sleek design and a captivating essence, this is a modern
-              Classic made for every occasion.
+              {product?.description}
             </Text>
           </Stack>
           <Stack

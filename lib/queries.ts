@@ -220,3 +220,31 @@ export const PRODUCT_INFO_VARIABLE = gql`
     }
   }
 `;
+
+export const FEATURED_QUERY = gql`
+  {
+    products(where: { featured: true }) {
+      edges {
+        node {
+          id
+          name
+          type
+          description(format: RAW)
+          productCategories {
+            nodes {
+              name
+              id
+            }
+          }
+          image {
+            mediaDetails {
+              height
+              width
+            }
+            sourceUrl
+          }
+        }
+      }
+    }
+  }
+`;

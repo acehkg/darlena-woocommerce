@@ -6,10 +6,10 @@ const Layout = ({ children, pageProps }) => {
   const { categories } = pageProps;
 
   return (
-    <Flex direction='column'>
+    <>
       <Navbar categories={categories} />
       {children}
-    </Flex>
+    </>
   );
 };
 
