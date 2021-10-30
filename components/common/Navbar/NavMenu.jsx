@@ -4,8 +4,6 @@ import { useCategories } from '../../../hooks/useCategories';
 import { NavItem } from './NavItem';
 
 const DesktopNavMenu = ({ categories }) => {
-  const { organinzedCategories } = useCategories(categories);
-
   return (
     <HStack
       justifyContent='center'
@@ -17,7 +15,7 @@ const DesktopNavMenu = ({ categories }) => {
       }}
       zIndex='1'
     >
-      {organinzedCategories.map((c) => {
+      {categories.map((c) => {
         return (
           <NavItem.Desktop
             key={c.id}

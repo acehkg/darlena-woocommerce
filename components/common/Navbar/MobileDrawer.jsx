@@ -12,8 +12,6 @@ import SearchInput from './SearchInput';
 
 import Link from 'next/link';
 
-import { useCategories } from '../../../hooks/useCategories';
-
 const MobileNavItem = ({ label, href, active }) => {
   return (
     <Link href={href} passHref>
@@ -41,7 +39,6 @@ const MobileNavItem = ({ label, href, active }) => {
 };
 
 const MobileDrawer = ({ isOpen, onClose, categories }) => {
-  const { organinzedCategories } = useCategories(categories);
   return (
     <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
       <DrawerOverlay />
@@ -51,7 +48,7 @@ const MobileDrawer = ({ isOpen, onClose, categories }) => {
         </DrawerHeader>
         <DrawerBody as='nav'>
           <SearchInput color='brandGrey.500' my='1rem' />
-          {organinzedCategories.map((c) => (
+          {categories.map((c) => (
             <MobileNavItem
               key={c.id}
               href={`/collection/${c.slug}`}
