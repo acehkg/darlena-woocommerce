@@ -1,24 +1,72 @@
-import { Box, Button, Heading, LightMode, Stack, Text } from '@chakra-ui/react';
-
+import {
+  Box,
+  Button,
+  Heading,
+  LightMode,
+  Stack,
+  Text,
+  Image,
+} from '@chakra-ui/react';
 import NextImageAspectRatio from '../common/Image/NextImageAspectRatio';
 
-const CollectionImageCard = ({ image, category, ...rest }) => {
-  console.log(category, image);
+const CircleGraphics = () => (
+  <>
+    <Image
+      opacity='.25'
+      position='absolute'
+      boxSize='10rem'
+      left='0'
+      top='0'
+      src='/small-left-white.svg'
+      alt='circle-graphic'
+    />
+    <Image
+      opacity='.25'
+      boxSize='10rem'
+      position='absolute'
+      right='0'
+      bottom='0'
+      src='/small-right-white.svg'
+      alt='circle-graphic'
+    />
+    {/*  <Image
+      opacity='.25'
+      boxSize='10rem'
+      position='absolute'
+      right='50%'
+      bottom='0'
+      src='/small-centre-white.svg'
+      alt='circle-graphic'
+    /> */}
+  </>
+);
+
+const CardBackground = ({ children, color, ...rest }) => {
   return (
     <Box
+      position='relative'
+      bg={color}
       borderRadius='xl'
       overflow='hidden'
-      position='relative'
-      width='full'
       {...rest}
     >
-      {image && (
-        <NextImageAspectRatio image={image} ratio={1 / 1} objectFit='cover' />
-      )}
+      <CircleGraphics />
+      {children}
+    </Box>
+  );
+};
+
+const CollectionImageCard = ({ image, category, color, ratio, ...rest }) => {
+  return (
+    <CardBackground color={color} {...rest}>
+      {/* {image && (
+        <Box boxSize='150px'>
+          <NextImageAspectRatio image={image} ratio={ratio} objectFit='cover' />
+        </Box>
+      )} */}
       <Box
         position='absolute'
         inset='0'
-        bgGradient='linear(to-t, blackAlpha.300 20%, blackAlpha.700)'
         px={{
           base: '6',
           md: '10',
@@ -42,12 +90,12 @@ const CollectionImageCard = ({ image, category, ...rest }) => {
           </Stack>
           <LightMode>
             <Button bg='white' color='gray.800' alignSelf='start' as='a'>
-              {`SHOP ${category?.name}`}
+              {`SHOP ${category?.name.toUpperCase()}`}
             </Button>
           </LightMode>
         </Stack>
       </Box>
-    </Box>
+    </CardBackground>
   );
 };
 

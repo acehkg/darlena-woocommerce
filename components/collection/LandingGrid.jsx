@@ -3,62 +3,35 @@ import CollectionImageCard from './CollectionImageCard';
 
 const LandingGrid = ({ categories }) => {
   return (
-    <Box
-      as='section'
-      maxW='7xl'
-      mx='auto'
-      px={{
-        base: '4',
-        md: '8',
-        lg: '12',
-      }}
-      py={{
-        base: '6',
-        md: '8',
-        lg: '12',
-      }}
-    >
+    <Box as='section' w='80%' mx='auto'>
       <Stack
-        height={{
-          md: '640px',
-        }}
-        direction={{
-          base: 'column',
-          md: 'row',
-        }}
-        spacing={{
-          base: '6',
-          md: '10',
-        }}
-        align='stretch'
+        direction={{ base: 'column', lg: 'row' }}
+        h={{ base: '100vh', lg: '60vh' }}
       >
         <CollectionImageCard
-          flex='1'
+          w={{ base: '100%' }}
+          h={{ base: '100%' }}
+          color='brandPink.100'
           image={categories[0]?.image}
           category={categories[0] ?? null}
         />
 
-        <Stack
-          spacing={{
-            base: '6',
-            md: '10',
-          }}
-          maxW={{
-            md: '400px',
-          }}
-        >
-          <Box h='100%' w='100%'>
-            <CollectionImageCard
-              image={categories[1]?.image}
-              category={categories[1] ?? null}
-            />
-          </Box>
-          <Box h='100%' w='100%'>
-            <CollectionImageCard
-              image={categories[2]?.image}
-              category={categories[2] ?? null}
-            />
-          </Box>
+        <Stack w='100%' h='100%'>
+          <CollectionImageCard
+            w={{ base: '100%' }}
+            h={{ base: '100%' }}
+            color='brandPink.200'
+            image={categories[1]?.image}
+            category={categories[1] ?? null}
+          />
+
+          <CollectionImageCard
+            w={{ base: '100%' }}
+            h={{ base: '100%' }}
+            color='brandPink.300'
+            image={categories[2]?.image}
+            category={categories[2] ?? null}
+          />
         </Stack>
       </Stack>
     </Box>

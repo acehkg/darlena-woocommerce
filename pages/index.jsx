@@ -25,7 +25,7 @@ const Home = ({ products, hero, categories, featuredProducts }) => {
     <>
       <HeroSection hero={hero} />
       <FeaturedCollection products={abayaProducts} category={abayaCategory} />
-      <LandingGrid categories={featuredCategories} />
+      {/* <LandingGrid categories={featuredCategories} /> */}
       <FeaturedCollection products={dressProducts} category={dressCategory} />
     </>
   );
