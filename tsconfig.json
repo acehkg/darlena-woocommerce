@@ -28,7 +28,9 @@
     "pages/returns.jsx",
     "pages/products.jsx",
     "pages/measurements.jsx",
-    "pages/contact.jsx"
+    "pages/contact.jsx",
+    "components/reviews/carousel/MobileCarousel.jsx",
+    "components/reviews/carousel/MobileGallery.jsx"
   ],
   "exclude": ["node_modules"]
 }

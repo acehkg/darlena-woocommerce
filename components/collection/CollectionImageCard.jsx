@@ -96,7 +96,7 @@ export const CollectionImageCardLarge = ({
               borderColor='brandPink.400'
               borderRadius='25px'
               fontWeight='bold'
-              w={{ base: '80%', md: '50%', lg: '50%' }}
+              w={{ base: '50%', md: '50%', lg: '50%' }}
               _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
               as='a'
             >
@@ -156,7 +156,7 @@ export const CollectionImageCardSmall = ({
               borderColor='brandPink.400'
               borderRadius='25px'
               fontWeight='bold'
-              w={{ base: '50%', md: '50%', lg: '50%' }}
+              w={{ base: '70%', md: '50%', lg: '50%' }}
               _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
               as='a'
             >
