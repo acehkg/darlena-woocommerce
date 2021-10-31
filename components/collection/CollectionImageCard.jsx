@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Heading,
-  LightMode,
-  Stack,
-  Text,
-  Image,
-} from '@chakra-ui/react';
+import { Box, Button, Heading, Stack, Text, Image } from '@chakra-ui/react';
 import NextImageAspectRatio from '../common/Image/NextImageAspectRatio';
 
 const CircleGraphics = () => (
@@ -56,15 +48,22 @@ const CardBackground = ({ children, color, ...rest }) => {
   );
 };
 
-const CollectionImageCard = ({ image, category, color, ratio, ...rest }) => {
+export const CollectionImageCardLarge = ({
+  image,
+  category,
+  color,
+  ratio,
+  ...rest
+}) => {
   return (
     <CardBackground color={color} {...rest}>
-      {/* {image && (
-        <Box boxSize='150px'>
+      {image && (
+        <Box>
           <NextImageAspectRatio image={image} ratio={ratio} objectFit='cover' />
         </Box>
-      )} */}
+      )}
       <Box
+        bgGradient='linear(to-t, blackAlpha.300 20%, blackAlpha.700)'
         position='absolute'
         inset='0'
         px={{
@@ -79,24 +78,88 @@ const CollectionImageCard = ({ image, category, color, ratio, ...rest }) => {
       >
         <Stack spacing={8}>
           <Stack spacing='4'>
-            <Heading size='lg' color='white'>
+            <Heading size='lg' color='brandPink.400'>
               {category?.name}
             </Heading>
             {category?.description && (
-              <Text fontSize='lg' color='white' maxW='2xs'>
+              <Text fontSize='lg' color='brandPink.400' maxW='2xs'>
                 {category.description}
               </Text>
             )}
           </Stack>
-          <LightMode>
-            <Button bg='white' color='gray.800' alignSelf='start' as='a'>
-              {`SHOP ${category?.name.toUpperCase()}`}
-            </Button>
-          </LightMode>
+
+          <Button
+            variant='outline'
+            color='brandPink.400'
+            borderColor='brandPink.400'
+            borderRadius='25px'
+            fontWeight='bold'
+            w={{ base: '80%', md: '50%', lg: '50%' }}
+            _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
+            as='a'
+          >
+            {`SHOP ${category?.name.toUpperCase()}`}
+          </Button>
         </Stack>
       </Box>
     </CardBackground>
   );
 };
 
-export default CollectionImageCard;
+export const CollectionImageCardSmall = ({
+  image,
+  category,
+  color,
+  ratio,
+  ...rest
+}) => {
+  return (
+    <CardBackground color={color} {...rest}>
+      {image && (
+        <Box>
+          <NextImageAspectRatio image={image} ratio={ratio} objectFit='cover' />
+        </Box>
+      )}
+      <Box
+        position='absolute'
+        bgGradient='linear(to-t, blackAlpha.300 20%, blackAlpha.700)'
+        inset='0'
+        px={{
+          base: '6',
+          md: '10',
+        }}
+        py={{
+          base: '6',
+          md: '10',
+        }}
+        boxSize='full'
+      >
+        <Stack spacing={8}>
+          <Stack spacing='4'>
+            <Heading size='lg' color='brandPink.400'>
+              {category?.name}
+            </Heading>
+            {category?.description && (
+              <Text fontSize='lg' color='brandPink.400' maxW='2xs'>
+                {category.description}
+              </Text>
+            )}
+          </Stack>
+
+          <Button
+            variant='outline'
+            color='brandPink.400'
+            borderColor='brandPink.400'
+            borderRadius='25px'
+            fontWeight='bold'
+            w={{ base: '80%', md: '50%', lg: '50%' }}
+            _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
+            as='a'
+          >
+            {`SHOP ${category?.name.toUpperCase()}`}
+          </Button>
+        </Stack>
+      </Box>
+    </CardBackground>
+  );
+};

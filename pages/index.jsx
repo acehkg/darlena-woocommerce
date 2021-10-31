@@ -6,27 +6,43 @@ import HeroSection from '../components/hero/HeroSection';
 import FeaturedCollection from '../components/collection/FeaturedCollection';
 import LandingGrid from '../components/collection/LandingGrid';
 
-import { useFeaturedProducts } from '../hooks/useFeaturedProducts';
-import { useCategory } from '../hooks/useCategory';
-
+import { usePrepareHomePage } from '../hooks/usePrepareHomePage';
 const Home = ({ products, hero, categories, featuredProducts }) => {
-  const [featuredCategories, setFeaturedCategories] = useState([]);
-  const abayaProducts = useFeaturedProducts(featuredProducts, 'Abaya');
-  const dressProducts = useFeaturedProducts(featuredProducts, 'Dresses');
-  const abayaCategory = useCategory(categories, 'Abaya');
-  const dressCategory = useCategory(categories, 'Dresses');
-  const shirtCategory = useCategory(categories, 'Shirt');
-  useEffect(() => {
-    setFeaturedCategories([abayaCategory, dressCategory, shirtCategory]);
-  }, [abayaCategory, dressCategory, shirtCategory]);
-  console.log(featuredCategories);
+  const { loading, categoryOne, categoryTwo, categoryThree } =
+    usePrepareHomePage(
+      categories,
+      featuredProducts,
+      'Abaya',
+      'Dresses',
+      'Shirt'
+    );
 
   return (
     <>
       <HeroSection hero={hero} />
-      <FeaturedCollection products={abayaProducts} category={abayaCategory} />
-      {/* <LandingGrid categories={featuredCategories} /> */}
-      <FeaturedCollection products={dressProducts} category={dressCategory} />
+
+      {loading ? null : (
+        <>
+          <FeaturedCollection
+            products={categoryOne?.products}
+            category={categoryOne?.category}
+          />
+
+          <LandingGrid
+            categoryOne={categoryOne?.category}
+            categoryTwo={categoryTwo?.category}
+            categoryThree={categoryThree?.category}
+          />
+          <FeaturedCollection
+            products={categoryTwo?.products}
+            category={categoryTwo?.category}
+          />
+          <FeaturedCollection
+            products={categoryThree?.products}
+            category={categoryThree?.category}
+          />
+        </>
+      )}
     </>
   );
 };

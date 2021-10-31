@@ -1,40 +1,91 @@
 import { Box, Stack } from '@chakra-ui/react';
-import CollectionImageCard from './CollectionImageCard';
+import {
+  CollectionImageCardLarge,
+  CollectionImageCardSmall,
+} from './CollectionImageCard';
 
-const LandingGrid = ({ categories }) => {
+const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
   return (
-    <Box as='section' w='80%' mx='auto'>
-      <Stack
-        direction={{ base: 'column', lg: 'row' }}
-        h={{ base: '100vh', lg: '60vh' }}
+    <>
+      <Box
+        as='section'
+        w='80%'
+        mx='auto'
+        display={{ base: 'block', lg: 'none' }}
       >
-        <CollectionImageCard
-          w={{ base: '100%' }}
-          h={{ base: '100%' }}
-          color='brandPink.100'
-          image={categories[0]?.image}
-          category={categories[0] ?? null}
-        />
+        <Stack
+          direction={{ base: 'column', lg: 'row' }}
+          maxH={{ base: '54rem' }}
+          spacing={4}
+        >
+          <CollectionImageCardSmall
+            maxH={{ base: '13rem', md: 'unset' }}
+            w={{ base: '100%' }}
+            h={{ base: '100%' }}
+            color='brandPink.100'
+            image={categoryOne?.image}
+            category={categoryOne ?? null}
+          />
 
-        <Stack w='100%' h='100%'>
-          <CollectionImageCard
+          <CollectionImageCardSmall
+            maxH={{ base: '13rem', md: 'unset' }}
             w={{ base: '100%' }}
             h={{ base: '100%' }}
             color='brandPink.200'
-            image={categories[1]?.image}
-            category={categories[1] ?? null}
+            image={categoryTwo?.image}
+            category={categoryTwo ?? null}
           />
 
-          <CollectionImageCard
+          <CollectionImageCardSmall
+            maxH={{ base: '13rem', md: 'unset' }}
             w={{ base: '100%' }}
             h={{ base: '100%' }}
             color='brandPink.300'
-            image={categories[2]?.image}
-            category={categories[2] ?? null}
+            image={categoryThree?.image}
+            category={categoryThree ?? null}
           />
         </Stack>
-      </Stack>
-    </Box>
+      </Box>
+      <Box
+        as='section'
+        w='80%'
+        mx='auto'
+        display={{ base: 'none', lg: 'block' }}
+      >
+        <Stack
+          direction={{ base: 'column', lg: 'row' }}
+          h={{ base: '35rem' }}
+          spacing={4}
+        >
+          <CollectionImageCardLarge
+            w={{ base: '100%' }}
+            h={{ base: '100%' }}
+            color='brandPink.100'
+            ratio={5 / 8}
+            image={categoryOne?.image}
+            category={categoryOne ?? null}
+          />
+
+          <Stack w='100%' h='100%' spacing={4}>
+            <CollectionImageCardSmall
+              w={{ base: '100%' }}
+              h={{ base: '100%' }}
+              color='brandPink.200'
+              image={categoryTwo?.image}
+              category={categoryTwo ?? null}
+            />
+
+            <CollectionImageCardSmall
+              w={{ base: '100%' }}
+              h={{ base: '100%' }}
+              color='brandPink.300'
+              image={categoryThree?.image}
+              category={categoryThree ?? null}
+            />
+          </Stack>
+        </Stack>
+      </Box>
+    </>
   );
 };
 
