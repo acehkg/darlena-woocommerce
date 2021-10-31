@@ -23,6 +23,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
             w={{ base: '100%' }}
             h={{ base: '100%' }}
             color='brandPink.100'
+            href={`/collection/${categoryOne?.slug}`}
             image={categoryOne?.image}
             category={categoryOne ?? null}
           />
@@ -31,6 +32,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
             maxH={{ base: '13rem', md: 'unset' }}
             w={{ base: '100%' }}
             h={{ base: '100%' }}
+            href={`/collection/${categoryTwo?.slug}`}
             color='brandPink.200'
             image={categoryTwo?.image}
             category={categoryTwo ?? null}
@@ -40,6 +42,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
             maxH={{ base: '13rem', md: 'unset' }}
             w={{ base: '100%' }}
             h={{ base: '100%' }}
+            href={`/collection/${categoryThree?.slug}`}
             color='brandPink.300'
             image={categoryThree?.image}
             category={categoryThree ?? null}
@@ -62,6 +65,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
             h={{ base: '100%' }}
             color='brandPink.100'
             ratio={5 / 8}
+            href={`/collection/${categoryOne?.slug}`}
             image={categoryOne?.image}
             category={categoryOne ?? null}
           />
@@ -71,6 +75,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
               w={{ base: '100%' }}
               h={{ base: '100%' }}
               color='brandPink.200'
+              href={`/collection/${categoryTwo?.slug}`}
               image={categoryTwo?.image}
               category={categoryTwo ?? null}
             />
@@ -79,6 +84,7 @@ const LandingGrid = ({ categoryOne, categoryTwo, categoryThree }) => {
               w={{ base: '100%' }}
               h={{ base: '100%' }}
               color='brandPink.300'
+              href={`/collection/${categoryThree?.slug}`}
               image={categoryThree?.image}
               category={categoryThree ?? null}
             />

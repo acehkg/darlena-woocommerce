@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Box, Button, Heading, Stack, Text, Image } from '@chakra-ui/react';
 import NextImageAspectRatio from '../common/Image/NextImageAspectRatio';
 
@@ -53,6 +54,7 @@ export const CollectionImageCardLarge = ({
   category,
   color,
   ratio,
+  href,
   ...rest
 }) => {
   return (
@@ -87,19 +89,20 @@ export const CollectionImageCardLarge = ({
               </Text>
             )}
           </Stack>
-
-          <Button
-            variant='outline'
-            color='brandPink.400'
-            borderColor='brandPink.400'
-            borderRadius='25px'
-            fontWeight='bold'
-            w={{ base: '80%', md: '50%', lg: '50%' }}
-            _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
-            as='a'
-          >
-            {`SHOP ${category?.name.toUpperCase()}`}
-          </Button>
+          <Link href={href} passHref>
+            <Button
+              variant='outline'
+              color='brandPink.400'
+              borderColor='brandPink.400'
+              borderRadius='25px'
+              fontWeight='bold'
+              w={{ base: '80%', md: '50%', lg: '50%' }}
+              _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
+              as='a'
+            >
+              {`SHOP ${category?.name.toUpperCase()}`}
+            </Button>
+          </Link>
         </Stack>
       </Box>
     </CardBackground>
@@ -111,6 +114,7 @@ export const CollectionImageCardSmall = ({
   category,
   color,
   ratio,
+  href,
   ...rest
 }) => {
   return (
@@ -145,19 +149,20 @@ export const CollectionImageCardSmall = ({
               </Text>
             )}
           </Stack>
-
-          <Button
-            variant='outline'
-            color='brandPink.400'
-            borderColor='brandPink.400'
-            borderRadius='25px'
-            fontWeight='bold'
-            w={{ base: '80%', md: '50%', lg: '50%' }}
-            _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
-            as='a'
-          >
-            {`SHOP ${category?.name.toUpperCase()}`}
-          </Button>
+          <Link href={href} passHref>
+            <Button
+              variant='outline'
+              color='brandPink.400'
+              borderColor='brandPink.400'
+              borderRadius='25px'
+              fontWeight='bold'
+              w={{ base: '50%', md: '50%', lg: '50%' }}
+              _hover={{ bg: 'brandPink.200', color: 'brandGrey.100' }}
+              as='a'
+            >
+              {`SHOP ${category?.name.toUpperCase()}`}
+            </Button>
+          </Link>
         </Stack>
       </Box>
     </CardBackground>

@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
 import { GraphQLClient, gql } from 'graphql-request';
 import { FEATURED_QUERY } from '../lib/queries';
-import ProductGrid from '../components/product/ProductGrid';
 import HeroSection from '../components/hero/HeroSection';
 import FeaturedCollection from '../components/collection/FeaturedCollection';
 import LandingGrid from '../components/collection/LandingGrid';
+import CateoryBanner from '../components/hero/CategoryBanner';
 
 import { usePrepareHomePage } from '../hooks/usePrepareHomePage';
-const Home = ({ products, hero, categories, featuredProducts }) => {
+const Home = ({ banners, hero, categories, featuredProducts }) => {
   const { loading, categoryOne, categoryTwo, categoryThree } =
     usePrepareHomePage(
       categories,
@@ -27,20 +26,17 @@ const Home = ({ products, hero, categories, featuredProducts }) => {
             products={categoryOne?.products}
             category={categoryOne?.category}
           />
-
+          <CateoryBanner banner={banners[1]} />
+          <FeaturedCollection
+            products={categoryTwo?.products}
+            category={categoryTwo?.category}
+          />
           <LandingGrid
             categoryOne={categoryOne?.category}
             categoryTwo={categoryTwo?.category}
             categoryThree={categoryThree?.category}
           />
-          <FeaturedCollection
-            products={categoryTwo?.products}
-            category={categoryTwo?.category}
-          />
-          <FeaturedCollection
-            products={categoryThree?.products}
-            category={categoryThree?.category}
-          />
+          <CateoryBanner banner={banners[0]} />
         </>
       )}
     </>
@@ -69,21 +65,17 @@ export async function getStaticProps() {
           }
         }
       }
-      products(first: 500) {
-        edges {
-          node {
-            id
-            name
-            type
-            description(format: RAW)
-            image {
-              sourceUrl
-              mediaDetails {
-                height
-                width
-              }
+      categoryBanners {
+        nodes {
+          bannerImage {
+            mediaDetails {
+              height
+              width
             }
+            sourceUrl
           }
+          categoryName
+          categoryShortDescription
         }
       }
       productCategories(first: 500) {
@@ -118,13 +110,12 @@ export async function getStaticProps() {
   `;
 
   const data = await client.request(QUERY);
-  const products = await data.products.edges.map(({ node }) => {
+
+  const banners = await data.categoryBanners.nodes.map((node) => {
     return {
-      id: node.id,
-      name: node.name,
-      description: node.description,
-      image: node.image,
-      type: node.type,
+      name: node.categoryName,
+      description: node.categoryShortDescription,
+      image: node.bannerImage,
     };
   });
 
@@ -165,10 +156,10 @@ export async function getStaticProps() {
 
   return {
     props: {
-      products,
       featuredProducts,
       categories,
       hero,
+      banners,
     },
     revalidate: 300,
   };
