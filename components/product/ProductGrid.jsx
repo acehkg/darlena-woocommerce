@@ -21,8 +21,9 @@ const ProductGrid = ({ products }) => {
         columns={{
           base: 1,
           sm: 2,
-          md: 3,
-          lg: 4,
+          md: 2,
+          lg: 3,
+          xl: 4,
         }}
         gap={{
           base: '8',

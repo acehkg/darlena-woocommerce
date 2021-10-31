@@ -11,6 +11,7 @@ export const colors = {
   },
   brandGold: {
     100: 'hsl(46, 65%, 52%)',
+    200: 'hsl(46, 72%, 80%)',
   },
   brandGrey: {
     100: 'hsl(240, 1%, 14%)',

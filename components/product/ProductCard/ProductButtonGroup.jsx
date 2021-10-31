@@ -24,7 +24,7 @@ export const ProductButtonGroup = ({ id }) => {
       {options.map((option) => (
         <IconButton
           key={option.label}
-          rounded='sm'
+          rounded='lg'
           sx={{
             ':not(:hover)': {
               color: iconColor,
@@ -37,7 +37,7 @@ export const ProductButtonGroup = ({ id }) => {
             boxShadow: 'outline',
           }}
           _hover={{
-            bg: 'brandGrey.500',
+            bg: 'brandPink.400',
           }}
           width='full'
           aria-label={option.label}

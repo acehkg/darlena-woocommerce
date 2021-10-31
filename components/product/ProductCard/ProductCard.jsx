@@ -13,6 +13,7 @@ import { useProduct } from '../../../hooks/useProduct';
 import { PriceTag } from './PriceTag';
 import { ProductButtonGroup } from './ProductButtonGroup';
 import NextImageAspectRatio from '../../common/Image/NextImageAspectRatio';
+import ProductCardImage from '../../common/Image/ProductCardImage';
 
 export const ProductCard = ({ product }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,26 +30,17 @@ export const ProductCard = ({ product }) => {
         base: '3',
         md: '5',
       }}
+      boxShadow='lg'
+      pb='2rem'
+      borderRadius='xl'
     >
-      <Box position='relative' className='group'>
-        <>
-          {/*   {isLoading ? (
-            <AspectRatio ratio={3 / 4}>
-              <Skeleton />
-            </AspectRatio>
-          ) : (
-            <NextImageAspectRatio
-              image={product.image}
-              ratio={3 / 4}
-              objectFit='cover'
-            />
-          )} */}
-          <NextImageAspectRatio
-            image={product.image}
-            ratio={3 / 4}
-            objectFit='cover'
-          />
-        </>
+      <Box position='relative' className='group' h='100%' w='100%'>
+        <ProductCardImage
+          image={product.image}
+          ratio={3 / 4}
+          objectFit='cover'
+        />
+
         <FavouriteButton
           position='absolute'
           top='3'
@@ -65,29 +57,16 @@ export const ProductCard = ({ product }) => {
           bottom='3'
           left='3'
           right='3'
-          bg='brandGrey.400'
-          borderRadius='md'
+          bg='brandPink.100'
+          borderRadius='xl'
           padding='1.5'
         >
           <ProductButtonGroup id={product?.id} />
         </Box>
-        {/*  <HStack spacing='3' position='absolute' bottom='3' left='3'>
-          {data?.product?.productTags?.nodes?.map((tag) => (
-            <Tag
-              key={tag.name}
-              bg='brandPink.100'
-              color='white'
-              fontWeight='semibold'
-            >
-              {tag.name}
-            </Tag>
-          ))}
-        </HStack> */}
       </Box>
-      <Stack>
-        <Stack spacing='0.25'>
-          <Text fontWeight='medium'>{product.name}</Text>
-        </Stack>
+      <Stack direction='row' px='1rem' justifyContent='space-between'>
+        <Text fontWeight='medium'>{product.name}</Text>
+
         {isLoading ? (
           <Skeleton height='1rem' width='100%' />
         ) : (
@@ -95,7 +74,7 @@ export const ProductCard = ({ product }) => {
             currency='SAR'
             price={data?.product?.regularPrice}
             priceProps={{
-              color: 'gray.800',
+              color: 'brandGold.100',
             }}
             salePrice={data?.product?.salePrice}
             salePriceProps={{
