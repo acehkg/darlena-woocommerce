@@ -1,5 +1,3 @@
-import { Flex } from '@chakra-ui/react';
-
 import Navbar from '../common/Navbar/Navbar';
 
 const Layout = ({ children, pageProps }) => {

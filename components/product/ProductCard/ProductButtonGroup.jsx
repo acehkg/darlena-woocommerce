@@ -18,7 +18,7 @@ export const ProductButtonGroup = ({ id }) => {
 
   const router = useRouter();
 
-  const iconColor = 'brandGrey.300';
+  const iconColor = 'hsl(29, 91%, 91%)';
   return (
     <ButtonGroup variant='ghost' width='full' size='sm' spacing='1'>
       {options.map((option) => (
