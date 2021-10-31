@@ -1,11 +1,26 @@
+import dynamic from 'next/dynamic';
 import { GraphQLClient, gql } from 'graphql-request';
 import { FEATURED_QUERY } from '../lib/queries';
 import HeroSection from '../components/hero/HeroSection';
-import FeaturedCollection from '../components/collection/FeaturedCollection';
-import LandingGrid from '../components/collection/LandingGrid';
-import CateoryBanner from '../components/hero/CategoryBanner';
-import ReviewCarousel from '../components/reviews/carousel/ReviewCarousel';
+//import FeaturedCollection from '../components/collection/FeaturedCollection';
+//import LandingGrid from '../components/collection/LandingGrid';
+//import CateoryBanner from '../components/hero/CategoryBanner';
+//import ReviewCarousel from '../components/reviews/carousel/ReviewCarousel';
 
+const FeaturedCollection = dynamic(() =>
+  import('../components/collection/FeaturedCollection')
+);
+const LandingGrid = dynamic(() =>
+  import('../components/collection/LandingGrid')
+);
+
+const CategoryBanner = dynamic(() =>
+  import('../components/hero/CategoryBanner')
+);
+
+const ReviewCarousel = dynamic(() =>
+  import('../components/reviews/carousel/ReviewCarousel')
+);
 import { usePrepareHomePage } from '../hooks/usePrepareHomePage';
 const Home = ({ banners, hero, categories, featuredProducts }) => {
   const { loading, categoryOne, categoryTwo, categoryThree } =
@@ -27,7 +42,7 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
             products={categoryOne?.products}
             category={categoryOne?.category}
           />
-          <CateoryBanner banner={banners[1]} />
+          <CategoryBanner banner={banners[1]} />
           <FeaturedCollection
             products={categoryTwo?.products}
             category={categoryTwo?.category}
@@ -37,7 +52,7 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
             categoryTwo={categoryTwo?.category}
             categoryThree={categoryThree?.category}
           />
-          <CateoryBanner banner={banners[0]} />
+          <CategoryBanner banner={banners[0]} />
           <ReviewCarousel />
         </>
       )}
