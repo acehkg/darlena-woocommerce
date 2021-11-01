@@ -27,11 +27,13 @@ export const ProductDetails = ({ images, loading, product }) => {
         }}
         spacing={{
           base: '6',
-          lg: '12',
-          xl: '16',
+          lg: '16',
+          xl: '20',
         }}
       >
-        <Gallery images={images} loading={loading} />
+        <Box w={{ base: '100%', lg: '60%' }}>
+          <Gallery images={images} loading={loading} />
+        </Box>
         <Stack
           spacing={{
             base: '6',

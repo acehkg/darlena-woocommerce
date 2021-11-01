@@ -5,6 +5,7 @@ import * as React from 'react';
 export const Carousel = React.forwardRef(function Carousel(props, ref) {
   return (
     <Flex
+      h='10rem'
       ref={ref}
       className='chakra-carousel'
       overflow='hidden'

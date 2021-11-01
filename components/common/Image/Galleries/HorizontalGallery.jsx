@@ -1,7 +1,6 @@
 import {
-  AspectRatio,
+  Box,
   HStack,
-  Image,
   Skeleton,
   Stack,
   useBreakpointValue,
@@ -17,7 +16,7 @@ import {
 import NextImageAspectRatio from '../NextImageAspectRatio';
 
 export const Gallery = (props) => {
-  const { images, aspectRatio = 4 / 3, rootProps, loading } = props;
+  const { images, aspectRatio = 4 / 3, rootProps, loading, ...rest } = props;
   const [index, setIndex] = React.useState(0);
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const slidesPerView =
@@ -35,46 +34,53 @@ export const Gallery = (props) => {
   });
 
   return (
-    <Stack spacing='4' w='100%' {...rootProps}>
-      {loading ? (
-        <Skeleton />
-      ) : (
-        <NextImageAspectRatio
-          ratio={5 / 8}
-          image={images[index]}
-          objectFit='contain'
-        />
-      )}
-      <HStack sx={{ direction: 'ltr' }} spacing='4'>
-        <CarouselIconButton
-          onClick={slider?.prev}
-          icon={<IoChevronBackOutline />}
-          disabled={currentSlide === 0}
-          aria-label='Previous slide'
-        />
-        <Carousel ref={ref} direction='row' width='full'>
-          {images.map((image, i) => (
-            <CarouselSlide key={i} onClick={() => setIndex(i)} cursor='pointer'>
-              <NextImageAspectRatio
-                image={image}
-                ratio={aspectRatio}
-                objectFit='cover'
-                transition='all 200ms'
-                opacity={index === i ? 1 : 0.4}
-                _hover={{
-                  opacity: 1,
-                }}
-              />
-            </CarouselSlide>
-          ))}
-        </Carousel>
-        <CarouselIconButton
-          onClick={slider?.next}
-          icon={<IoChevronForwardOutline />}
-          disabled={currentSlide + slidesPerView === images.length}
-          aria-label='Next slide'
-        />
-      </HStack>
-    </Stack>
+    <Box {...rest}>
+      <Stack spacing='4' w='100%' {...rootProps}>
+        {loading ? (
+          <Skeleton />
+        ) : (
+          <NextImageAspectRatio
+            maxH={{ base: 'unset', lg: '70vh' }}
+            ratio={5 / 8}
+            image={images[index]}
+            objectFit='contain'
+          />
+        )}
+        <HStack sx={{ direction: 'ltr' }} spacing='4'>
+          <CarouselIconButton
+            onClick={slider?.prev}
+            icon={<IoChevronBackOutline />}
+            disabled={currentSlide === 0}
+            aria-label='Previous slide'
+          />
+          <Carousel ref={ref} direction='row' width='full'>
+            {images.map((image, i) => (
+              <CarouselSlide
+                key={i}
+                onClick={() => setIndex(i)}
+                cursor='pointer'
+              >
+                <NextImageAspectRatio
+                  image={image}
+                  ratio={1 / 1}
+                  objectFit='cover'
+                  transition='all 200ms'
+                  opacity={index === i ? 1 : 0.4}
+                  _hover={{
+                    opacity: 1,
+                  }}
+                />
+              </CarouselSlide>
+            ))}
+          </Carousel>
+          <CarouselIconButton
+            onClick={slider?.next}
+            icon={<IoChevronForwardOutline />}
+            disabled={currentSlide + slidesPerView === images.length}
+            aria-label='Next slide'
+          />
+        </HStack>
+      </Stack>
+    </Box>
   );
 };
