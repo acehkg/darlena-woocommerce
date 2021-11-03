@@ -15,6 +15,15 @@ export async function getStaticProps({ params }) {
         id
         name
         description(format: RAW)
+        attributes {
+          edges {
+            node {
+              name
+              options
+              label
+            }
+          }
+        }
         image {
           sourceUrl
           mediaDetails {

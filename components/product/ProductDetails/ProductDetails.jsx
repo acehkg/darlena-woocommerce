@@ -9,7 +9,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import * as React from 'react';
+import { useState } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { RiRulerLine } from 'react-icons/ri';
 import { QuantityPicker } from './QuantityPicker';
@@ -17,7 +17,16 @@ import { SizePicker } from './SizePicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
 
+import { useProduct } from '../../../hooks/useProduct';
+import { useStaticProduct } from '../../../hooks/useStaticProduct';
+
 export const ProductDetails = ({ images, loading, product }) => {
+  const { attributes } = useStaticProduct(product);
+  const { ready, productDetails, variations, optionsWithStock } = useProduct(
+    product,
+    attributes
+  );
+
   return (
     <Box w='80%' mx='auto' py='3rem'>
       <Stack
@@ -57,7 +66,7 @@ export const ProductDetails = ({ images, loading, product }) => {
             </Stack>
             <PriceTag
               price={229}
-              currency='SAR'
+              currency='USD'
               rootProps={{
                 fontSize: 'xl',
               }}
@@ -77,35 +86,18 @@ export const ProductDetails = ({ images, loading, product }) => {
             }}
           >
             <Stack flex='1'>
-              <SizePicker
-                defaultValue='32'
-                options={[
-                  {
-                    label: '32',
-                    value: '32',
-                  },
-                  {
-                    label: '36',
-                    value: '36',
-                  },
-                  {
-                    label: '46',
-                    value: '46',
-                  },
-                  {
-                    label: '50',
-                    value: '50',
-                  },
-                  {
-                    label: '52',
-                    value: '52',
-                  },
-                  {
-                    label: '54',
-                    value: '54',
-                  },
-                ]}
-              />
+              {!ready && attributes && (
+                <SizePicker
+                  defaultValue={attributes[0]?.options[0]?.label}
+                  options={attributes[0]?.options}
+                />
+              )}
+              {ready && (
+                <SizePicker
+                  defaultValue={attributes[0]?.options[0]?.label}
+                  options={optionsWithStock}
+                />
+              )}
               <HStack
                 spacing='1'
                 color={useColorModeValue('gray.600', 'gray.400')}
@@ -131,7 +123,7 @@ export const ProductDetails = ({ images, loading, product }) => {
             justify='space-evenly'
           >
             <Box flex='1'>
-              <QuantityPicker defaultValue={1} max={3} />
+              <QuantityPicker defaultValue={1} max={5} />
             </Box>
             <Box flex='1'>
               <Button

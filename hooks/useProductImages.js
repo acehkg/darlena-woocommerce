@@ -6,13 +6,13 @@ const useProductImages = (product) => {
   const { image, galleryImages } = product;
 
   useEffect(() => {
-    const gimgs = product.galleryImages.nodes.map((node) => {
+    const gimgs = galleryImages.nodes.map((node) => {
       return { sourceUrl: node.sourceUrl, mediaDetails: node.mediaDetails };
     });
     const newArr = [image, ...gimgs];
     setImages(newArr);
     setIsLoading(false);
-  }, [product, image]);
+  }, [galleryImages, image]);
 
   return { images, isLoading };
 };

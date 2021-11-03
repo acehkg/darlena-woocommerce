@@ -193,6 +193,24 @@ export const PRODUCT_INFO_VARIABLE = gql`
         salePrice(format: RAW)
         onSale
         stockStatus
+        variations {
+          edges {
+            node {
+              attributes {
+                nodes {
+                  value
+                }
+              }
+              regularPrice(format: RAW)
+              salePrice(format: RAW)
+              stockStatus
+              id
+              name
+              status
+              stockQuantity
+            }
+          }
+        }
         galleryImages {
           nodes {
             sourceUrl
@@ -243,6 +261,21 @@ export const FEATURED_QUERY = gql`
             }
             sourceUrl
           }
+        }
+      }
+    }
+  }
+`;
+
+export const CUSTOMER_ORDERS = gql`
+  {
+    customer {
+      orders {
+        nodes {
+          needsPayment
+          status
+          orderNumber
+          date
         }
       }
     }
