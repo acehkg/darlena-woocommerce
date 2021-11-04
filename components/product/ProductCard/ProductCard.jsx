@@ -8,13 +8,7 @@ import { PriceTag } from './PriceTag';
 import ProductCardImage from '../../common/Image/ProductCardImage';
 
 export const ProductCard = ({ product }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const { data, loading, error } = useProduct(product);
-  useEffect(() => {
-    if (data && !error && !loading) {
-      setIsLoading(false);
-    }
-  }, [data, loading, error]);
+  const { ready, price } = useProduct(product);
 
   return (
     <>
@@ -63,16 +57,16 @@ export const ProductCard = ({ product }) => {
             </ChakraLink>
           </Link>
 
-          {isLoading ? (
+          {!ready ? (
             <Skeleton height='1rem' width='100%' />
           ) : (
             <PriceTag
-              currency='SAR'
-              price={data?.product?.regularPrice}
+              currency='USD'
+              price={price.regularPrice}
               priceProps={{
                 color: 'brandGold.100',
               }}
-              salePrice={data?.product?.salePrice}
+              salePrice={price.salePrice}
               salePriceProps={{
                 color: 'red.500',
                 fontWeight: 'bold',

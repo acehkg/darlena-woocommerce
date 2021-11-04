@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 export const useStaticProduct = (product) => {
   const [attributes, setAttributes] = useState();
-  const [options, setOptions] = useState();
 
   useEffect(() => {
     if (product.type === 'SIMPLE') {

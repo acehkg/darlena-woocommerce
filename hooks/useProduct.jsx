@@ -6,7 +6,9 @@ export const useProduct = (product, attributes) => {
   const [ready, setReady] = useState(false);
   const [optionsWithStock, setOptionsWithStock] = useState([]);
   const [variations, setVariations] = useState([]);
-  const [productDetails, setProductDetails] = useState({});
+  const [productDetails, setProductDetails] = useState();
+  const [price, setPrice] = useState();
+
   let query;
   if (product.type === 'SIMPLE') {
     query = PRODUCT_INFO_SIMPLE;
@@ -21,7 +23,7 @@ export const useProduct = (product, attributes) => {
   });
 
   useEffect(() => {
-    if (!loading && !error) {
+    if (!loading && !error && product.type === 'VARIABLE') {
       const variations = data.product.variations.edges.map(({ node }) => {
         return {
           id: node.id,
@@ -33,11 +35,35 @@ export const useProduct = (product, attributes) => {
           stockQuantity: node.stockQuantity,
         };
       });
-
       setVariations(variations);
       setProductDetails(data.product);
+      const [regPri] = data.product.regularPrice.split(',');
+
+      if (data.product.salePrice !== null) {
+        const [salePri] = data.product.salePrice.split(',');
+        setPrice({
+          regularPrice: regPri,
+          onSale: data.product.onSale,
+          salePrice: salePri,
+        });
+      } else {
+        setPrice({
+          regularPrice: regPri,
+          onSale: data.product.onSale,
+          salePrice: data.product.salePrice,
+        });
+      }
     }
-  }, [loading, data, error]);
+    if (!loading && !error && product.type === 'SIMPLE') {
+      setVariations(false);
+      setProductDetails(data.product);
+      setPrice({
+        regularPrice: data.product.regularPrice,
+        onSale: data.product.onSale,
+        salePrice: data.product.salePrice,
+      });
+    }
+  }, [loading, data, error, product]);
 
   useEffect(() => {
     if (attributes && variations.length > 0) {
@@ -46,18 +72,26 @@ export const useProduct = (product, attributes) => {
           (f) => f.attributes.nodes[0].value === o.value
         );
         let status;
-        if (target.stockStatus === 'IN_STOCK') {
-          status = true;
-        } else {
+        if (
+          target.stockStatus === 'OUT_OF_STOCK' ||
+          target.stockQuantity === 0
+        ) {
           status = false;
+        } else {
+          status = true;
         }
 
         return { label: o.label, value: o.value, inStock: status };
       });
       setOptionsWithStock(options);
-      setReady(true);
     }
   }, [variations, attributes]);
 
-  return { ready, productDetails, variations, optionsWithStock };
+  useEffect(() => {
+    if (!loading && !error && productDetails) {
+      setReady(true);
+    }
+  }, [loading, error, productDetails]);
+
+  return { ready, productDetails, variations, optionsWithStock, price };
 };

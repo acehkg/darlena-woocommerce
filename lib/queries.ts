@@ -156,6 +156,7 @@ export const PRODUCT_INFO_SIMPLE = gql`
         salePrice(format: RAW)
         onSale
         stockStatus
+        stockQuantity
         galleryImages {
           nodes {
             sourceUrl

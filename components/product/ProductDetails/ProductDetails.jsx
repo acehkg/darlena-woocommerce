@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  Skeleton,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FiHeart } from 'react-icons/fi';
@@ -22,10 +23,8 @@ import { useStaticProduct } from '../../../hooks/useStaticProduct';
 
 export const ProductDetails = ({ images, loading, product }) => {
   const { attributes } = useStaticProduct(product);
-  const { ready, productDetails, variations, optionsWithStock } = useProduct(
-    product,
-    attributes
-  );
+  const { ready, productDetails, variations, optionsWithStock, price } =
+    useProduct(product, attributes);
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -64,56 +63,63 @@ export const ProductDetails = ({ images, loading, product }) => {
                 {product?.name}
               </Heading>
             </Stack>
-            <PriceTag
-              price={229}
-              currency='USD'
-              rootProps={{
-                fontSize: 'xl',
-              }}
-            />
+            {!ready ? (
+              <Skeleton h='1rem' w='5rem' />
+            ) : (
+              <PriceTag
+                price={price}
+                currency='USD'
+                rootProps={{
+                  fontSize: 'xl',
+                }}
+              />
+            )}
             <Text color={useColorModeValue('gray.600', 'gray.400')}>
               {product?.description}
             </Text>
           </Stack>
-          <Stack
-            direction={{
-              base: 'column',
-              md: 'row',
-            }}
-            spacing={{
-              base: '6',
-              md: '8',
-            }}
-          >
-            <Stack flex='1'>
-              {!ready && attributes && (
-                <SizePicker
-                  defaultValue={attributes[0]?.options[0]?.label}
-                  options={attributes[0]?.options}
-                />
-              )}
-              {ready && (
-                <SizePicker
-                  defaultValue={attributes[0]?.options[0]?.label}
-                  options={optionsWithStock}
-                />
-              )}
-              <HStack
-                spacing='1'
-                color={useColorModeValue('gray.600', 'gray.400')}
-              >
-                <Icon as={RiRulerLine} />
-                <Link
-                  href='#'
-                  fontSize='xs'
-                  fontWeight='medium'
-                  textDecoration='underline'
-                >
-                  View our sizing guide
-                </Link>
-              </HStack>
+
+          {attributes && (
+            <Stack
+              direction={{
+                base: 'column',
+                md: 'row',
+              }}
+              spacing={{
+                base: '6',
+                md: '8',
+              }}
+            >
+              <Stack flex='1'>
+                {!ready && (
+                  <SizePicker
+                    defaultValue={attributes[0]?.options[0]?.label}
+                    options={attributes[0]?.options}
+                  />
+                )}
+
+                {ready && (
+                  <SizePicker
+                    defaultValue={attributes[0]?.options[0]?.label}
+                    options={optionsWithStock}
+                  />
+                )}
+
+                <HStack spacing='1' color='gray.600'>
+                  <Icon as={RiRulerLine} />
+                  <Link
+                    href='#'
+                    fontSize='xs'
+                    fontWeight='medium'
+                    textDecoration='underline'
+                  >
+                    View our sizing guide
+                  </Link>
+                </HStack>
+              </Stack>
             </Stack>
-          </Stack>
+          )}
+
           <HStack
             spacing={{
               base: '4',
