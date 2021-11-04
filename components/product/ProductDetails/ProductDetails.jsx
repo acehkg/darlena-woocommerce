@@ -20,11 +20,13 @@ import { PriceTag } from './PriceTag';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
+import useAuth from '../../../hooks/useAuth';
 
 export const ProductDetails = ({ images, loading, product }) => {
   const { attributes } = useStaticProduct(product);
   const { ready, productDetails, variations, optionsWithStock, price } =
     useProduct(product, attributes);
+  const { loggedIn } = useAuth();
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -91,14 +93,14 @@ export const ProductDetails = ({ images, loading, product }) => {
               }}
             >
               <Stack flex='1'>
-                {!ready && (
+                {(!loggedIn || !ready) && (
                   <SizePicker
                     defaultValue={attributes[0]?.options[0]?.label}
                     options={attributes[0]?.options}
                   />
                 )}
 
-                {ready && (
+                {ready && loggedIn && (
                   <SizePicker
                     defaultValue={attributes[0]?.options[0]?.label}
                     options={optionsWithStock}
