@@ -18,6 +18,7 @@ export const useStaticProduct = (product) => {
           options: formattedOptions,
         };
       });
+
       setAttributes(attributes);
     }
   }, [product]);

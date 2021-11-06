@@ -194,11 +194,12 @@ export const PRODUCT_INFO_VARIABLE = gql`
         salePrice(format: RAW)
         onSale
         stockStatus
-        variations {
+        variations(first: 100) {
           edges {
             node {
               attributes {
                 nodes {
+                  name
                   value
                 }
               }

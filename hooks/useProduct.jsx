@@ -27,8 +27,7 @@ export const useProduct = (product, attributes) => {
       const variations = data.product.variations.edges.map(({ node }) => {
         return {
           id: node.id,
-          attributes: node.attributes,
-          status: node.status,
+          attributes: node.attributes.nodes,
           regularPrice: node.regularPrice,
           salePrice: node.salePrice,
           stockStatus: node.stockStatus,
@@ -66,32 +65,10 @@ export const useProduct = (product, attributes) => {
   }, [loading, data, error, product]);
 
   useEffect(() => {
-    if (attributes && variations.length > 0) {
-      const options = attributes[0].options.map((o) => {
-        const target = variations.find(
-          (f) => f.attributes.nodes[0].value === o.value
-        );
-        let status;
-        if (
-          target.stockStatus === 'OUT_OF_STOCK' ||
-          target.stockQuantity === 0
-        ) {
-          status = false;
-        } else {
-          status = true;
-        }
-
-        return { label: o.label, value: o.value, inStock: status };
-      });
-      setOptionsWithStock(options);
-    }
-  }, [variations, attributes]);
-
-  useEffect(() => {
-    if (!loading && !error && productDetails) {
+    if (!loading && !error && productDetails && price) {
       setReady(true);
     }
-  }, [loading, error, productDetails]);
+  }, [loading, error, productDetails, price]);
 
   return { ready, productDetails, variations, optionsWithStock, price };
 };

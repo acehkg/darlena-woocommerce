@@ -20,13 +20,17 @@ import { PriceTag } from './PriceTag';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
+import { useVariations } from '../../../hooks/useVariations';
 import useAuth from '../../../hooks/useAuth';
 
 export const ProductDetails = ({ images, loading, product }) => {
+  const { loggedIn } = useAuth();
   const { attributes } = useStaticProduct(product);
   const { ready, productDetails, variations, optionsWithStock, price } =
     useProduct(product, attributes);
-  const { loggedIn } = useAuth();
+  const { type } = useVariations(variations);
+
+  console.log(attributes);
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
