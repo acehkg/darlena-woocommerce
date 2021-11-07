@@ -15,6 +15,7 @@ import { FiHeart } from 'react-icons/fi';
 import { RiRulerLine } from 'react-icons/ri';
 import { QuantityPicker } from './QuantityPicker';
 import { SizePicker } from './SizePicker';
+import { ColorPicker } from './ColorPicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
 
@@ -23,14 +24,75 @@ import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import { useVariations } from '../../../hooks/useVariations';
 import useAuth from '../../../hooks/useAuth';
 
+const StaticPickers = ({ sizes, colors }) => {
+  return (
+    <Stack
+      direction={{
+        base: 'column',
+        md: 'row',
+      }}
+      spacing={{
+        base: '6',
+        md: '8',
+      }}
+    >
+      <Stack flex='1'>
+        {colors && <ColorPicker options={colors.options} />}
+        {sizes && <SizePicker options={sizes.options} />}
+        <HStack spacing='1' color='gray.600'>
+          <Icon as={RiRulerLine} />
+          <Link
+            href='#'
+            fontSize='xs'
+            fontWeight='medium'
+            textDecoration='underline'
+          >
+            View our sizing guide
+          </Link>
+        </HStack>
+      </Stack>
+    </Stack>
+  );
+};
+
+const DynamicPickers = () => {
+  return (
+    <Stack
+      direction={{
+        base: 'column',
+        md: 'row',
+      }}
+      spacing={{
+        base: '6',
+        md: '8',
+      }}
+    >
+      <Stack flex='1'>
+        {colors && <ColorPicker options={colors.options} />}
+        {sizes && <SizePicker options={sizes.options} />}
+        <HStack spacing='1' color='gray.600'>
+          <Icon as={RiRulerLine} />
+          <Link
+            href='#'
+            fontSize='xs'
+            fontWeight='medium'
+            textDecoration='underline'
+          >
+            View our sizing guide
+          </Link>
+        </HStack>
+      </Stack>
+    </Stack>
+  );
+};
+
 export const ProductDetails = ({ images, loading, product }) => {
   const { loggedIn } = useAuth();
-  const { attributes } = useStaticProduct(product);
-  const { ready, productDetails, variations, optionsWithStock, price } =
-    useProduct(product, attributes);
-  const { type } = useVariations(variations);
+  const { attributes, sizes, colors } = useStaticProduct(product);
+  const { variations, price } = useProduct(product, attributes);
+  const { optionsWithStock } = useVariations(variations, attributes);
 
-  console.log(attributes);
+  const ready = false;
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -84,7 +146,10 @@ export const ProductDetails = ({ images, loading, product }) => {
               {product?.description}
             </Text>
           </Stack>
-
+          {attributes && (!loggedIn || !ready) && (
+            <StaticPickers sizes={sizes} colors={colors} />
+          )}
+          {/* 
           {attributes && (
             <Stack
               direction={{
@@ -124,7 +189,7 @@ export const ProductDetails = ({ images, loading, product }) => {
                 </HStack>
               </Stack>
             </Stack>
-          )}
+          )} */}
 
           <HStack
             spacing={{
