@@ -10,7 +10,7 @@ import {
   useColorModeValue,
   Skeleton,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { RiRulerLine } from 'react-icons/ri';
 import { QuantityPicker } from './QuantityPicker';

@@ -24,10 +24,10 @@ export const useStaticProduct = (product) => {
 
       switch (attributes.length) {
         case 1:
-          if (attributes.name === 'size') {
+          if (attributes[0].name === 'size') {
             setSizes(attributes[0]);
           }
-          if (attributes.name === 'color') {
+          if (attributes[0].name === 'color') {
             setColors(attributes[0]);
           }
           break;
@@ -37,7 +37,16 @@ export const useStaticProduct = (product) => {
               setSizes(a);
             }
             if (a.name === 'color') {
-              setColors(a);
+              const withHex = a.options.map((hex) => {
+                const split = hex.label.split('-');
+                return {
+                  label: split[0],
+                  value: split[0],
+                  hex: split[1],
+                  inStock: hex.inStock,
+                };
+              });
+              setColors({ name: a.name, label: a.label, options: withHex });
             }
           });
       }

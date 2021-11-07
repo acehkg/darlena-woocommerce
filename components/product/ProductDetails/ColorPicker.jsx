@@ -29,7 +29,7 @@ export const ColorPicker = (props) => {
         {options.map((option) => (
           <ColorPickerOption
             key={option.label}
-            color={option.value}
+            color={!option.inStock ? 'brandGrey.400' : option.hex}
             isDisabled={!option.inStock}
             {...getRadioProps({
               value: option.value,

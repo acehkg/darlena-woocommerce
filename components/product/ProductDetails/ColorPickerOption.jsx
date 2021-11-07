@@ -12,7 +12,7 @@ import * as React from 'react';
 import { FiCheck } from 'react-icons/fi';
 
 export const ColorPickerOption = (props) => {
-  const { color, value, isDisabled } = props;
+  const { color, value } = props;
   const { getInputProps, htmlProps, getCheckboxProps, getLabelProps, state } =
     useRadio(props);
   const theme = useTheme();
@@ -22,7 +22,6 @@ export const ColorPickerOption = (props) => {
       <Circle
         size='10'
         borderWidth='1px'
-        isDisabled={isDisabled}
         _checked={{
           borderWidth: '2px',
           borderColor: useColorModeValue('blue.500', 'blue.200'),

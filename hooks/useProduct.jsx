@@ -70,5 +70,5 @@ export const useProduct = (product, attributes) => {
     }
   }, [loading, error, productDetails, price]);
 
-  return { ready, productDetails, variations, optionsWithStock, price };
+  return { ready, productDetails, variations, price };
 };
