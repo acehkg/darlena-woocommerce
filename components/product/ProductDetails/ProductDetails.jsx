@@ -126,13 +126,13 @@ export const ProductDetails = ({ images, loading, product }) => {
         );
         setSelected(selected);
       }
-      if (sizes) {
+      if (sizes && !colors) {
         const selected = variations.find((v) =>
           v.attributes.find((a) => a.value === selectedSize?.value)
         );
         setSelected(selected);
       }
-      if (colors) {
+      if (colors && !sizes) {
         const selected = variations.find((v) =>
           v.attributes.find(
             (a) => a.value.split('-')[0] === selectedColor?.value
@@ -145,12 +145,9 @@ export const ProductDetails = ({ images, loading, product }) => {
 
   useEffect(() => {
     if (selected) {
-      if (selected.stockStatus === 'OUT_OF_STOCK') {
-        setInStock(false);
-      }
-      if (selected.stockStatus === 'IN_STOCK') {
-        setInStock(true);
-      }
+      selected.stockStatus === 'OUT_OF_STOCK'
+        ? setInStock(false)
+        : setInStock(true);
     }
   }, [selected]);
 
