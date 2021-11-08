@@ -1,40 +1,26 @@
-import {
-  Button,
-  chakra,
-  useColorModeValue,
-  useRadio,
-  useTheme,
-  VisuallyHidden,
-} from '@chakra-ui/react';
-import { transparentize } from '@chakra-ui/theme-tools';
-import * as React from 'react';
+import { Button, chakra, useRadio, VisuallyHidden } from '@chakra-ui/react';
 
 export const SizePickerButton = (props) => {
-  const { value, label, isDisabled } = props;
+  const { value, label } = props;
 
   const { getInputProps, htmlProps, getCheckboxProps, getLabelProps } =
     useRadio(props);
-  const theme = useTheme();
+
   return (
     <chakra.label {...htmlProps}>
       <chakra.input {...getInputProps()} />
       <Button
         as='span'
         px='0'
-        isDisabled={isDisabled}
         cursor='pointer'
         variant='outline'
-        colorScheme='blue'
-        color={useColorModeValue('gray.600', 'gray.400')}
+        color='brandGrey.300'
         borderRadius='base'
-        borderColor={useColorModeValue('gray.200', 'gray.600')}
+        borderColor='brandGrey.100'
         _checked={{
-          color: useColorModeValue('blue.500', 'blue.200'),
-          bg: useColorModeValue(
-            'blue.50',
-            transparentize('blue.200', 0.12)(theme)
-          ),
-          borderColor: useColorModeValue('blue.500', 'blue.200'),
+          color: 'brandGrey.300',
+          bg: 'brandGrey.500',
+          borderColor: 'brandGrey.100',
           borderWidth: '2px',
         }}
         _focus={{

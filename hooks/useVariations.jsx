@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
+import { RiContactsBookLine } from 'react-icons/ri';
 
-export const useVariations = (variations, attributes) => {
+export const useVariations = (variations, sizes, colors) => {
   const [optionsWithStock, setOptionsWithStock] = useState([]);
-  const [sizes, setSizes] = useState(false);
-  const [colors, setColors] = useState(false);
+  const [sizesWithStock, setSizesWithStock] = useState(false);
+  const [colorswithStock, setColorsWithStock] = useState(false);
 
+  /* 
   useEffect(() => {
     switch (attributes?.length) {
       case 1:
-        if (attributes.name === 'size') {
+        if (attributes[0].name === 'size') {
           setSizes(attributes[0]);
         }
-        if (attributes.name === 'color') {
+        if (attributes[0].name === 'color') {
           setColors(attributes[0]);
         }
         break;
@@ -21,11 +23,36 @@ export const useVariations = (variations, attributes) => {
             setSizes(a);
           }
           if (a.name === 'color') {
-            setColors(a);
+            const withHex = a.options.map((hex) => {
+              const split = hex.label.split('-');
+              return {
+                label: split[0],
+                value: split[0],
+                hex: split[1],
+                inStock: hex.inStock,
+              };
+            });
+            setColors({ name: a.name, label: a.label, options: withHex });
           }
         });
     }
-  }, [attributes]);
+  }, [attributes]); */
+
+  useEffect(() => {
+    console.log(variations);
+    if (sizes && colors) {
+      const outOfStock = variations.filter(
+        (v) => v.stockStatus === 'OUT_OF_STOCK'
+      );
+
+      console.log(outOfStock);
+      /* const test = sizes?.map((s) => {
+        const target = variations.find((v) => {
+          s?.attributes?.nodes;
+        });
+      }); */
+    }
+  }, [sizes, colors, variations]);
 
   /*   useEffect(() => {
     if (sizes) {

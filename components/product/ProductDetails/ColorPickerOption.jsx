@@ -24,7 +24,7 @@ export const ColorPickerOption = (props) => {
         borderWidth='1px'
         _checked={{
           borderWidth: '2px',
-          borderColor: useColorModeValue('blue.500', 'blue.200'),
+          borderColor: 'brandGrey.100',
         }}
         {...getCheckboxProps()}
       >

@@ -16,6 +16,8 @@ import { RiRulerLine } from 'react-icons/ri';
 import { QuantityPicker } from './QuantityPicker';
 import { SizePicker } from './SizePicker';
 import { ColorPicker } from './ColorPicker';
+import { DynamicColorPicker } from './DynamicColorPicker';
+import { DynamicSizePicker } from './DynamicSizePicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
 
@@ -55,7 +57,13 @@ const StaticPickers = ({ sizes, colors }) => {
   );
 };
 
-const DynamicPickers = () => {
+const DynamicPickers = ({
+  sizes,
+  colors,
+  setSelectedSize,
+  setSelectedColor,
+  inStock,
+}) => {
   return (
     <Stack
       direction={{
@@ -68,8 +76,20 @@ const DynamicPickers = () => {
       }}
     >
       <Stack flex='1'>
-        {colors && <ColorPicker options={colors.options} />}
-        {sizes && <SizePicker options={sizes.options} />}
+        {colors && (
+          <DynamicColorPicker
+            options={colors.options}
+            setSelectedColor={setSelectedColor}
+            inStock={inStock}
+          />
+        )}
+        {sizes && (
+          <DynamicSizePicker
+            options={sizes.options}
+            setSelectedSize={setSelectedSize}
+            inStock={inStock}
+          />
+        )}
         <HStack spacing='1' color='gray.600'>
           <Icon as={RiRulerLine} />
           <Link
@@ -89,10 +109,31 @@ const DynamicPickers = () => {
 export const ProductDetails = ({ images, loading, product }) => {
   const { loggedIn } = useAuth();
   const { attributes, sizes, colors } = useStaticProduct(product);
-  const { variations, price } = useProduct(product, attributes);
-  const { optionsWithStock } = useVariations(variations, attributes);
+  const { variations, price, ready } = useProduct(product, attributes);
+  const [selectedSize, setSelectedSize] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(false);
+  const [inStock, setInStock] = useState(true);
+  const [selected, setSelected] = useState(false);
 
-  const ready = false;
+  useEffect(() => {
+    const selected = variations.find(
+      (v) =>
+        v.attributes.find((a) => a.value === selectedSize?.value) &&
+        v.attributes.find((a) => a.value.split('-')[0] === selectedColor?.value)
+    );
+    setSelected(selected);
+  }, [selectedColor, selectedSize, variations]);
+
+  useEffect(() => {
+    if (selected) {
+      if (selected.stockStatus === 'OUT_OF_STOCK') {
+        setInStock(false);
+      }
+      if (selected.stockStatus === 'IN_STOCK') {
+        setInStock(true);
+      }
+    }
+  }, [selected]);
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -149,47 +190,15 @@ export const ProductDetails = ({ images, loading, product }) => {
           {attributes && (!loggedIn || !ready) && (
             <StaticPickers sizes={sizes} colors={colors} />
           )}
-          {/* 
-          {attributes && (
-            <Stack
-              direction={{
-                base: 'column',
-                md: 'row',
-              }}
-              spacing={{
-                base: '6',
-                md: '8',
-              }}
-            >
-              <Stack flex='1'>
-                {(!loggedIn || !ready) && (
-                  <SizePicker
-                    defaultValue={attributes[0]?.options[0]?.label}
-                    options={attributes[0]?.options}
-                  />
-                )}
-
-                {ready && loggedIn && (
-                  <SizePicker
-                    defaultValue={attributes[0]?.options[0]?.label}
-                    options={optionsWithStock}
-                  />
-                )}
-
-                <HStack spacing='1' color='gray.600'>
-                  <Icon as={RiRulerLine} />
-                  <Link
-                    href='#'
-                    fontSize='xs'
-                    fontWeight='medium'
-                    textDecoration='underline'
-                  >
-                    View our sizing guide
-                  </Link>
-                </HStack>
-              </Stack>
-            </Stack>
-          )} */}
+          {attributes && loggedIn && ready && (
+            <DynamicPickers
+              sizes={sizes}
+              colors={colors}
+              setSelectedColor={setSelectedColor}
+              setSelectedSize={setSelectedSize}
+              inStock={inStock}
+            />
+          )}
 
           <HStack
             spacing={{
