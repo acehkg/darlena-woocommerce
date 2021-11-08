@@ -23,7 +23,6 @@ import { PriceTag } from './PriceTag';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
-import { useVariations } from '../../../hooks/useVariations';
 import useAuth from '../../../hooks/useAuth';
 
 const StaticPickers = ({ sizes, colors }) => {
@@ -116,12 +115,32 @@ export const ProductDetails = ({ images, loading, product }) => {
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
-    const selected = variations.find(
-      (v) =>
-        v.attributes.find((a) => a.value === selectedSize?.value) &&
-        v.attributes.find((a) => a.value.split('-')[0] === selectedColor?.value)
-    );
-    setSelected(selected);
+    if (variations) {
+      if (sizes && colors) {
+        const selected = variations.find(
+          (v) =>
+            v.attributes.find((a) => a.value === selectedSize?.value) &&
+            v.attributes.find(
+              (a) => a.value.split('-')[0] === selectedColor?.value
+            )
+        );
+        setSelected(selected);
+      }
+      if (sizes) {
+        const selected = variations.find((v) =>
+          v.attributes.find((a) => a.value === selectedSize?.value)
+        );
+        setSelected(selected);
+      }
+      if (colors) {
+        const selected = variations.find((v) =>
+          v.attributes.find(
+            (a) => a.value.split('-')[0] === selectedColor?.value
+          )
+        );
+        setSelected(selected);
+      }
+    }
   }, [selectedColor, selectedSize, variations]);
 
   useEffect(() => {

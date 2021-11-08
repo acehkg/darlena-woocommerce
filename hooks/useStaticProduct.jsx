@@ -28,7 +28,20 @@ export const useStaticProduct = (product) => {
             setSizes(attributes[0]);
           }
           if (attributes[0].name === 'color') {
-            setColors(attributes[0]);
+            const withHex = attributes[0].options.map((hex) => {
+              const split = hex.label.split('-');
+              return {
+                label: split[0],
+                value: split[0],
+                hex: split[1],
+                inStock: hex.inStock,
+              };
+            });
+            setColors({
+              name: attributes[0].name,
+              label: attributes[0].label,
+              options: withHex,
+            });
           }
           break;
         case 2:
