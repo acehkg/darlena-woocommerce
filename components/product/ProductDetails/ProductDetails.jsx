@@ -141,7 +141,7 @@ export const ProductDetails = ({ images, loading, product }) => {
         setSelected(selected);
       }
     }
-  }, [selectedColor, selectedSize, variations]);
+  }, [selectedColor, selectedSize, variations, sizes, colors]);
 
   useEffect(() => {
     if (selected) {
