@@ -21,7 +21,7 @@ export const ColorPicker = (props) => {
       {!hideLabel && (
         <FormLabel fontSize='sm' fontWeight='medium'>
           {!selectedOption
-            ? 'Color: Please Select'
+            ? 'Please Select A Color'
             : `Color: ${selectedOption?.label}`}
         </FormLabel>
       )}
