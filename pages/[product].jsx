@@ -90,7 +90,7 @@ export async function getStaticPaths() {
 
   return {
     paths: products.map((product) => `/${product.id}`),
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 const Product = ({ product, categories }) => {
