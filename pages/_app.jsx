@@ -3,6 +3,7 @@ import { ApolloProvider } from '@apollo/client';
 import { client } from '../lib/apolloClient';
 import { AuthProvider } from '../hooks/useAuth';
 import { CustomerProvider } from '../hooks/useCustomer';
+import { CartProvider } from '../hooks/useCart';
 
 //styling
 import { ChakraProvider } from '@chakra-ui/react';
@@ -19,9 +20,11 @@ function MyApp({ Component, pageProps }) {
       <AuthProvider>
         <CustomerProvider>
           <ChakraProvider theme={theme}>
-            <Layout pageProps={pageProps}>
-              <Component {...pageProps} />
-            </Layout>
+            <CartProvider>
+              <Layout pageProps={pageProps}>
+                <Component {...pageProps} />
+              </Layout>
+            </CartProvider>
           </ChakraProvider>
         </CustomerProvider>
       </AuthProvider>

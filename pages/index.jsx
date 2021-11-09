@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { GraphQLClient, gql } from 'graphql-request';
 import { FEATURED_QUERY } from '../lib/queries';
 import HeroSection from '../components/hero/HeroSection';
+import useCart from '../hooks/useCart';
 //import FeaturedCollection from '../components/collection/FeaturedCollection';
 //import LandingGrid from '../components/collection/LandingGrid';
 //import CateoryBanner from '../components/hero/CategoryBanner';
@@ -31,6 +32,8 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
       'Dresses',
       'Shirt'
     );
+  const { cart } = useCart();
+  console.log(cart);
 
   return (
     <>
