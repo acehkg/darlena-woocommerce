@@ -24,6 +24,7 @@ import { PriceTag } from './PriceTag';
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
+import { addToCart } from '../../../lib/cart';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -113,6 +114,7 @@ export const ProductDetails = ({ images, loading, product }) => {
   const [selectedColor, setSelectedColor] = useState(false);
   const [inStock, setInStock] = useState(true);
   const [selected, setSelected] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (variations) {
@@ -150,6 +152,17 @@ export const ProductDetails = ({ images, loading, product }) => {
         : setInStock(true);
     }
   }, [selected]);
+
+  const handleAddToCart = () => {
+    if (product.type === 'SIMPLE') {
+      const res = addToCart(product.databaseId, quantity);
+      console.log('added to cart', res);
+    }
+    if (product.type === 'VARIABLE') {
+      const res = addToCart(selected.databaseId, quantity);
+      console.log('added to cart', res);
+    }
+  };
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -225,7 +238,11 @@ export const ProductDetails = ({ images, loading, product }) => {
             justify='space-evenly'
           >
             <Box flex='1'>
-              <QuantityPicker defaultValue={1} max={5} />
+              <QuantityPicker
+                defaultValue={1}
+                max={5}
+                setQuantity={setQuantity}
+              />
             </Box>
             <Box flex='1'>
               <Button
@@ -239,7 +256,12 @@ export const ProductDetails = ({ images, loading, product }) => {
               </Button>
             </Box>
           </HStack>
-          <Button bg='brandPink.100' color='brandGrey.500' size='lg'>
+          <Button
+            onClick={handleAddToCart}
+            bg='brandPink.100'
+            color='brandGrey.500'
+            size='lg'
+          >
             ADD TO CART
           </Button>
         </Stack>

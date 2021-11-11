@@ -13,6 +13,7 @@ export async function getStaticProps({ params }) {
     query getProduct($id: ID!) {
       product(id: $id, idType: ID) {
         id
+        databaseId
         name
         description(format: RAW)
         attributes {

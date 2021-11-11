@@ -32,9 +32,8 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
       'Dresses',
       'Shirt'
     );
-  const { cart } = useCart();
-  console.log(cart);
-
+  const { cart, isLoading, isError } = useCart();
+  console.log(cart, isLoading);
   return (
     <>
       <HeroSection hero={hero} />

@@ -13,7 +13,10 @@ export default async function handler(req, res) {
     },
   };
 
-  const response = await CoCart.post('cart/add-item', data);
+  const response = await CoCart.post(
+    'cart/add-item?cart_key=32a0e75834a4f9d3e881c60b66e32004',
+    data
+  );
   console.log(response.data);
   console.log(response.headers);
 
