@@ -207,6 +207,7 @@ export const PRODUCT_INFO_VARIABLE = gql`
               salePrice(format: RAW)
               stockStatus
               id
+              databaseId
               name
               status
               stockQuantity

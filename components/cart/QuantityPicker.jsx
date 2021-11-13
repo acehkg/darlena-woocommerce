@@ -1,31 +1,18 @@
-import {
-  Center,
-  Flex,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Text,
-  useControllableState,
-} from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { Center, Flex, FormControl, IconButton, Text } from '@chakra-ui/react';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 
 export const QuantityPicker = (props) => {
-  const { min = 1, max, rootProps, setQuantity, ...rest } = props;
-  const [value, setValue] = useControllableState(rest);
+  const { min = 1, max, rootProps, setQuantity, quantity, ...rest } = props;
 
-  const handleDecrement = () => setValue(value === min ? value : value - 1);
+  const handleDecrement = () => {
+    setQuantity(quantity === min ? quantity : quantity - 1);
+  };
 
-  const handleIncrement = () => setValue(value === max ? value : value + 1);
-
-  useEffect(() => {
-    setQuantity(value);
-  }, [value, setQuantity]);
+  const handleIncrement = () => {
+    setQuantity(quantity === max ? quantity : quantity + 1);
+  };
   return (
-    <FormControl {...rootProps}>
-      <FormLabel fontSize='sm' fontWeight='medium'>
-        Quantity
-      </FormLabel>
+    <FormControl maxW='10rem' {...rootProps}>
       <Flex
         borderRadius='base'
         px='2'
@@ -36,18 +23,18 @@ export const QuantityPicker = (props) => {
         <QuantityPickerButton
           onClick={handleDecrement}
           icon={<FiMinus />}
-          isDisabled={value === min}
+          isDisabled={quantity === min}
           aria-label='Decrement'
         />
         <Center minW='8'>
           <Text as='span' fontWeight='semibold' userSelect='none'>
-            {value}
+            {quantity}
           </Text>
         </Center>
         <QuantityPickerButton
           onClick={handleIncrement}
           icon={<FiPlus />}
-          isDisabled={value === max}
+          isDisabled={quantity === max}
           aria-label='Increment'
         />
       </Flex>

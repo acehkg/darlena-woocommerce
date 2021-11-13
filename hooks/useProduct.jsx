@@ -27,6 +27,7 @@ export const useProduct = (product, attributes) => {
       const variations = data.product.variations.edges.map(({ node }) => {
         return {
           id: node.id,
+          databaseId: node.databaseId,
           attributes: node.attributes.nodes,
           regularPrice: node.regularPrice,
           salePrice: node.salePrice,

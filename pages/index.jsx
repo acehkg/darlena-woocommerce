@@ -2,10 +2,7 @@ import dynamic from 'next/dynamic';
 import { GraphQLClient, gql } from 'graphql-request';
 import { FEATURED_QUERY } from '../lib/queries';
 import HeroSection from '../components/hero/HeroSection';
-//import FeaturedCollection from '../components/collection/FeaturedCollection';
-//import LandingGrid from '../components/collection/LandingGrid';
-//import CateoryBanner from '../components/hero/CategoryBanner';
-//import ReviewCarousel from '../components/reviews/carousel/ReviewCarousel';
+import useCart from '../hooks/useCart';
 
 const FeaturedCollection = dynamic(() =>
   import('../components/collection/FeaturedCollection')
@@ -31,6 +28,7 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
       'Dresses',
       'Shirt'
     );
+  const { lineItems, itemCount, cartLoading, error } = useCart();
 
   return (
     <>

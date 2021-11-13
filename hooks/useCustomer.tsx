@@ -40,6 +40,11 @@ interface CustomerData {
   error?: ApolloError;
 }
 
+interface OrderNode {
+  needsPayment: Boolean;
+  id: string;
+}
+
 const DEFAULT_STATE: CustomerData = {
   customer: undefined,
   loading: false,
@@ -102,8 +107,15 @@ export const GET_CUSTOMER = gql`
 export function CustomerProvider({ children }: { children: ReactNode }) {
   const { data, loading, error } = useQuery(GET_CUSTOMER);
   const customer = data?.customer;
+  const customerOrders = customer?.orders?.edges?.map(
+    ({ node }: { node: OrderNode }) => {
+      return node.needsPayment;
+    }
+  );
+  const needsPayment = customerOrders?.filter(Boolean).length ?? 0;
 
   const value = {
+    needsPayment,
     customer,
     loading,
     error,

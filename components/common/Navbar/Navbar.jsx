@@ -13,13 +13,9 @@ const SearchInput = dynamic(() => import('./SearchInput'));
 const DesktopNavMenu = dynamic(() => import('./NavMenu'));
 
 import useAuth from '../../../hooks/useAuth';
-import useCustomer from '../../../hooks/useCustomer';
-import { useCustomerData } from '../../../hooks/useCustomerData';
 
 const Navbar = ({ categories }) => {
   const { loggedIn, user } = useAuth();
-  const { loading, customer, error } = useCustomer();
-  const { paymentBadgeValue } = useCustomerData(customer);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -65,7 +61,6 @@ const Navbar = ({ categories }) => {
         </Flex>
         {loggedIn ? (
           <IconGroup
-            paymentBadgeValue={paymentBadgeValue}
             id={user?.id}
             email={user?.email}
             firstName={user?.firstName}

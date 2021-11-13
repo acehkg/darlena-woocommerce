@@ -20,6 +20,7 @@ import { NavLink } from '../ui/NavLink';
 import { useMutation } from '@apollo/client';
 import { GET_USER, GET_CUSTOMER } from '../../../hooks/useAuth';
 import { LOG_OUT } from '../../../lib/mutations';
+import useCustomer from '../../../hooks/useCustomer';
 
 const ProfileMenuButton = (props) => {
   const buttonProps = useMenuButton(props);
@@ -40,13 +41,16 @@ const ProfileMenuButton = (props) => {
   );
 };
 
-const OrdersForPayment = ({ paymentBadgeValue }) => {
+const OrdersForPayment = () => {
+  const { needsPayment, loading, error } = useCustomer();
   return (
     <MenuItem fontWeight='medium'>
       Orders For Payment
-      <Badge colorScheme='red' ml='2'>
-        {paymentBadgeValue}
-      </Badge>
+      {!loading && !error && (
+        <Badge colorScheme='red' ml='2'>
+          {needsPayment}
+        </Badge>
+      )}
     </MenuItem>
   );
 };

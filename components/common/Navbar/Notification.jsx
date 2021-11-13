@@ -1,10 +1,10 @@
 import { Box, Center } from '@chakra-ui/react';
-
 import { AiOutlineBell } from 'react-icons/ai';
+import useCustomer from '../../../hooks/useCustomer';
 
 const NotificationBadge = ({ children }) => (
   <Center
-    bg='red.500'
+    bg='brandPink.100'
     fontSize='xs'
     fontWeight='bold'
     position='absolute'
@@ -19,7 +19,8 @@ const NotificationBadge = ({ children }) => (
   </Center>
 );
 
-export const Notification = ({ paymentBadgeValue }) => {
+export const Notification = () => {
+  const { needsPayment, loading, error } = useCustomer();
   return (
     <Center
       as='button'
@@ -35,8 +36,12 @@ export const Notification = ({ paymentBadgeValue }) => {
         shadow: 'outline',
       }}
     >
-      <Box srOnly>{paymentBadgeValue} orders need payment</Box>
-      <NotificationBadge>{paymentBadgeValue}</NotificationBadge>
+      {!loading && !error && (
+        <>
+          <Box srOnly>{needsPayment} orders need payment</Box>
+          <NotificationBadge>{needsPayment}</NotificationBadge>
+        </>
+      )}
       <Box as={AiOutlineBell} fontSize='1.5rem' />
     </Center>
   );

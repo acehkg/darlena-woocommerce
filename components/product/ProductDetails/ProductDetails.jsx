@@ -20,10 +20,13 @@ import { DynamicColorPicker } from './DynamicColorPicker';
 import { DynamicSizePicker } from './DynamicSizePicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
+import { AddToCartVariable } from './AddToCartVariable';
+import { AddToCartSimple } from './AddToCartSimple';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
+import { ADD_VARIABLE } from '../../../lib/mutations';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -105,6 +108,21 @@ const DynamicPickers = ({
   );
 };
 
+const AddToCart = ({ product, selected, quantity }) => {
+  if (product.type === 'SIMPLE') {
+    return <AddToCartSimple product={product} quantity={quantity} />;
+  }
+  if (product.type === 'VARIABLE') {
+    return (
+      <AddToCartVariable
+        product={product}
+        selected={selected}
+        quantity={quantity}
+      />
+    );
+  }
+};
+
 export const ProductDetails = ({ images, loading, product }) => {
   const { loggedIn } = useAuth();
   const { attributes, sizes, colors } = useStaticProduct(product);
@@ -113,6 +131,7 @@ export const ProductDetails = ({ images, loading, product }) => {
   const [selectedColor, setSelectedColor] = useState(false);
   const [inStock, setInStock] = useState(true);
   const [selected, setSelected] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (variations) {
@@ -199,9 +218,7 @@ export const ProductDetails = ({ images, loading, product }) => {
                 }}
               />
             )}
-            <Text color={useColorModeValue('gray.600', 'gray.400')}>
-              {product?.description}
-            </Text>
+            <Text color='brandGrey.100'>{product?.description}</Text>
           </Stack>
           {attributes && (!loggedIn || !ready) && (
             <StaticPickers sizes={sizes} colors={colors} />
@@ -225,7 +242,11 @@ export const ProductDetails = ({ images, loading, product }) => {
             justify='space-evenly'
           >
             <Box flex='1'>
-              <QuantityPicker defaultValue={1} max={5} />
+              <QuantityPicker
+                defaultValue={1}
+                max={5}
+                setQuantity={setQuantity}
+              />
             </Box>
             <Box flex='1'>
               <Button
@@ -239,9 +260,11 @@ export const ProductDetails = ({ images, loading, product }) => {
               </Button>
             </Box>
           </HStack>
-          <Button bg='brandPink.100' color='brandGrey.500' size='lg'>
-            ADD TO CART
-          </Button>
+          <AddToCart
+            product={product}
+            selected={selected}
+            quantity={quantity}
+          />
         </Stack>
       </Stack>
     </Box>
