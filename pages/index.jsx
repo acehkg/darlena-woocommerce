@@ -3,10 +3,6 @@ import { GraphQLClient, gql } from 'graphql-request';
 import { FEATURED_QUERY } from '../lib/queries';
 import HeroSection from '../components/hero/HeroSection';
 import useCart from '../hooks/useCart';
-//import FeaturedCollection from '../components/collection/FeaturedCollection';
-//import LandingGrid from '../components/collection/LandingGrid';
-//import CateoryBanner from '../components/hero/CategoryBanner';
-//import ReviewCarousel from '../components/reviews/carousel/ReviewCarousel';
 
 const FeaturedCollection = dynamic(() =>
   import('../components/collection/FeaturedCollection')
@@ -32,8 +28,8 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
       'Dresses',
       'Shirt'
     );
-  const { cart, isLoading, isError } = useCart();
-  console.log(cart, isLoading);
+  const { lineItems, itemCount, cartLoading, error } = useCart();
+
   return (
     <>
       <HeroSection hero={hero} />

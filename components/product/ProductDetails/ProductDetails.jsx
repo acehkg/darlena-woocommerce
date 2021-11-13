@@ -20,11 +20,13 @@ import { DynamicColorPicker } from './DynamicColorPicker';
 import { DynamicSizePicker } from './DynamicSizePicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
+import { AddToCartVariable } from './AddToCartVariable';
+import { AddToCartSimple } from './AddToCartSimple';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
-import { addToCart } from '../../../lib/cart';
+import { ADD_VARIABLE } from '../../../lib/mutations';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -106,6 +108,21 @@ const DynamicPickers = ({
   );
 };
 
+const AddToCart = ({ product, selected, quantity }) => {
+  if (product.type === 'SIMPLE') {
+    return <AddToCartSimple product={product} quantity={quantity} />;
+  }
+  if (product.type === 'VARIABLE') {
+    return (
+      <AddToCartVariable
+        product={product}
+        selected={selected}
+        quantity={quantity}
+      />
+    );
+  }
+};
+
 export const ProductDetails = ({ images, loading, product }) => {
   const { loggedIn } = useAuth();
   const { attributes, sizes, colors } = useStaticProduct(product);
@@ -152,17 +169,6 @@ export const ProductDetails = ({ images, loading, product }) => {
         : setInStock(true);
     }
   }, [selected]);
-
-  const handleAddToCart = () => {
-    if (product.type === 'SIMPLE') {
-      const res = addToCart(product.databaseId, quantity);
-      console.log('added to cart', res);
-    }
-    if (product.type === 'VARIABLE') {
-      const res = addToCart(selected.databaseId, quantity);
-      console.log('added to cart', res);
-    }
-  };
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
@@ -256,14 +262,11 @@ export const ProductDetails = ({ images, loading, product }) => {
               </Button>
             </Box>
           </HStack>
-          <Button
-            onClick={handleAddToCart}
-            bg='brandPink.100'
-            color='brandGrey.500'
-            size='lg'
-          >
-            ADD TO CART
-          </Button>
+          <AddToCart
+            product={product}
+            selected={selected}
+            quantity={quantity}
+          />
         </Stack>
       </Stack>
     </Box>
