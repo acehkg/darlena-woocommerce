@@ -1,28 +1,63 @@
 import React, { createContext, useContext } from 'react';
-import useSWR from 'swr';
-import axios from 'axios';
+import { useQuery, gql } from '@apollo/client';
 
 const CartContext = createContext();
 
-const CART_ENDPOINT = 'https://store.darlena.shop/wp-json/rae/v1/cart/items';
-
-const config = {
-  headers: {
-    'x-headless-CMS': true,
-  },
-  withCredentials: true,
-};
-
-const cartFetcher = (CART_ENDPOINT) =>
-  axios.get(CART_ENDPOINT, config).then((res) => res.data);
+export const CART_ITEMS = gql`
+  {
+    cart {
+      contents {
+        itemCount
+        nodes {
+          product {
+            node {
+              ... on VariableProduct {
+                id
+                name
+                featuredImage {
+                  node {
+                    mediaDetails {
+                      width
+                      height
+                    }
+                    sourceUrl
+                  }
+                }
+                price(format: RAW)
+              }
+              ... on SimpleProduct {
+                id
+                name
+                featuredImage {
+                  node {
+                    mediaDetails {
+                      height
+                      width
+                    }
+                    sourceUrl
+                  }
+                }
+                price(format: RAW)
+              }
+            }
+          }
+          quantity
+        }
+      }
+    }
+  }
+`;
 
 export function CartProvider({ children }) {
-  const { data, error } = useSWR(CART_ENDPOINT, cartFetcher);
-
+  const { data, loading, error } = useQuery(CART_ITEMS);
+  const itemCount = data?.cart?.contents?.itemCount ?? 0;
+  const lineItems = data?.cart?.contents?.nodes ?? [];
+  const cartLoading = loading;
   const value = {
-    cart: data,
-    isLoading: !data && !error,
-    isError: error,
+    itemCount,
+    lineItems,
+    cartLoading,
+    error,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
