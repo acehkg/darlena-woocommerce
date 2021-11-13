@@ -1,6 +1,6 @@
 import { Box, Center } from '@chakra-ui/react';
-import { AiOutlineBell } from 'react-icons/ai';
-import useCustomer from '../../../hooks/useCustomer';
+import { AiOutlineShopping } from 'react-icons/ai';
+import useCart from '../../../hooks/useCart';
 
 const NotificationBadge = ({ children }) => (
   <Center
@@ -19,8 +19,9 @@ const NotificationBadge = ({ children }) => (
   </Center>
 );
 
-export const Notification = () => {
-  const { needsPayment, loading, error } = useCustomer();
+export const ShoppingBag = () => {
+  const { itemCount, cartLoading, error } = useCart();
+
   return (
     <Center
       as='button'
@@ -36,13 +37,11 @@ export const Notification = () => {
         shadow: 'outline',
       }}
     >
-      {!loading && !error && (
-        <>
-          <Box srOnly>{needsPayment} orders need payment</Box>
-          <NotificationBadge>{needsPayment}</NotificationBadge>
-        </>
+      {!cartLoading && !error && <Box srOnly>{itemCount} items in cart</Box>}
+      {!cartLoading && !error && (
+        <NotificationBadge>{itemCount}</NotificationBadge>
       )}
-      <Box as={AiOutlineBell} fontSize='1.5rem' />
+      <Box as={AiOutlineShopping} fontSize='1.5rem' />
     </Center>
   );
 };
