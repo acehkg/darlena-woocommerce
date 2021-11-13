@@ -59,6 +59,7 @@ export const AddToCartVariable = ({ product, selected, quantity }) => {
     if (error) {
       toast(errorToast);
     }
+    // eslint-disable-next-line
   }, [loading, error, data]);
   return (
     <Button

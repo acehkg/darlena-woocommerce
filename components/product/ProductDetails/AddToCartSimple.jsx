@@ -57,6 +57,7 @@ export const AddToCartSimple = ({ product, quantity }) => {
     if (error) {
       toast(errorToast);
     }
+    // eslint-disable-next-line
   }, [loading, error, data]);
 
   return (

@@ -4,7 +4,7 @@ import { useQuery, gql } from '@apollo/client';
 const CartContext = createContext();
 
 export const CART_ITEMS = gql`
-  {
+  query getCart {
     cart {
       subtotal
       shippingTotal

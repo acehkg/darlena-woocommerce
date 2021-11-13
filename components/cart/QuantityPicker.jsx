@@ -4,21 +4,21 @@ import { FiMinus, FiPlus } from 'react-icons/fi';
 export const QuantityPicker = (props) => {
   const { min = 1, max, rootProps, setQuantity, quantity, ...rest } = props;
 
-  const handleDecrement = () =>
+  const handleDecrement = () => {
     setQuantity(quantity === min ? quantity : quantity - 1);
+  };
 
-  const handleIncrement = () =>
+  const handleIncrement = () => {
     setQuantity(quantity === max ? quantity : quantity + 1);
-
+  };
   return (
-    <FormControl {...rootProps}>
+    <FormControl maxW='10rem' {...rootProps}>
       <Flex
         borderRadius='base'
         px='2'
         py='0.4375rem'
         borderWidth='1px'
         justifyContent='space-between'
-        maxW='10rem'
       >
         <QuantityPickerButton
           onClick={handleDecrement}

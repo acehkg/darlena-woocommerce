@@ -22,10 +22,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size='md' placement='left'>
       <DrawerOverlay />
-      <DrawerContent
-        bg={useColorModeValue('white', 'gray.800')}
-        overflowY='auto'
-      >
+      <DrawerContent overflowY='auto'>
         <DrawerCloseButton
           size='lg'
           right={{ base: '4', md: '8' }}
@@ -39,18 +36,22 @@ export const CartDrawer = ({ isOpen, onClose }) => {
           spacing='8'
           overflowY='auto'
         >
-          <Heading py='1rem' size='md'>
-            Shopping Cart ({itemCount} items)
+          <Heading pt='3rem' pb='1rem' size='md'>
+            عربة التسوق ({itemCount} العناصر)
           </Heading>
-          <Stack spacing={{ base: '8', md: '10' }}>
-            {lineItems.map((item) => (
-              <CartItem
-                key={item.key}
-                product={item.product.node}
-                item={item}
-              />
-            ))}
-          </Stack>
+          {itemCount > 0 ? (
+            <Stack spacing={{ base: '8', md: '10' }}>
+              {lineItems.map((item) => (
+                <CartItem
+                  key={item.key}
+                  product={item.product.node}
+                  item={item}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Heading>عربة التسوق فارغة</Heading>
+          )}
         </Stack>
         <Stack
           borderTopWidth='1px'
