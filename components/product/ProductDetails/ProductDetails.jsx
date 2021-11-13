@@ -218,9 +218,7 @@ export const ProductDetails = ({ images, loading, product }) => {
                 }}
               />
             )}
-            <Text color={useColorModeValue('gray.600', 'gray.400')}>
-              {product?.description}
-            </Text>
+            <Text color='brandGrey.100'>{product?.description}</Text>
           </Stack>
           {attributes && (!loggedIn || !ready) && (
             <StaticPickers sizes={sizes} colors={colors} />

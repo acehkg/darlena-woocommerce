@@ -1,6 +1,7 @@
-import { Box, Center } from '@chakra-ui/react';
+import { Box, Center, useDisclosure } from '@chakra-ui/react';
 import { AiOutlineShopping } from 'react-icons/ai';
 import useCart from '../../../hooks/useCart';
+import { CartDrawer } from '../../cart/CartDrawer';
 
 const NotificationBadge = ({ children }) => (
   <Center
@@ -21,27 +22,32 @@ const NotificationBadge = ({ children }) => (
 
 export const ShoppingBag = () => {
   const { itemCount, cartLoading, error } = useCart();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Center
-      as='button'
-      outline='0'
-      w='8'
-      h='8'
-      position='relative'
-      rounded='md'
-      _hover={{
-        bg: 'whiteAlpha.200',
-      }}
-      _focus={{
-        shadow: 'outline',
-      }}
-    >
-      {!cartLoading && !error && <Box srOnly>{itemCount} items in cart</Box>}
-      {!cartLoading && !error && (
-        <NotificationBadge>{itemCount}</NotificationBadge>
-      )}
-      <Box as={AiOutlineShopping} fontSize='1.5rem' />
-    </Center>
+    <>
+      <Center
+        as='button'
+        outline='0'
+        w='8'
+        h='8'
+        position='relative'
+        rounded='md'
+        onClick={onOpen}
+        _hover={{
+          bg: 'whiteAlpha.200',
+        }}
+        _focus={{
+          shadow: 'outline',
+        }}
+      >
+        {!cartLoading && !error && <Box srOnly>{itemCount} items in cart</Box>}
+        {!cartLoading && !error && (
+          <NotificationBadge>{itemCount}</NotificationBadge>
+        )}
+        <Box as={AiOutlineShopping} fontSize='1.5rem' />
+      </Center>
+      <CartDrawer isOpen={isOpen} onClose={onClose} />
+    </>
   );
 };
