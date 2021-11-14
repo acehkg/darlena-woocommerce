@@ -41,8 +41,10 @@ export const ShoppingBag = () => {
           shadow: 'outline',
         }}
       >
-        {!cartLoading && !error && <Box srOnly>{itemCount} items in cart</Box>}
-        {!cartLoading && !error && (
+        {!cartLoading && !error && itemCount > 0 && (
+          <Box srOnly>{itemCount} items in cart</Box>
+        )}
+        {!cartLoading && !error && itemCount > 0 && (
           <NotificationBadge>{itemCount}</NotificationBadge>
         )}
         <Box as={AiOutlineShopping} fontSize='1.5rem' />
