@@ -29,12 +29,7 @@ export const ColorPickerOption = (props) => {
         {...getCheckboxProps()}
       >
         <Circle size='8' bg={color}>
-          {state.isChecked && (
-            <Icon
-              as={FiCheck}
-              color={isDark(color)(theme) ? 'white' : 'gray.900'}
-            />
-          )}
+          {state.isChecked && <Icon as={FiCheck} color='brandGrey.500' />}
         </Circle>
       </Circle>
       <VisuallyHidden {...getLabelProps()}>

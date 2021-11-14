@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Stack,
   Text,
   Flex,
   useColorModeValue,
   IconButton,
+  Box,
+  useToast,
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client';
 import { FiTrash2 } from 'react-icons/fi';
@@ -15,10 +17,29 @@ import { QuantityPicker } from './QuantityPicker';
 import { REMOVE_ITEM, UPDATE_QUANTITY } from '../../lib/mutations';
 import { CART_ITEMS } from '../../hooks/useCart';
 
+const errorToast = {
+  position: 'bottom',
+  duration: 2000,
+  isClosable: true,
+  render: () => (
+    <Box
+      color='brandGrey.500'
+      p={3}
+      bg='red'
+      borderRadius='md'
+      textAlign='center'
+    >
+      خطأ في تحديث عربة التسوق. حاول مجددا.
+    </Box>
+  ),
+};
+
 export const CartItem = ({ product, item }) => {
   const [quantity, setQuantity] = useState(item?.quantity);
   const [priceData] = product?.price.split(',');
   const price = parseInt(priceData);
+  const toast = useToast();
+
   const [updateQuantity, { error: updateError }] = useMutation(
     UPDATE_QUANTITY,
     {
@@ -43,6 +64,13 @@ export const CartItem = ({ product, item }) => {
     };
     clearItem({ variables: variables });
   };
+
+  useEffect(() => {
+    if (clearItemError || updateError) {
+      toast(errorToast);
+    }
+    // eslint-disable-next-line
+  }, [clearItemError, updateError]);
   return (
     <Stack direction='row' spacing='5'>
       <CartImage image={product?.featuredImage?.node} boxSize='150px' />
