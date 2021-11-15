@@ -66,8 +66,9 @@ export const AddToCartSimple = ({ product, quantity }) => {
       bg='brandPink.100'
       color='brandGrey.500'
       size='lg'
+      _hover={{ filter: 'brightness(110%)' }}
     >
-      ADD TO CART
+      أضف إلى السلة
     </Button>
   );
 };

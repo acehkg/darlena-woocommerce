@@ -26,7 +26,7 @@ import { AddToCartSimple } from './AddToCartSimple';
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
-import { ADD_VARIABLE } from '../../../lib/mutations';
+import PleaseLogIn from './PleaseLogIn';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -108,7 +108,11 @@ const DynamicPickers = ({
   );
 };
 
-const AddToCart = ({ product, selected, quantity }) => {
+const AddToCart = ({ product, selected, quantity, loggedIn }) => {
+  if (!loggedIn) {
+    return <PleaseLogIn />;
+  }
+
   if (product.type === 'SIMPLE') {
     return <AddToCartSimple product={product} quantity={quantity} />;
   }
@@ -264,6 +268,7 @@ export const ProductDetails = ({ images, loading, product }) => {
             product={product}
             selected={selected}
             quantity={quantity}
+            loggedIn={loggedIn}
           />
         </Stack>
       </Stack>
