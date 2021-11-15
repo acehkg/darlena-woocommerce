@@ -2,7 +2,6 @@ import {
   chakra,
   Circle,
   Icon,
-  useColorModeValue,
   useRadio,
   useTheme,
   VisuallyHidden,
