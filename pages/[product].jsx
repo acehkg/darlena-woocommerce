@@ -60,6 +60,13 @@ export async function getStaticProps({ params }) {
       };
     }
   );
+
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       product,
