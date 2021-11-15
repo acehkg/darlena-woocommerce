@@ -61,7 +61,7 @@ const Navbar = ({ categories }) => {
         </Flex>
         {loggedIn ? (
           <IconGroup
-            id={user?.id}
+            id={user?.databaseId}
             email={user?.email}
             firstName={user?.firstName}
           />

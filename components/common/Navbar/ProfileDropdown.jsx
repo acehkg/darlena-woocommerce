@@ -83,6 +83,7 @@ export const ProfileDropdown = ({
   email,
   id,
 }) => {
+  console.log(id);
   return (
     <Menu>
       <ProfileMenuButton />

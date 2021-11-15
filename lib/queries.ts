@@ -284,3 +284,54 @@ export const CUSTOMER_ORDERS = gql`
     }
   }
 `;
+
+export const CUSTOMER_ORDERS_DETAILED = gql`
+  query getOrders {
+    customer {
+      orders {
+        nodes {
+          date
+          datePaid
+          dateCompleted
+          needsPayment
+          orderNumber
+          paymentMethod
+          status
+          total
+          lineItems {
+            nodes {
+              product {
+                ... on VariableProduct {
+                  name
+                  databaseId
+                  featuredImage {
+                    node {
+                      mediaDetails {
+                        width
+                        height
+                      }
+                      sourceUrl
+                    }
+                  }
+                }
+                ... on SimpleProduct {
+                  name
+                  databaseId
+                  featuredImage {
+                    node {
+                      mediaDetails {
+                        height
+                        width
+                      }
+                      sourceUrl
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
