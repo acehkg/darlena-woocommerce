@@ -27,6 +27,7 @@ import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
+import useCheckStock from '../../../hooks/useCheckStock';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -132,6 +133,8 @@ const AddToCart = ({ product, selected, quantity, loggedIn }) => {
 };
 
 export const ProductDetails = ({ images, loading, product }) => {
+  //dynamically check stock
+
   const { loggedIn } = useAuth();
   const { attributes, sizes, colors, variations, price } =
     useStaticProduct(product);
