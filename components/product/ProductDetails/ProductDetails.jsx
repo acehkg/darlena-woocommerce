@@ -43,17 +43,19 @@ const StaticPickers = ({ sizes, colors }) => {
       <Stack flex='1'>
         {colors && <ColorPicker options={colors.options} />}
         {sizes && <SizePicker options={sizes.options} />}
-        <HStack spacing='1' color='gray.600'>
-          <Icon as={RiRulerLine} />
-          <Link
-            href='#'
-            fontSize='xs'
-            fontWeight='medium'
-            textDecoration='underline'
-          >
-            View our sizing guide
-          </Link>
-        </HStack>
+        {sizes && (
+          <HStack spacing='1' color='gray.600'>
+            <Icon as={RiRulerLine} />
+            <Link
+              href='#'
+              fontSize='xs'
+              fontWeight='medium'
+              textDecoration='underline'
+            >
+              View our sizing guide
+            </Link>
+          </HStack>
+        )}
       </Stack>
     </Stack>
   );
@@ -92,17 +94,19 @@ const DynamicPickers = ({
             inStock={inStock}
           />
         )}
-        <HStack spacing='1' color='gray.600'>
-          <Icon as={RiRulerLine} />
-          <Link
-            href='#'
-            fontSize='xs'
-            fontWeight='medium'
-            textDecoration='underline'
-          >
-            View our sizing guide
-          </Link>
-        </HStack>
+        {sizes && (
+          <HStack spacing='1' color='gray.600'>
+            <Icon as={RiRulerLine} />
+            <Link
+              href='#'
+              fontSize='xs'
+              fontWeight='medium'
+              textDecoration='underline'
+            >
+              View our sizing guide
+            </Link>
+          </HStack>
+        )}
       </Stack>
     </Stack>
   );
@@ -113,10 +117,10 @@ const AddToCart = ({ product, selected, quantity, loggedIn }) => {
     return <PleaseLogIn />;
   }
 
-  if (product.type === 'SIMPLE') {
+  if (!product.variations) {
     return <AddToCartSimple product={product} quantity={quantity} />;
   }
-  if (product.type === 'VARIABLE') {
+  if (product.variations) {
     return (
       <AddToCartVariable
         product={product}
@@ -129,8 +133,9 @@ const AddToCart = ({ product, selected, quantity, loggedIn }) => {
 
 export const ProductDetails = ({ images, loading, product }) => {
   const { loggedIn } = useAuth();
-  const { attributes, sizes, colors } = useStaticProduct(product);
-  const { variations, price, ready } = useProduct(product, attributes);
+  const { attributes, sizes, colors, variations, price } =
+    useStaticProduct(product);
+  //const { variations, price, ready } = useProduct(product, attributes);
   const [selectedSize, setSelectedSize] = useState(false);
   const [selectedColor, setSelectedColor] = useState(false);
   const [inStock, setInStock] = useState(true);
@@ -211,9 +216,8 @@ export const ProductDetails = ({ images, loading, product }) => {
                 {product?.name}
               </Heading>
             </Stack>
-            {!ready ? (
-              <Skeleton h='1rem' w='5rem' />
-            ) : (
+
+            {price && (
               <PriceTag
                 price={price}
                 currency='USD'
@@ -222,12 +226,13 @@ export const ProductDetails = ({ images, loading, product }) => {
                 }}
               />
             )}
+
             <Text color='brandGrey.100'>{product?.description}</Text>
           </Stack>
-          {attributes && (!loggedIn || !ready) && (
+          {attributes && !loggedIn && (
             <StaticPickers sizes={sizes} colors={colors} />
           )}
-          {attributes && loggedIn && ready && (
+          {attributes && loggedIn && (
             <DynamicPickers
               sizes={sizes}
               colors={colors}

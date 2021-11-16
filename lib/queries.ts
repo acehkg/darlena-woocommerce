@@ -335,3 +335,104 @@ export const CUSTOMER_ORDERS_DETAILED = gql`
     }
   }
 `;
+
+export const PRODUCT_COMPLETE = gql`
+  query getProduct($id: ID!) {
+    product(id: $id, idType: ID) {
+      ... on VariableProduct {
+        id
+        name
+        databaseId
+        status
+        attributes {
+          nodes {
+            label
+            name
+            options
+          }
+        }
+        databaseId
+        description(format: RAW)
+        featuredImage {
+          node {
+            mediaDetails {
+              height
+              width
+            }
+            sourceUrl
+          }
+        }
+        galleryImages {
+          nodes {
+            mediaDetails {
+              width
+              height
+            }
+            sourceUrl
+          }
+        }
+        regularPrice(format: RAW)
+        salePrice(format: RAW)
+        onSale
+        status
+        stockQuantity
+        stockStatus
+        variations {
+          nodes {
+            attributes {
+              nodes {
+                name
+                value
+              }
+            }
+            databaseId
+            id
+            name
+            onSale
+            regularPrice(format: RAW)
+            salePrice(format: RAW)
+            status
+            stockQuantity
+            stockStatus
+          }
+        }
+        productTags {
+          nodes {
+            name
+          }
+        }
+      }
+      ... on SimpleProduct {
+        id
+        name
+        databaseId
+        status
+        featuredImage {
+          node {
+            mediaDetails {
+              height
+              width
+            }
+            sourceUrl
+          }
+        }
+        galleryImages {
+          nodes {
+            mediaDetails {
+              height
+              width
+            }
+            sourceUrl
+            description(format: RAW)
+          }
+        }
+        onSale
+        regularPrice(format: RAW)
+        salePrice(format: RAW)
+        status
+        stockQuantity
+        stockStatus
+      }
+    }
+  }
+`;

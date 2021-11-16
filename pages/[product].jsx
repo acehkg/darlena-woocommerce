@@ -2,6 +2,7 @@ import { GraphQLClient, gql } from 'graphql-request';
 import { CATEGORIES_QUERY } from '../lib/queries';
 import { ProductDetails } from '../components/product/ProductDetails/ProductDetails';
 import useProductImages from '../hooks/useProductImages';
+import { PRODUCT_COMPLETE } from '../lib/queries';
 
 export async function getStaticProps({ params }) {
   const variables = {
@@ -46,7 +47,7 @@ export async function getStaticProps({ params }) {
     }
   `;
 
-  const { product } = await client.request(QUERY, variables);
+  const { product } = await client.request(PRODUCT_COMPLETE, variables);
 
   const categoriesData = await client.request(CATEGORIES_QUERY);
   const categories = await categoriesData.productCategories.edges.map(
@@ -62,6 +63,12 @@ export async function getStaticProps({ params }) {
   );
 
   if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
+  if (product.status !== 'publish') {
     return {
       notFound: true,
     };
@@ -85,6 +92,8 @@ export async function getStaticPaths() {
         edges {
           node {
             id
+            name
+            status
           }
         }
       }
@@ -93,11 +102,17 @@ export async function getStaticPaths() {
 
   const data = await client.request(QUERY);
   const products = await data.products.edges.map(({ node }) => {
-    return { id: node.id };
+    return {
+      id: node.id,
+      name: node.name,
+      status: node.status,
+    };
   });
 
+  const publishedProducts = products.filter((p) => p.status === 'publish');
+
   return {
-    paths: products.map((product) => `/${product.id}`),
+    paths: publishedProducts.map((product) => `/${product.id}`),
     fallback: 'blocking',
   };
 }
