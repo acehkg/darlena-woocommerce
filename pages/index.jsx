@@ -1,8 +1,7 @@
 import dynamic from 'next/dynamic';
 import { GraphQLClient, gql } from 'graphql-request';
-import { FEATURED_QUERY } from '../lib/queries';
+import { FEATURED_PRODUCTS } from '../lib/queries';
 import HeroSection from '../components/hero/HeroSection';
-import useCart from '../hooks/useCart';
 
 const FeaturedCollection = dynamic(() =>
   import('../components/collection/FeaturedCollection')
@@ -26,9 +25,8 @@ const Home = ({ banners, hero, categories, featuredProducts }) => {
       featuredProducts,
       'Abaya',
       'Dresses',
-      'Shirt'
+      'Accessory'
     );
-  const { lineItems, itemCount, cartLoading, error } = useCart();
 
   return (
     <>
@@ -155,15 +153,25 @@ export async function getStaticProps() {
     };
   });
 
-  const featuredData = await client.request(FEATURED_QUERY);
+  const featuredData = await client.request(FEATURED_PRODUCTS);
 
-  const featuredProducts = await featuredData.products.edges.map(({ node }) => {
+  const featuredProducts = await featuredData.products.nodes.map((node) => {
+    let image;
+    node.featuredImage
+      ? (image = {
+          sourceUrl: node?.featuredImage?.node?.sourceUrl,
+          mediaDetails: node?.featuredImage?.node?.mediaDetails,
+        })
+      : (image = null);
     return {
       id: node.id,
+      databaseId: node.databaseId,
       name: node.name,
       description: node.description,
-      image: node.image,
-      type: node.type,
+      image: image,
+      onSale: node.onSale,
+      regularPrice: node.regularPrice,
+      salePrice: node.salePrice,
       categoryName: node.productCategories?.nodes[0]?.name ?? false,
       categoryId: node.productCategories?.nodes[0]?.id ?? false,
     };

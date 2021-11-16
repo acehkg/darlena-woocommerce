@@ -16,6 +16,7 @@ export const usePrepareHomePage = (categories, products, cat1, cat2, cat3) => {
     setCategoryOne({ products: p1, category: c1 });
     setCategoryTwo({ products: p2, category: c2 });
     setCategoryThree({ products: p3, category: c3 });
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {

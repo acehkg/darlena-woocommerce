@@ -17,15 +17,17 @@ export const PriceTag = (props) => {
   return (
     <HStack spacing='1' {...rootProps}>
       <Price isOnSale={onSale} textProps={priceProps}>
-        {formatPrice(regularPrice, {
+        {/*  {formatPrice(regularPrice, {
           currency,
-        })}
+        })} */}
+        {regularPrice}
       </Price>
       {salePrice && (
         <SalePrice {...salePriceProps}>
-          {formatPrice(salePrice, {
+          {/*  {formatPrice(salePrice, {
             currency,
-          })}
+          })} */}
+          {salePrice}
         </SalePrice>
       )}
     </HStack>

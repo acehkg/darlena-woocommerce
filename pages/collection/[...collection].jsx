@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { GraphQLClient, gql } from 'graphql-request';
 import ProductGrid from '../../components/product/ProductGrid';
-import { PRODUCTS_BY_CATEGORY_SLUG, CATEGORIES_QUERY } from '../../lib/queries';
+import { PRODUCTS_BY_CATEGORY, CATEGORIES_QUERY } from '../../lib/queries';
 import CategoryBar from '../../components/product/CategoryBar';
 import Breadcrumbs from '../../components/common/Navigation/Breadcrumbs';
 
@@ -16,21 +16,31 @@ export async function getStaticProps({ params }) {
   };
 
   const { productCategories } = await client.request(
-    PRODUCTS_BY_CATEGORY_SLUG,
+    PRODUCTS_BY_CATEGORY,
     variables
   );
 
-  const [productData] = productCategories.edges.map(
-    ({ node }) => node.products
+  const [productData] = await productCategories.nodes.map(
+    (node) => node.products
   );
+  const products = await productData.nodes.map((node) => {
+    let image;
+    node.featuredImage
+      ? (image = {
+          sourceUrl: node?.featuredImage?.node?.sourceUrl,
+          mediaDetails: node?.featuredImage?.node?.mediaDetails,
+        })
+      : (image = null);
 
-  const products = await productData.edges.map(({ node }) => {
     return {
       id: node.id,
       name: node.name,
+      databaseId: node.databaseId,
       description: node.description,
-      image: node.image,
-      type: node.type,
+      image: image,
+      onSale: node.onSale,
+      regularPrice: node.regularPrice,
+      salePrice: node.salePrice,
     };
   });
 
@@ -48,7 +58,7 @@ export async function getStaticProps({ params }) {
   );
 
   return {
-    props: { products, categories },
+    props: { categories, products },
     revalidate: 300,
   };
 }
@@ -118,7 +128,7 @@ export async function getStaticPaths() {
   };
 }
 
-const Collection = ({ products, categories }) => {
+const Collection = ({ products, categories, productData }) => {
   const [mainCategory, setMainCategory] = useState({});
   const { asPath } = useRouter();
 

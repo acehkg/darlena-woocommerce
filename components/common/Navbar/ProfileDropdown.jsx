@@ -83,7 +83,6 @@ export const ProfileDropdown = ({
   email,
   id,
 }) => {
-  console.log(id);
   return (
     <Menu>
       <ProfileMenuButton />
@@ -101,7 +100,7 @@ export const ProfileDropdown = ({
         <OrdersForPayment paymentBadgeValue={paymentBadgeValue} />
         <MenuItem fontWeight='medium'>Favorites</MenuItem>
         <MenuItem fontWeight='medium'>
-          <NavLink href={`/customer/${id}`}>Account Settings</NavLink>
+          <NavLink href={`/customer`}>Account Settings</NavLink>
         </MenuItem>
         <LogOutButton />
       </MenuList>

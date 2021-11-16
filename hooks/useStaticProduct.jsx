@@ -22,6 +22,7 @@ export const useStaticProduct = (product) => {
       setAttributes(attributes);
 
       switch (attributes.length) {
+        //enforce rules for content creators so only expected variations are used. More robust.
         case 1:
           if (attributes[0].name === ('size' || 'Size')) {
             setSizes(attributes[0]);
@@ -83,22 +84,12 @@ export const useStaticProduct = (product) => {
         };
       });
       setVariations(variations);
-      const [regPri] = product.regularPrice.split(',');
 
-      if (product.salePrice !== null) {
-        const [salePri] = product.salePrice.split(',');
-        setPrice({
-          regularPrice: regPri,
-          onSale: product.onSale,
-          salePrice: salePri,
-        });
-      } else {
-        setPrice({
-          regularPrice: regPri,
-          onSale: product.onSale,
-          salePrice: product.salePrice,
-        });
-      }
+      setPrice({
+        regularPrice: product.regularPrice,
+        onSale: product.onSale,
+        salePrice: product.salePrice,
+      });
     }
     if (!product.variations) {
       setVariations(false);

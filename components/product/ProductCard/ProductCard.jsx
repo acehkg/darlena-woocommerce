@@ -1,15 +1,12 @@
 import Link from 'next/link';
 import { Link as ChakraLink } from '@chakra-ui/react';
-import { Box, Skeleton, Stack, Text } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { Box, Stack, Text } from '@chakra-ui/react';
 import { FavouriteButton } from './FavoriteButton';
-import { useProduct } from '../../../hooks/useProduct';
 import { PriceTag } from './PriceTag';
 import ProductCardImage from '../../common/Image/ProductCardImage';
+import PlaceHolderImage from '../../common/Image/PlaceHolderImage';
 
 export const ProductCard = ({ product }) => {
-  const { ready, price } = useProduct(product);
-
   return (
     <>
       <Stack
@@ -29,11 +26,15 @@ export const ProductCard = ({ product }) => {
                 filter: 'brightness(80%)',
               }}
             >
-              <ProductCardImage
-                image={product.image}
-                ratio={3 / 4}
-                objectFit='cover'
-              />
+              {product.image ? (
+                <ProductCardImage
+                  image={product.image}
+                  ratio={3 / 4}
+                  objectFit='cover'
+                />
+              ) : (
+                <PlaceHolderImage ratio={3 / 4} objectFit='cover' />
+              )}
             </ChakraLink>
           </Link>
           <FavouriteButton
@@ -57,16 +58,14 @@ export const ProductCard = ({ product }) => {
             </ChakraLink>
           </Link>
 
-          {!ready ? (
-            <Skeleton height='1rem' width='100%' />
-          ) : (
+          {product && (
             <PriceTag
               currency='USD'
-              price={price.regularPrice}
+              price={product.regularPrice}
               priceProps={{
                 color: 'brandGold.100',
               }}
-              salePrice={price.salePrice}
+              salePrice={product.salePrice}
               salePriceProps={{
                 color: 'red.500',
                 fontWeight: 'bold',

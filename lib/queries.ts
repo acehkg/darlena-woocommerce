@@ -371,8 +371,8 @@ export const PRODUCT_COMPLETE = gql`
             sourceUrl
           }
         }
-        regularPrice(format: RAW)
-        salePrice(format: RAW)
+        regularPrice(format: FORMATTED)
+        salePrice(format: FORMATTED)
         onSale
         status
         stockQuantity
@@ -389,8 +389,8 @@ export const PRODUCT_COMPLETE = gql`
             id
             name
             onSale
-            regularPrice(format: RAW)
-            salePrice(format: RAW)
+            regularPrice(format: FORMATTED)
+            salePrice(format: FORMATTED)
             status
             stockQuantity
             stockStatus
@@ -427,11 +427,147 @@ export const PRODUCT_COMPLETE = gql`
           }
         }
         onSale
-        regularPrice(format: RAW)
-        salePrice(format: RAW)
+        regularPrice(format: FORMATTED)
+        salePrice(format: FORMATTED)
         status
         stockQuantity
         stockStatus
+      }
+    }
+  }
+`;
+
+export const STOCK_STATUS = gql`
+  query getStock($id: ID!) {
+    product(id: $id, idType: ID) {
+      ... on VariableProduct {
+        id
+        databaseId
+        stockQuantity
+        stockStatus
+        variations {
+          nodes {
+            stockQuantity
+            stockStatus
+          }
+        }
+      }
+      ... on SimpleProduct {
+        id
+        databaseId
+        stockQuantity
+        stockStatus
+      }
+    }
+  }
+`;
+
+export const FEATURED_PRODUCTS = gql`
+  query getFeatured {
+    products(where: { featured: true }) {
+      nodes {
+        ... on VariableProduct {
+          id
+          name
+          databaseId
+          description(format: RAW)
+          featuredImage {
+            node {
+              mediaDetails {
+                height
+                width
+              }
+              sourceUrl
+            }
+          }
+          salePrice(format: FORMATTED)
+          regularPrice(format: FORMATTED)
+          onSale
+          productCategories {
+            nodes {
+              id
+              databaseId
+              name
+            }
+          }
+        }
+        ... on SimpleProduct {
+          id
+          name
+          databaseId
+          description(format: RAW)
+          featuredImage {
+            node {
+              mediaDetails {
+                height
+                width
+              }
+              sourceUrl
+            }
+          }
+          regularPrice(format: FORMATTED)
+          onSale
+          salePrice(format: FORMATTED)
+          productCategories {
+            nodes {
+              id
+              databaseId
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const PRODUCTS_BY_CATEGORY = gql`
+  query getProductsByCategory($slug: [String]) {
+    productCategories(where: { slug: $slug }) {
+      nodes {
+        name
+        id
+        databaseId
+        products {
+          nodes {
+            ... on VariableProduct {
+              id
+              name
+              databaseId
+              description(format: RAW)
+              featuredImage {
+                node {
+                  mediaDetails {
+                    width
+                    height
+                  }
+                  sourceUrl
+                }
+              }
+              onSale
+              regularPrice(format: FORMATTED)
+              salePrice(format: FORMATTED)
+            }
+            ... on SimpleProduct {
+              id
+              name
+              databaseId
+              description
+              featuredImage {
+                node {
+                  mediaDetails {
+                    height
+                    width
+                  }
+                  sourceUrl
+                }
+              }
+              onSale
+              regularPrice(format: FORMATTED)
+              salePrice(format: FORMATTED)
+            }
+          }
+        }
       }
     }
   }
