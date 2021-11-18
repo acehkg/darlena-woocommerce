@@ -7,8 +7,6 @@ import {
   Link,
   Stack,
   Text,
-  useColorModeValue,
-  Skeleton,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { FiHeart } from 'react-icons/fi';
@@ -23,13 +21,10 @@ import { PriceTag } from './PriceTag';
 import { AddToCartVariable } from './AddToCartVariable';
 import { AddToCartSimple } from './AddToCartSimple';
 import PlaceHolderImage from '../../common/Image/PlaceHolderImage';
-
-import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
-import useCheckStock from '../../../hooks/useCheckStock';
-import NextImageAspectRatio from '../../common/Image/NextImageAspectRatio';
+import useSetVariations from '../../../hooks/useSetVariations';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -115,13 +110,19 @@ const DynamicPickers = ({
   );
 };
 
-const AddToCart = ({ product, selected, quantity, loggedIn }) => {
+const AddToCart = ({ product, selected, quantity, loggedIn, inStock }) => {
   if (!loggedIn) {
     return <PleaseLogIn />;
   }
 
   if (!product.variations) {
-    return <AddToCartSimple product={product} quantity={quantity} />;
+    return (
+      <AddToCartSimple
+        product={product}
+        quantity={quantity}
+        inStock={inStock}
+      />
+    );
   }
   if (product.variations) {
     return (
@@ -129,23 +130,26 @@ const AddToCart = ({ product, selected, quantity, loggedIn }) => {
         product={product}
         selected={selected}
         quantity={quantity}
+        inStock={inStock}
       />
     );
   }
 };
 
 export const ProductDetails = ({ images, loading, product }) => {
-  //dynamically check stock
-
+  //make sure user is logged in
   const { loggedIn } = useAuth();
-  const { attributes, sizes, colors, variations, price } =
-    useStaticProduct(product);
-  //const { variations, price, ready } = useProduct(product, attributes);
+  //prepare prodcut data for display
+  const { attributes, sizes, colors, price } = useStaticProduct(product);
+  //set state for possible options
   const [selectedSize, setSelectedSize] = useState(false);
   const [selectedColor, setSelectedColor] = useState(false);
-  const [inStock, setInStock] = useState(true);
+  //set state of selected variation for variable products and qauantity
   const [selected, setSelected] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  //dynamically check stock
+  const [inStock, setInStock] = useState(true);
+  const { variations, ready } = useSetVariations(product);
 
   useEffect(() => {
     if (variations) {
@@ -283,6 +287,7 @@ export const ProductDetails = ({ images, loading, product }) => {
             selected={selected}
             quantity={quantity}
             loggedIn={loggedIn}
+            inStock={inStock}
           />
         </Stack>
       </Stack>

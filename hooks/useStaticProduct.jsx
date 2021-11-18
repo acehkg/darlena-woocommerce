@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 
 export const useStaticProduct = (product) => {
   const [attributes, setAttributes] = useState();
-  const [sizes, setSizes] = useState(false);
-  const [colors, setColors] = useState(false);
-  const [variations, setVariations] = useState([]);
+  const [sizes, setSizes] = useState(null);
+  const [colors, setColors] = useState(null);
   const [price, setPrice] = useState();
 
   useEffect(() => {
@@ -46,10 +45,10 @@ export const useStaticProduct = (product) => {
           break;
         case 2:
           attributes.map((a) => {
-            if (a.name === 'size' || 'Size') {
+            if (a.name === ('size' || 'Size')) {
               setSizes(a);
             }
-            if (a.name === 'color' || 'Color') {
+            if (a.name === ('color' || 'Color')) {
               const withHex = a.options.map((hex) => {
                 const split = hex.label.split('-');
                 return {
@@ -62,44 +61,20 @@ export const useStaticProduct = (product) => {
               setColors({ name: a.name, label: a.label, options: withHex });
             }
           });
+          break;
       }
     }
 
     if (!product.attributes) {
       setAttributes(false);
     }
+
+    setPrice({
+      regularPrice: product.regularPrice,
+      onSale: product.onSale,
+      salePrice: product.salePrice,
+    });
   }, [product]);
 
-  useEffect(() => {
-    if (product.variations) {
-      const variations = product.variations.nodes.map((node) => {
-        return {
-          id: node.id,
-          databaseId: node.databaseId,
-          attributes: node.attributes.nodes,
-          regularPrice: node.regularPrice,
-          salePrice: node.salePrice,
-          stockStatus: node.stockStatus,
-          stockQuantity: node.stockQuantity,
-        };
-      });
-      setVariations(variations);
-
-      setPrice({
-        regularPrice: product.regularPrice,
-        onSale: product.onSale,
-        salePrice: product.salePrice,
-      });
-    }
-    if (!product.variations) {
-      setVariations(false);
-      setPrice({
-        regularPrice: product.regularPrice,
-        onSale: product.onSale,
-        salePrice: product.salePrice,
-      });
-    }
-  }, [product]);
-
-  return { attributes, sizes, colors, variations, price };
+  return { attributes, sizes, colors, price };
 };

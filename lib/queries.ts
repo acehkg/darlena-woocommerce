@@ -443,17 +443,30 @@ export const STOCK_STATUS = gql`
       ... on VariableProduct {
         id
         databaseId
+        type
         stockQuantity
         stockStatus
         variations {
           nodes {
+            id
+            databaseId
+            name
             stockQuantity
             stockStatus
+            attributes {
+              nodes {
+                label
+                name
+                value
+              }
+            }
           }
         }
       }
       ... on SimpleProduct {
         id
+        type
+        name
         databaseId
         stockQuantity
         stockStatus

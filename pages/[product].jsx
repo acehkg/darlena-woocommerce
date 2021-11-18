@@ -82,7 +82,7 @@ export async function getStaticPaths() {
 }
 const Product = ({ product, categories }) => {
   const { isLoading, images } = useProductImages(product);
-  console.log(images);
+
   return (
     <ProductDetails images={images} loading={isLoading} product={product} />
   );
