@@ -22,12 +22,14 @@ import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
 import { AddToCartVariable } from './AddToCartVariable';
 import { AddToCartSimple } from './AddToCartSimple';
+import PlaceHolderImage from '../../common/Image/PlaceHolderImage';
 
 import { useProduct } from '../../../hooks/useProduct';
 import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
 import useCheckStock from '../../../hooks/useCheckStock';
+import NextImageAspectRatio from '../../common/Image/NextImageAspectRatio';
 
 const StaticPickers = ({ sizes, colors }) => {
   return (
@@ -196,7 +198,11 @@ export const ProductDetails = ({ images, loading, product }) => {
         }}
       >
         <Box w={{ base: '100%', lg: '60%' }}>
-          <Gallery images={images} loading={loading} />
+          {images ? (
+            <Gallery images={images} loading={loading} />
+          ) : (
+            <PlaceHolderImage ratio={4 / 4} objectFit='cover' />
+          )}
         </Box>
         <Stack
           spacing={{

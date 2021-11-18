@@ -10,42 +10,6 @@ export async function getStaticProps({ params }) {
   };
 
   const client = new GraphQLClient(process.env.NEXT_PUBLIC_WORDPRESS_API_URL);
-  const QUERY = gql`
-    query getProduct($id: ID!) {
-      product(id: $id, idType: ID) {
-        id
-        databaseId
-        name
-        description(format: RAW)
-        attributes {
-          edges {
-            node {
-              name
-              options
-              label
-            }
-          }
-        }
-        image {
-          sourceUrl
-          mediaDetails {
-            height
-            width
-          }
-        }
-        galleryImages {
-          nodes {
-            mediaDetails {
-              width
-              height
-            }
-            sourceUrl
-          }
-        }
-        type
-      }
-    }
-  `;
 
   const { product } = await client.request(PRODUCT_COMPLETE, variables);
 
@@ -118,7 +82,7 @@ export async function getStaticPaths() {
 }
 const Product = ({ product, categories }) => {
   const { isLoading, images } = useProductImages(product);
-
+  console.log(images);
   return (
     <ProductDetails images={images} loading={isLoading} product={product} />
   );
