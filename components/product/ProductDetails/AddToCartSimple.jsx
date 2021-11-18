@@ -38,7 +38,7 @@ const errorToast = {
   ),
 };
 
-export const AddToCartSimple = ({ product, quantity }) => {
+export const AddToCartSimple = ({ product, quantity, inStock }) => {
   const toast = useToast();
   const [addSimple, { loading, error, data }] = useMutation(ADD_SIMPLE, {
     refetchQueries: [{ query: CART_ITEMS }],
@@ -67,8 +67,9 @@ export const AddToCartSimple = ({ product, quantity }) => {
       color='brandGrey.500'
       size='lg'
       _hover={{ filter: 'brightness(110%)' }}
+      isDiabled={!inStock}
     >
-      أضف إلى السلة
+      {!inStock ? 'إنتهى من المخزن' : 'أضف إلى السلة'}
     </Button>
   );
 };

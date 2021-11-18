@@ -38,7 +38,7 @@ const errorToast = {
   ),
 };
 
-export const AddToCartVariable = ({ product, selected, quantity }) => {
+export const AddToCartVariable = ({ product, selected, quantity, inStock }) => {
   const toast = useToast();
   const [addVariable, { loading, error, data }] = useMutation(ADD_VARIABLE, {
     refetchQueries: [{ query: CART_ITEMS }],
@@ -68,8 +68,9 @@ export const AddToCartVariable = ({ product, selected, quantity }) => {
       color='brandGrey.500'
       size='lg'
       _hover={{ filter: 'brightness(110%)' }}
+      isDisabled={!inStock}
     >
-      أضف إلى السلة
+      {!inStock ? 'إنتهى من المخزن' : 'أضف إلى السلة'}
     </Button>
   );
 };
