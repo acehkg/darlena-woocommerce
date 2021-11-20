@@ -27,7 +27,6 @@ import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
 import useSetVariations from '../../../hooks/useSetVariations';
-import { parseSelections } from '../../../lib/parseSelections';
 import { selectionParser } from '../../../lib/selectionParser';
 
 const StaticPickers = ({ sizes, colors, length }) => {
