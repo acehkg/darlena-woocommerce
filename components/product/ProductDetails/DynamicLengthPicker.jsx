@@ -48,6 +48,7 @@ export const DynamicLengthPicker = (props) => {
         focusBorderColor='grey.100'
         borderColor='grey.100'
         onChange={(e) => handleChange(e)}
+        placeholder='Select Length...'
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
