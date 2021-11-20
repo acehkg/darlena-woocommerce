@@ -24,10 +24,10 @@ export const useStaticProduct = (product) => {
       switch (attributes.length) {
         //enforce rules for content creators so only expected variations are used. More robust.
         case 1:
-          if (attributes[0].name === ('size' || 'Size')) {
+          if (attributes[0].name === ('Size' || 'size')) {
             setSizes(attributes[0]);
           }
-          if (attributes[0].name === ('length' || 'Length')) {
+          if (attributes[0].name === ('Length' || 'length')) {
             setLength(attributes[0]);
           }
           if (attributes[0].name === ('Color' || 'color')) {
@@ -55,7 +55,7 @@ export const useStaticProduct = (product) => {
             if (a.name === 'Length') {
               setLength(a);
             }
-            if (a.name === ('color' || 'Color')) {
+            if (a.name === ('Color' || 'color')) {
               const withHex = a.options.map((hex) => {
                 const split = hex.label.split('-');
                 return {
