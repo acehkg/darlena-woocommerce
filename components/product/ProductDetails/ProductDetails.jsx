@@ -28,6 +28,7 @@ import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
 import useSetVariations from '../../../hooks/useSetVariations';
 import { parseSelections } from '../../../lib/parseSelections';
+import { selectionParser } from '../../../lib/selectionParser';
 
 const StaticPickers = ({ sizes, colors, length }) => {
   return (
@@ -168,7 +169,7 @@ export const ProductDetails = ({ images, loading, product }) => {
 
   useEffect(() => {
     if (variations) {
-      parseSelections(
+      selectionParser(
         variations,
         colors,
         sizes,
