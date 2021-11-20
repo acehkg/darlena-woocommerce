@@ -195,7 +195,18 @@ export const ProductDetails = ({ images, loading, product }) => {
         ? setInStock(false)
         : setInStock(true);
     }
-  }, [selected]);
+    if (variations) {
+      switch (attributes.length) {
+        case 1:
+          variations.length < attributes[0].options.length && setInStock(false);
+          break;
+        case 2:
+          variations.length < attributes[0].options.length && setInStock(false);
+          variations.length < attributes[1].options.length && setInStock(false);
+          break;
+      }
+    }
+  }, [selected, variations, attributes]);
 
   return (
     <Box w='80%' mx='auto' py='3rem'>
