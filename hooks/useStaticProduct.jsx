@@ -4,6 +4,7 @@ export const useStaticProduct = (product) => {
   const [attributes, setAttributes] = useState();
   const [sizes, setSizes] = useState(null);
   const [colors, setColors] = useState(null);
+  const [length, setLength] = useState(null);
   const [price, setPrice] = useState();
 
   useEffect(() => {
@@ -26,6 +27,9 @@ export const useStaticProduct = (product) => {
           if (attributes[0].name === ('size' || 'Size')) {
             setSizes(attributes[0]);
           }
+          if (attributes[0].name === ('length' || 'Length')) {
+            setLength(attributes[0]);
+          }
           if (attributes[0].name === ('Color' || 'color')) {
             const withHex = attributes[0].options.map((hex) => {
               const split = hex.label.split('-');
@@ -43,10 +47,13 @@ export const useStaticProduct = (product) => {
             });
           }
           break;
-        case 2:
+        case 2 || 3:
           attributes.map((a) => {
-            if (a.name === ('size' || 'Size')) {
+            if (a.name === ('Size' || 'size')) {
               setSizes(a);
+            }
+            if (a.name === 'Length') {
+              setLength(a);
             }
             if (a.name === ('color' || 'Color')) {
               const withHex = a.options.map((hex) => {
@@ -76,5 +83,5 @@ export const useStaticProduct = (product) => {
     });
   }, [product]);
 
-  return { attributes, sizes, colors, price };
+  return { attributes, sizes, colors, length, price };
 };

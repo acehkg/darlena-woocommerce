@@ -14,8 +14,10 @@ import { RiRulerLine } from 'react-icons/ri';
 import { QuantityPicker } from './QuantityPicker';
 import { SizePicker } from './SizePicker';
 import { ColorPicker } from './ColorPicker';
+import { LengthPicker } from './LengthPicker';
 import { DynamicColorPicker } from './DynamicColorPicker';
 import { DynamicSizePicker } from './DynamicSizePicker';
+import { DynamicLengthPicker } from './DynamicLengthPicker';
 import { Gallery } from '../../common/Image/Galleries/HorizontalGallery';
 import { PriceTag } from './PriceTag';
 import { AddToCartVariable } from './AddToCartVariable';
@@ -25,8 +27,9 @@ import { useStaticProduct } from '../../../hooks/useStaticProduct';
 import useAuth from '../../../hooks/useAuth';
 import PleaseLogIn from './PleaseLogIn';
 import useSetVariations from '../../../hooks/useSetVariations';
+import { parseSelections } from '../../../lib/parseSelections';
 
-const StaticPickers = ({ sizes, colors }) => {
+const StaticPickers = ({ sizes, colors, length }) => {
   return (
     <Stack
       direction={{
@@ -41,7 +44,8 @@ const StaticPickers = ({ sizes, colors }) => {
       <Stack flex='1'>
         {colors && <ColorPicker options={colors.options} />}
         {sizes && <SizePicker options={sizes.options} />}
-        {sizes && (
+        {length && <LengthPicker options={length.options} />}
+        {(sizes || length) && (
           <HStack spacing='1' color='gray.600'>
             <Icon as={RiRulerLine} />
             <Link
@@ -62,8 +66,10 @@ const StaticPickers = ({ sizes, colors }) => {
 const DynamicPickers = ({
   sizes,
   colors,
+  length,
   setSelectedSize,
   setSelectedColor,
+  setSelectedLength,
   inStock,
 }) => {
   return (
@@ -92,7 +98,14 @@ const DynamicPickers = ({
             inStock={inStock}
           />
         )}
-        {sizes && (
+        {length && (
+          <DynamicLengthPicker
+            options={length.options}
+            setSelectedLength={setSelectedLength}
+            inStock={inStock}
+          />
+        )}
+        {(sizes || length) && (
           <HStack spacing='1' color='gray.600'>
             <Icon as={RiRulerLine} />
             <Link
@@ -140,45 +153,41 @@ export const ProductDetails = ({ images, loading, product }) => {
   //make sure user is logged in
   const { loggedIn } = useAuth();
   //prepare prodcut data for display
-  const { attributes, sizes, colors, price } = useStaticProduct(product);
+  const { attributes, sizes, colors, length, price } =
+    useStaticProduct(product);
   //set state for possible options
   const [selectedSize, setSelectedSize] = useState(false);
   const [selectedColor, setSelectedColor] = useState(false);
+  const [selectedLength, setSelectedLength] = useState(null);
   //set state of selected variation for variable products and qauantity
   const [selected, setSelected] = useState(false);
   const [quantity, setQuantity] = useState(1);
   //dynamically check stock
   const [inStock, setInStock] = useState(true);
-  const { variations, ready } = useSetVariations(product);
+  const { variations, productReady } = useSetVariations(product);
 
   useEffect(() => {
     if (variations) {
-      if (sizes && colors) {
-        const selected = variations.find(
-          (v) =>
-            v.attributes.find((a) => a.value === selectedSize?.value) &&
-            v.attributes.find(
-              (a) => a.value.split('-')[0] === selectedColor?.value
-            )
-        );
-        setSelected(selected);
-      }
-      if (sizes && !colors) {
-        const selected = variations.find((v) =>
-          v.attributes.find((a) => a.value === selectedSize?.value)
-        );
-        setSelected(selected);
-      }
-      if (colors && !sizes) {
-        const selected = variations.find((v) =>
-          v.attributes.find(
-            (a) => a.value.split('-')[0] === selectedColor?.value
-          )
-        );
-        setSelected(selected);
-      }
+      parseSelections(
+        variations,
+        colors,
+        sizes,
+        length,
+        selectedColor,
+        selectedSize,
+        selectedLength,
+        setSelected
+      );
     }
-  }, [selectedColor, selectedSize, variations, sizes, colors]);
+  }, [
+    selectedColor,
+    selectedSize,
+    variations,
+    sizes,
+    colors,
+    length,
+    selectedLength,
+  ]);
 
   useEffect(() => {
     if (selected) {
@@ -243,14 +252,16 @@ export const ProductDetails = ({ images, loading, product }) => {
             <Text color='brandGrey.100'>{product?.description}</Text>
           </Stack>
           {attributes && !loggedIn && (
-            <StaticPickers sizes={sizes} colors={colors} />
+            <StaticPickers sizes={sizes} colors={colors} length={length} />
           )}
-          {attributes && loggedIn && (
+          {attributes && loggedIn && productReady && (
             <DynamicPickers
               sizes={sizes}
               colors={colors}
+              length={length}
               setSelectedColor={setSelectedColor}
               setSelectedSize={setSelectedSize}
+              setSelectedLength={setSelectedLength}
               inStock={inStock}
             />
           )}
