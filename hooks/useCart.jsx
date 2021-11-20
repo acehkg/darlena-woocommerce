@@ -14,12 +14,33 @@ export const CART_ITEMS = gql`
       contents {
         itemCount
         nodes {
+          variation {
+            attributes {
+              label
+              name
+              value
+            }
+          }
           key
           product {
             node {
               ... on VariableProduct {
                 id
                 name
+                variations {
+                  nodes {
+                    id
+                    databaseId
+                    name
+                    attributes {
+                      nodes {
+                        label
+                        name
+                        value
+                      }
+                    }
+                  }
+                }
                 featuredImage {
                   node {
                     mediaDetails {
@@ -29,7 +50,7 @@ export const CART_ITEMS = gql`
                     sourceUrl
                   }
                 }
-                price(format: RAW)
+                price(format: FORMATTED)
               }
               ... on SimpleProduct {
                 id
@@ -43,7 +64,7 @@ export const CART_ITEMS = gql`
                     sourceUrl
                   }
                 }
-                price(format: RAW)
+                price(format: FORMATTED)
               }
             }
           }

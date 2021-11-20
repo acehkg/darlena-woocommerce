@@ -16,6 +16,7 @@ import { CartImage } from './CartImage';
 import { QuantityPicker } from './QuantityPicker';
 import { REMOVE_ITEM, UPDATE_QUANTITY } from '../../lib/mutations';
 import { CART_ITEMS } from '../../hooks/useCart';
+import useCartItem from '../../hooks/useCartItem';
 
 const errorToast = {
   position: 'bottom',
@@ -36,8 +37,9 @@ const errorToast = {
 
 export const CartItem = ({ product, item }) => {
   const [quantity, setQuantity] = useState(item?.quantity);
-  const [priceData] = product?.price.split(',');
-  const price = parseInt(priceData);
+
+  const { itemVariation } = useCartItem(item);
+
   const toast = useToast();
 
   const [updateQuantity, { error: updateError }] = useMutation(
@@ -71,6 +73,7 @@ export const CartItem = ({ product, item }) => {
     }
     // eslint-disable-next-line
   }, [clearItemError, updateError]);
+
   return (
     <Stack direction='row' spacing='5'>
       <CartImage image={product?.featuredImage?.node} boxSize='150px' />
@@ -85,13 +88,14 @@ export const CartItem = ({ product, item }) => {
         >
           <Stack spacing='0.5' width='full'>
             <Text fontWeight='medium'>{product?.name}</Text>
-            <Text color={useColorModeValue('gray.500', 'gray.300')}>
-              SELECTED VARIATION
-            </Text>
+            {product?.variations &&
+              itemVariation?.map((i, index) => (
+                <Text key={index}>{i.value}</Text>
+              ))}
           </Stack>
           <Stack direction={{ base: 'row', md: 'column' }} spacing={2}>
             <Text>سعر العنصر</Text>
-            <PriceTag price={price} currency='USD' />
+            <PriceTag price={product?.price} currency='USD' />
           </Stack>
           <Stack direction={{ base: 'row', md: 'column' }} spacing={2}>
             <Text>مجموع الاشياء</Text>
