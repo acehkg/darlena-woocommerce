@@ -1,41 +1,45 @@
-import {
-  FormControl,
-  FormLabel,
-  HStack,
-  useRadioGroup,
-} from '@chakra-ui/react';
+import { FormControl, FormLabel, Select } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import { SizePickerButton } from './SizePickerButton';
 
 export const LengthPicker = (props) => {
-  const { options, rootProps, hideLabel, label, ...rest } = props;
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const { getRadioProps, getRootProps, value } = useRadioGroup(rest);
+  const {
+    options,
+    rootProps,
+    hideLabel,
+    label,
+    inStock,
 
-  useEffect(() => {
-    setSelectedOption(options.find((option) => option.value == value));
-  }, [value, options]);
+    ...rest
+  } = props;
+  const [selectedOption, setSelectedOption] = useState();
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSelectedOption(options.find((option) => option.value == e.target.value));
+  };
   return (
     <FormControl {...rootProps}>
       {!hideLabel && (
         <FormLabel fontSize='sm' fontWeight='medium'>
           {!selectedOption
             ? 'Please Select A Length'
-            : `Size: ${selectedOption?.label}`}
+            : `Length: ${selectedOption?.label}`}
         </FormLabel>
       )}
-      <HStack {...getRootProps()}>
+      <Select
+        size='md'
+        maxW='10rem'
+        dir='ltr'
+        focusBorderColor='grey.100'
+        borderColor='grey.100'
+        onChange={(e) => handleChange(e)}
+      >
         {options.map((option) => (
-          <SizePickerButton
-            key={option.value}
-            label={option.label}
-            {...getRadioProps({
-              value: option.value,
-            })}
-          />
+          <option key={option.value} value={option.value}>
+            {option.value}
+          </option>
         ))}
-      </HStack>
+      </Select>
     </FormControl>
   );
 };
