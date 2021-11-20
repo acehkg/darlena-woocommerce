@@ -46,40 +46,42 @@ export const Gallery = (props) => {
             objectFit='contain'
           />
         )}
-        <HStack sx={{ direction: 'ltr' }} spacing='4'>
-          <CarouselIconButton
-            onClick={slider?.prev}
-            icon={<IoChevronBackOutline />}
-            disabled={currentSlide === 0}
-            aria-label='Previous slide'
-          />
-          <Carousel ref={ref} direction='row' width='full'>
-            {images.map((image, i) => (
-              <CarouselSlide
-                key={i}
-                onClick={() => setIndex(i)}
-                cursor='pointer'
-              >
-                <NextImageAspectRatio
-                  image={image}
-                  ratio={1 / 1}
-                  objectFit='cover'
-                  transition='all 200ms'
-                  opacity={index === i ? 1 : 0.4}
-                  _hover={{
-                    opacity: 1,
-                  }}
-                />
-              </CarouselSlide>
-            ))}
-          </Carousel>
-          <CarouselIconButton
-            onClick={slider?.next}
-            icon={<IoChevronForwardOutline />}
-            disabled={currentSlide + slidesPerView === images.length}
-            aria-label='Next slide'
-          />
-        </HStack>
+        {images.length > 1 && (
+          <HStack sx={{ direction: 'ltr' }} spacing='4'>
+            <CarouselIconButton
+              onClick={slider?.prev}
+              icon={<IoChevronBackOutline />}
+              disabled={currentSlide === 0}
+              aria-label='Previous slide'
+            />
+            <Carousel ref={ref} direction='row' width='full'>
+              {images.map((image, i) => (
+                <CarouselSlide
+                  key={i}
+                  onClick={() => setIndex(i)}
+                  cursor='pointer'
+                >
+                  <NextImageAspectRatio
+                    image={image}
+                    ratio={1 / 1}
+                    objectFit='cover'
+                    transition='all 200ms'
+                    opacity={index === i ? 1 : 0.4}
+                    _hover={{
+                      opacity: 1,
+                    }}
+                  />
+                </CarouselSlide>
+              ))}
+            </Carousel>
+            <CarouselIconButton
+              onClick={slider?.next}
+              icon={<IoChevronForwardOutline />}
+              disabled={currentSlide + slidesPerView === images.length}
+              aria-label='Next slide'
+            />
+          </HStack>
+        )}
       </Stack>
     </Box>
   );
