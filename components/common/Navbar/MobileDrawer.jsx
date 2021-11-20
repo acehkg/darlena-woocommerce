@@ -12,7 +12,7 @@ import SearchInput from './SearchInput';
 
 import Link from 'next/link';
 
-const MobileNavItem = ({ label, href, active }) => {
+const MobileNavItem = ({ label, href, active, onClose }) => {
   return (
     <Link href={href} passHref>
       <Box
@@ -31,6 +31,7 @@ const MobileNavItem = ({ label, href, active }) => {
           bg: 'blackAlpha.300',
           color: 'white',
         }}
+        onClick={onClose}
       >
         {label}
       </Box>
@@ -53,6 +54,7 @@ const MobileDrawer = ({ isOpen, onClose, categories }) => {
               key={c.id}
               href={`/collection/${c.slug}`}
               label={c.name}
+              onClose={onClose}
             />
           ))}
         </DrawerBody>
