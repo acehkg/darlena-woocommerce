@@ -14,7 +14,7 @@ const DesktopNavMenu = dynamic(() => import('./NavMenu'));
 
 import useAuth from '../../../hooks/useAuth';
 
-const Navbar = ({ categories }) => {
+const Navbar = ({ categories, onOpenLogin }) => {
   const { loggedIn, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -66,7 +66,7 @@ const Navbar = ({ categories }) => {
             firstName={user?.firstName}
           />
         ) : (
-          <LogIn />
+          <LogIn onOpen={onOpenLogin} />
         )}
       </Stack>
       <DesktopNavMenu categories={categories} />

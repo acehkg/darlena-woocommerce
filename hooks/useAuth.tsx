@@ -1,5 +1,6 @@
 import { useQuery, gql, ApolloError } from '@apollo/client';
 import React, { createContext, useContext, ReactNode } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
 
 export interface User {
   id: string;
@@ -132,6 +133,7 @@ export const GET_CUSTOMER = gql`
 `;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, loading, error } = useQuery(GET_USER);
   const {
     data: customerInfo,
@@ -150,6 +152,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     customerLoading,
     customerError,
     error,
+    isOpen,
+    onOpen,
+    onClose,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
