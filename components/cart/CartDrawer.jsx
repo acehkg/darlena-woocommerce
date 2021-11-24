@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -10,7 +11,7 @@ import {
   Icon,
   Stack,
   Text,
-  useColorModeValue,
+  Progress,
 } from '@chakra-ui/react';
 import { FiPackage } from 'react-icons/fi';
 import { CartItem } from './CartItem';
@@ -18,6 +19,17 @@ import useCart from '../../hooks/useCart';
 
 export const CartDrawer = ({ isOpen, onClose }) => {
   const { lineItems, itemCount, cartLoading, error, cartTotals } = useCart();
+
+  const [shippingValue, setShippingValue] = useState(0);
+
+  useEffect(() => {
+    if (cartTotals) {
+      const numberPattern = /\d+/g;
+      const [total] = cartTotals.subtotal.match(numberPattern);
+      setShippingValue(parseInt(total));
+    }
+  }, [cartTotals]);
+  console.log(shippingValue);
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size='md' placement='left'>
@@ -64,13 +76,20 @@ export const CartDrawer = ({ isOpen, onClose }) => {
               <Text flex='1'>المجموع الفرعي</Text>
               <Text>{cartTotals.subtotal}</Text>
             </HStack>
-            <HStack
+            {shippingValue < 350 && (
+              <Stack>
+                <Progress min={0} max={350} value={shippingValue} />
+                <Text>{350 - shippingValue} :حتى الشحن المجاني</Text>
+              </Stack>
+            )}
+            {shippingValue >= 350 && <Text>الشحن مجانا</Text>}
+            {/* <HStack
               spacing='2'
-              color={useColorModeValue('gray.600', 'gray.400')}
+              color='brandGrey.100'
             >
               <Icon as={FiPackage} />
               <Text>الشحن + الضرائب المحسوبة عند الخروج</Text>
-            </HStack>
+            </HStack> */}
           </Stack>
           <Button bg='brandPink.100' color='brandGrey.500' size='lg'>
             الدفع
