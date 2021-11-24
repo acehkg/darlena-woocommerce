@@ -6,6 +6,7 @@ import FormTextInput from '../forms/FormTextInput';
 
 const EmailLogin = () => {
   const { setFirstTime, setEmail } = useLogin();
+
   return (
     <Formik
       initialValues={{
