@@ -22,7 +22,7 @@ const SubmitLogin = () => {
         try {
           const response = await axios.post(logInUrl, config);
           const data = await response.data;
-          console.log(response.headers);
+
           if (data.success === true) {
             setSuccess(data.success);
             setIsSubmitting(false);

@@ -20,20 +20,26 @@ const EnterName = () => {
           <Stack spacing='6'>
             <FormTextInput
               aria-label='First Name'
-              label='First Name'
+              label='الاسم الأول'
               name='firstName'
               type='text'
               placeholder='John'
             />
             <FormTextInput
               aria-label='Last Name'
-              label='Last Name'
+              label='الكنية'
               name='lastName'
               type='text'
               placeholder='Doe'
             />
-            <Button type='submit' size='lg' fontSize='md'>
-              Sign in
+            <Button
+              type='submit'
+              bg='brandPink.100'
+              color='brandGrey.500'
+              size='lg'
+              _hover={{ filter: 'brightness(110%)' }}
+            >
+              يقدم
             </Button>
           </Stack>
         </Form>

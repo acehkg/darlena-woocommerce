@@ -22,7 +22,7 @@ const PhoneLogin = () => {
           <Stack spacing='6'>
             <FormTextInput
               aria-label='Phone Number'
-              label='Phone'
+              label='رقم الهاتف'
               name='phone'
               type='phone'
               placeholder='+9661231234567'
@@ -31,10 +31,16 @@ const PhoneLogin = () => {
               aria-label='Select If First Time User'
               name='firstTime'
               type='checkbox'
-              text='First Time User'
+              text='مستخدم جديد'
             />
-            <Button type='submit' size='lg' fontSize='md'>
-              Sign in
+            <Button
+              type='submit'
+              bg='brandPink.100'
+              color='brandGrey.500'
+              size='lg'
+              _hover={{ filter: 'brightness(110%)' }}
+            >
+              يقدم
             </Button>
           </Stack>
         </Form>

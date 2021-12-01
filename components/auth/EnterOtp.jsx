@@ -21,14 +21,20 @@ const EnterOtp = () => {
           <Stack spacing='6'>
             <FormTextInput
               aria-label='One Time Password'
-              label='OTP'
+              label='كلمة السر لمرة واحدة'
               name='otp'
               type='string'
               placeholder='...'
             />
 
-            <Button type='submit' size='lg' fontSize='md'>
-              Sign in
+            <Button
+              type='submit'
+              bg='brandPink.100'
+              color='brandGrey.500'
+              size='lg'
+              _hover={{ filter: 'brightness(110%)' }}
+            >
+              يقدم
             </Button>
           </Stack>
         </Form>

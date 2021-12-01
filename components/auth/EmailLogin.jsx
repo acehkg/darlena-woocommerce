@@ -23,7 +23,7 @@ const EmailLogin = () => {
           <Stack spacing='6'>
             <FormTextInput
               aria-label='email'
-              label=' Email'
+              label='عنوان البريد الإلكتروني'
               name='email'
               type='email'
               placeholder='example@example.com'
@@ -32,10 +32,16 @@ const EmailLogin = () => {
               aria-label='Select If First Time User'
               name='firstTime'
               type='checkbox'
-              text='First Time User'
+              text='مستخدم جديد'
             />
-            <Button type='submit' colorScheme='blue' size='lg' fontSize='md'>
-              Sign in
+            <Button
+              type='submit'
+              bg='brandPink.100'
+              color='brandGrey.500'
+              size='lg'
+              _hover={{ filter: 'brightness(110%)' }}
+            >
+              يقدم
             </Button>
           </Stack>
         </Form>

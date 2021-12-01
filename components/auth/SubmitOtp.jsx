@@ -13,16 +13,22 @@ const SubmitOtp = () => {
     withCredentials: true,
   };
 
+  const logInToWordpress = (url) => {
+    console.log(url);
+  };
+
   useEffect(() => {
     const { otpUrl } = loginStatus;
 
     const login = async () => {
       if (otpUrl) {
         try {
-          console.log(otpUrl);
           const response = await axios.post(otpUrl, config);
           const data = await response.data;
-          console.log(data);
+          if (data.success === true && data.url) {
+            logInToWordpress(data.url);
+            setIsSubmitting(false);
+          }
         } catch (e) {
           console.log('error', e);
         }

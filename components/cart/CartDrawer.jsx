@@ -22,14 +22,13 @@ export const CartDrawer = ({ isOpen, onClose }) => {
 
   const [shippingValue, setShippingValue] = useState(0);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (cartTotals) {
       const numberPattern = /\d+/g;
-      const [total] = cartTotals.subtotal.match(numberPattern);
+      const [total] = cartTotals?.subtotal.match(numberPattern) ?? 0;
       setShippingValue(parseInt(total));
     }
-  }, [cartTotals]);
-  console.log(shippingValue);
+  }, [cartTotals]); */
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size='md' placement='left'>
