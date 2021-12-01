@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -13,22 +12,21 @@ import {
   Text,
   Progress,
 } from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons';
 import { FiPackage } from 'react-icons/fi';
 import { CartItem } from './CartItem';
 import useCart from '../../hooks/useCart';
 
 export const CartDrawer = ({ isOpen, onClose }) => {
-  const { lineItems, itemCount, cartLoading, error, cartTotals } = useCart();
-
-  const [shippingValue, setShippingValue] = useState(0);
-
-  /*   useEffect(() => {
-    if (cartTotals) {
-      const numberPattern = /\d+/g;
-      const [total] = cartTotals?.subtotal.match(numberPattern) ?? 0;
-      setShippingValue(parseInt(total));
-    }
-  }, [cartTotals]); */
+  const {
+    lineItems,
+    itemCount,
+    cartLoading,
+    error,
+    cartTotals,
+    isFree,
+    shippingValue,
+  } = useCart();
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size='md' placement='left'>
@@ -77,11 +75,21 @@ export const CartDrawer = ({ isOpen, onClose }) => {
             </HStack>
             {shippingValue < 350 && (
               <Stack>
-                <Progress min={0} max={350} value={shippingValue} />
-                <Text>{350 - shippingValue} :حتى الشحن المجاني</Text>
+                <Progress
+                  min={0}
+                  max={350}
+                  value={shippingValue}
+                  colorScheme='brandPink'
+                />
+                <Text>ر.س{350 - shippingValue} :حتى الشحن المجاني</Text>
               </Stack>
             )}
-            {shippingValue >= 350 && <Text>الشحن مجانا</Text>}
+            {isFree && (
+              <HStack spacing={4}>
+                <CheckIcon color='green' />
+                <Text color='green'>الشحن مجانا</Text>
+              </HStack>
+            )}
             {/* <HStack
               spacing='2'
               color='brandGrey.100'

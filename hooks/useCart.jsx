@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 const CartContext = createContext();
@@ -77,6 +77,8 @@ export const CART_ITEMS = gql`
 `;
 
 export function CartProvider({ children }) {
+  const [shippingValue, setShippingValue] = useState(0);
+  const [isFree, setIsFree] = useState(false);
   const { data, loading, error } = useQuery(CART_ITEMS);
   const itemCount = data?.cart?.contents?.itemCount ?? 0;
   const lineItems = data?.cart?.contents?.nodes ?? [];
@@ -89,12 +91,35 @@ export function CartProvider({ children }) {
     totalTax: data?.cart?.totalTax,
   };
   const cartLoading = loading;
+
+  useEffect(() => {
+    const numberPattern = /\d+/g;
+    let total;
+    if (data?.cart?.subtotal) {
+      const [tot] = data?.cart?.subtotal?.match(numberPattern);
+      total = tot;
+    } else {
+      total = 0;
+    }
+    setShippingValue(parseInt(total));
+  }, [data]);
+
+  useEffect(() => {
+    if (shippingValue >= 350) {
+      setIsFree(true);
+    } else {
+      setIsFree(false);
+    }
+  }, [shippingValue]);
+
   const value = {
     cartTotals,
     itemCount,
     lineItems,
     cartLoading,
     error,
+    shippingValue,
+    isFree,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
