@@ -3,15 +3,15 @@ import { Flex, Stack, useDisclosure } from '@chakra-ui/react';
 
 import { Logo } from './Logo';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
-//import { NavMenu } from './NavMenu';
 import CircleGraphics from './CircleGraphics';
-import LogIn from './LogIn';
 
 const MobileDrawer = dynamic(() => import('./MobileDrawer'));
 const IconGroup = dynamic(() => import('./IconGroup'));
 const SearchInput = dynamic(() => import('./SearchInput'));
 const DesktopNavMenu = dynamic(() => import('./NavMenu'));
-
+//const ShoppingBag = dynamic(() => import('./ShoppingBag'));
+const LogIn = dynamic(() => import('./LogIn'));
+import { ShoppingBag } from './ShoppingBag';
 import useAuth from '../../../hooks/useAuth';
 
 const Navbar = ({ categories, onOpenLogin }) => {
@@ -68,6 +68,7 @@ const Navbar = ({ categories, onOpenLogin }) => {
         ) : (
           <LogIn onOpen={onOpenLogin} />
         )}
+        <ShoppingBag />
       </Stack>
       <DesktopNavMenu categories={categories} />
     </Flex>

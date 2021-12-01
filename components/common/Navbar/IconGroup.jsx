@@ -3,7 +3,6 @@ import { HStack, Icon } from '@chakra-ui/react';
 
 import { ProfileDropdown } from './ProfileDropdown';
 import { Notification } from './Notification';
-import { ShoppingBag } from './ShoppingBag';
 
 const IconGroup = ({ id, firstName, email, ...rest }) => {
   return (
@@ -11,7 +10,6 @@ const IconGroup = ({ id, firstName, email, ...rest }) => {
       <Notification />
       <ProfileDropdown firstName={firstName} id={id} email={email} />
       <Icon as={AiOutlineHeart} />
-      <ShoppingBag />
     </HStack>
   );
 };
