@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const SubmitLogin = () => {
   const [isSubmitting, setIsSubmitting] = useState(true);
-  const { loginStatus, setSuccess } = useLogin();
+  const { loginStatus, setSuccess, setToken } = useLogin();
 
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
@@ -20,12 +20,14 @@ const SubmitLogin = () => {
     const login = async () => {
       if (logInUrl) {
         try {
-          const response = await axios.post(logInUrl, config);
+          const response = await axios.get(logInUrl, config);
           const data = await response.data;
 
           if (data.success === true) {
+            console.log(data);
             setSuccess(data.success);
             setIsSubmitting(false);
+            setToken(data.token);
           } else {
             setSuccess(false);
           }

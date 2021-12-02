@@ -6,14 +6,14 @@ import FormCheckBox from '../forms/FormCheckBox';
 import useLogin from '../../hooks/useLogin';
 
 const EnterOtp = () => {
-  const { setOtpUrl } = useLogin();
+  const { setOtpUrl, loginStatus } = useLogin();
   return (
     <Formik
       initialValues={{
         otp: '',
       }}
       onSubmit={(values) => {
-        setOtpUrl(values.otp);
+        setOtpUrl(values.otp, loginStatus.token);
       }}
     >
       {(props) => (

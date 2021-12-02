@@ -19,6 +19,7 @@ const ACTIONS = {
   SET_NAME_URL: 'set-name-url',
   SET_OTP_URL: 'set-otp-url',
   SET_SUCCESS: 'set-success',
+  SET_TOKEN: 'set-token',
 };
 
 const BASE_URL = 'https://store.darlena.shop/wp-json/wp/v2/users';
@@ -67,6 +68,9 @@ const reducer = (loginStatus, action) => {
       loginStatus.success = action.payload.success;
       loginStatus.loginFlow = 'enter-otp';
       return { ...loginStatus };
+    case ACTIONS.SET_TOKEN:
+      loginStatus.token = action.payload.token;
+      return { ...loginStatus };
     default:
       return loginStatus;
   }
@@ -86,6 +90,7 @@ export const LoginProvider = ({ children }) => {
     nameUrl: null,
     otpUrl: null,
     success: null,
+    token: null,
   });
 
   const selectPhoneLogin = () => {
@@ -149,15 +154,19 @@ export const LoginProvider = ({ children }) => {
     }
   };
 
-  const setOtpUrl = (otp) => {
+  const setOtpUrl = (otp, token) => {
     dispatch({
       type: ACTIONS.SET_OTP_URL,
-      payload: { otpUrl: `${BASE_URL}/otp?otp=${otp}` },
+      payload: { otpUrl: `${BASE_URL}/otp?otp=${otp}&token=${token}` },
     });
   };
 
   const setSuccess = (success) => {
     dispatch({ type: ACTIONS.SET_SUCCESS, payload: { success: success } });
+  };
+
+  const setToken = (token) => {
+    dispatch({ type: ACTIONS.SET_TOKEN, payload: { token: token } });
   };
 
   const value = {
@@ -172,6 +181,7 @@ export const LoginProvider = ({ children }) => {
     setNameUrl,
     setOtpUrl,
     setSuccess,
+    setToken,
   };
 
   return (

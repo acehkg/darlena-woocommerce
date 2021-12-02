@@ -19,7 +19,6 @@ const LogInCard = () => {
       setLogInUrl(loginStatus.phone, loginStatus.email);
   }, [loginStatus, setLogInUrl]);
 
-  console.log(loginStatus);
   return (
     <Card>
       {(loginFlow === 'start' || !method) && <InitialLogin />}

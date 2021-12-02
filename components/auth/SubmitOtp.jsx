@@ -1,34 +1,31 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Spinner } from '@chakra-ui/react';
 import useLogin from '../../hooks/useLogin';
 import axios from 'axios';
 
 const SubmitOtp = () => {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(true);
   const { loginStatus } = useLogin();
 
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
+
   const config = {
     withCredentials: true,
-  };
-
-  const logInToWordpress = (url) => {
-    console.log(url);
   };
 
   useEffect(() => {
     const { otpUrl } = loginStatus;
 
-    const login = async () => {
+    const login = () => {
       if (otpUrl) {
         try {
-          const response = await axios.post(otpUrl, config);
-          const data = await response.data;
-          if (data.success === true && data.url) {
-            logInToWordpress(data.url);
-            setIsSubmitting(false);
-          }
+          const res = axios.get(otpUrl, config);
+          console.log(res);
+          setIsSubmitting(false);
+          router.reload;
         } catch (e) {
           console.log('error', e);
         }
